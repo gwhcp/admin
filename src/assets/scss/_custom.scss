@@ -1,0 +1,8 @@
+// Here you can add other styles
+.required label:after {
+  content: "*";
+  color: #FF0000;
+  font-size: 20px;
+  line-height: 22px;
+  vertical-align: middle;
+}

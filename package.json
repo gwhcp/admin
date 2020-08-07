@@ -1,0 +1,88 @@
+{
+  "name": "gwhcp_admin",
+  "version": "1.0.0",
+  "description": "Generic Web Hosting Control Panel - Admin",
+  "author": {
+    "name": "Sammie S. Taunton",
+    "url": "https://diemuzi.com",
+    "github": "https://github.com/diemuzi",
+    "twitter": "https://twitter.com/diemuzi"
+  },
+  "contributors": [
+    {
+      "name": "GWHCP Team",
+      "url": "https://github.com/orgs/gwhcp/people"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:gwhcp/admin.git"
+  },
+  "homepage": "http://gwhcp.dev",
+  "copyright": "Copyright 2020 GWHCP",
+  "license": "GNU General Public License v3.0 or later",
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "test:unit": "vue-cli-service test:unit",
+    "test:e2e": "vue-cli-service test:e2e",
+    "clearCache": "jest --clearCache",
+    "release": "npm-run-all clearCache lint build test:unit test:e2e"
+  },
+  "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^21.0.0",
+    "@ckeditor/ckeditor5-vue": "^1.0.1",
+    "@coreui/coreui": "^3.2.2",
+    "@coreui/icons": "^2.0.0-beta.5",
+    "@coreui/utils": "^1.3.1",
+    "@coreui/vue": "^3.1.2",
+    "@coreui/vue-chartjs": "^1.0.5",
+    "@fortawesome/fontawesome-svg-core": "^1.2.30",
+    "@fortawesome/free-regular-svg-icons": "^5.14.0",
+    "@fortawesome/free-solid-svg-icons": "^5.14.0",
+    "@fortawesome/vue-fontawesome": "^0.1.10",
+    "axios": "^0.19.2",
+    "moment": "^2.27.0",
+    "moment-timezone": "^0.5.31",
+    "node": "^14.7.0",
+    "npm": "^6.14.7",
+    "vee-validate": "^3.3.8",
+    "vue": "^2.6.11",
+    "vue-country-region-select": "^2.0.14",
+    "vue-multiselect": "^2.1.6",
+    "vue-router": "^3.4.1",
+    "vue-select-sides": "^1.1.2",
+    "vuex": "^3.5.1",
+    "vuex-persistedstate": "^3.1.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.11.1",
+    "@vue/cli-plugin-babel": "^4.4.6",
+    "@vue/cli-plugin-e2e-nightwatch": "^4.4.6",
+    "@vue/cli-plugin-eslint": "^4.4.6",
+    "@vue/cli-plugin-unit-jest": "^4.4.6",
+    "@vue/cli-service": "^4.4.6",
+    "@vue/test-utils": "^1.0.3",
+    "babel-eslint": "^10.1.0",
+    "babel-jest": "^26.2.2",
+    "chromedriver": "^84.0.1",
+    "core-js": "^3.6.5",
+    "eslint": "^7.6.0",
+    "eslint-plugin-vue": "^6.2.2",
+    "node-sass": "^4.14.1",
+    "npm-check-updates": "^7.0.3",
+    "npm-run-all": "^4.1.5",
+    "sass-loader": "^9.0.3",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 9"
+  ],
+  "engines": {
+    "node": "^14.7.0",
+    "npm": "^6.14.7"
+  }
+}

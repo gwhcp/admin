@@ -1,0 +1,60 @@
+<template>
+    <CCard bodyWrapper>
+        <CDataTable :fields="fields"
+                    :items="search"
+                    :items-per-page="10"
+                    column-filter
+                    hover
+                    items-per-page-select
+                    pagination
+                    sorter
+                    table-filter>
+            <template #show_details="{ item }">
+                <td class="py-2">
+                    <CLink :to="{ name: 'company:dns:profile', params: { id: item.id }}">
+                        <CButton color="info"
+                                 size="sm"
+                                 square
+                                 variant="outline">
+                            View
+                        </CButton>
+                    </CLink>
+                </td>
+            </template>
+        </CDataTable>
+    </CCard>
+</template>
+
+<script>
+import {mapActions, mapState} from "vuex";
+import Permission from "@/mixins/Permission";
+
+export default {
+    name: 'TheSearch',
+    mixins: [
+        Permission
+    ],
+    data() {
+        return {
+            fields: [
+                {key: 'id', label: 'ID', _style: 'min-width:100px;'},
+                {key: 'name', _style: 'min-width:100px'},
+                {key: 'show_details', label: '', _style: 'width:1%', sorter: false, filter: false}
+            ]
+        };
+    },
+    computed: {
+        ...mapState('companyDns', [
+            'search'
+        ])
+    },
+    created() {
+        this.getSearch();
+    },
+    methods: {
+        ...mapActions('companyDns', [
+            'getSearch'
+        ])
+    }
+}
+</script>
