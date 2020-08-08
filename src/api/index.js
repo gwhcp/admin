@@ -14,6 +14,7 @@ import settingEmail from "@/api/settingEmail";
 import storeFraud from "@/api/storeFraud";
 import storeProduct from "@/api/storeProduct";
 import storeProductDomain from "@/api/storeProductDomain";
+import storeProductPrice from "@/api/storeProductPrice";
 
 export {
     accountAccount,
@@ -31,5 +32,6 @@ export {
     settingEmail,
     storeFraud,
     storeProduct,
-    storeProductDomain
+    storeProductDomain,
+    storeProductPrice
 }

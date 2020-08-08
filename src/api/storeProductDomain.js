@@ -37,6 +37,9 @@ const actions = {
 
         return client.delete(`store/product/domain/delete/${data.id}`);
     },
+    formClean({commit}) {
+        commit(STORE_PRODUCT_DOMAIN_FORM_CLEAN);
+    },
     getProfile({commit}, data) {
         commit(STORE_PRODUCT_DOMAIN_FORM_CLEAN);
 
@@ -56,7 +59,7 @@ const actions = {
     updateProfile({commit, state}, data) {
         commit(STORE_PRODUCT_DOMAIN_FORM_VALIDATION);
 
-        return client.patch(`store/product/domain/profile${data.id}`, state.formData)
+        return client.patch(`store/product/domain/profile/${data.id}`, state.formData)
             .then(response => {
                 if (response.error) {
                     commit(STORE_PRODUCT_DOMAIN_FORM_ERRORS, response.errors);
