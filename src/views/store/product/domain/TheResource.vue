@@ -12,9 +12,12 @@
             <CTab :to="{name: 'store:product:domain:profile', params: {id: productId}}"
                   title="Profile"/>
 
-            <CTab :to="{name: 'store:product:domain:resource', params: {id: productId}}"
-                  title="Resources">
+            <CTab title="Resources">
                 <CCard bodyWrapper>
+                    <CAlert color="info">
+                        If a customer product is associated to this store product then resources can only be upgraded.
+                    </CAlert>
+
                     <ValidationObserver ref="observer"
                                         v-slot="{ handleSubmit, invalid }">
                         <CForm>
@@ -30,26 +33,6 @@
                                         rules="required"
                                         v-model="formData.diskspace"/>
 
-                            <input-text label="Cron Tab"
-                                        name="cron_tab"
-                                        required="true"
-                                        rules="required"
-                                        v-if="formData.has_cron"
-                                        v-model="formData.cron_tab"/>
-
-                            <input-text label="SFTP User"
-                                        name="ftp_user"
-                                        required="true"
-                                        rules="required"
-                                        v-model="formData.ftp_user"/>
-
-                            <input-text label="IP Address"
-                                        name="ipaddress"
-                                        required="true"
-                                        rules="required"
-                                        v-if="formData.ipaddress_type === 'dedicated'"
-                                        v-model="formData.ipaddress"/>
-
                             <input-text label="Domain"
                                         name="domain"
                                         required="true"
@@ -61,6 +44,26 @@
                                         required="true"
                                         rules="required"
                                         v-model="formData.sub_domain"/>
+
+                            <input-text label="SFTP User"
+                                        name="ftp_user"
+                                        required="true"
+                                        rules="required"
+                                        v-model="formData.ftp_user"/>
+
+                            <input-text label="Cron Tab"
+                                        name="cron_tab"
+                                        required="true"
+                                        rules="required"
+                                        v-if="formData.has_cron"
+                                        v-model="formData.cron_tab"/>
+
+                            <input-text label="IP Address"
+                                        name="ipaddress"
+                                        required="true"
+                                        rules="required"
+                                        v-if="formData.ipaddress_type === 'dedicated'"
+                                        v-model="formData.ipaddress"/>
 
                             <input-text label="Mail Account"
                                         name="mail_account"
@@ -119,8 +122,9 @@
                 </CCard>
             </CTab>
 
-            <CTab :to="{name: 'store:product:domain:profile', params: {id: productId}}"
-                  title="Prices"/>
+            <CTab :to="{name: 'store:product:price:search', params: {productId: productId, type: 'domain'}}"
+                  title="Prices"
+                  v-if="this.hasPerm('store.product.price.view_storeproductprice')"/>
         </CTabs>
     </div>
 </template>

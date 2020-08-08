@@ -14,7 +14,8 @@ import {
     settingEmail,
     storeFraud,
     storeProduct,
-    storeProductDomain
+    storeProductDomain,
+    storeProductPrice
 } from "@/api";
 
 import createLogger from "vuex/dist/logger";
@@ -69,6 +70,7 @@ export default new Vuex.Store({
         settingEmail,
         storeFraud,
         storeProduct,
-        storeProductDomain
+        storeProductDomain,
+        storeProductPrice
     }
 })

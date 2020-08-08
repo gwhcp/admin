@@ -17,8 +17,10 @@
                     <static-data :datetime="formData.date_from"
                                  name="Created Date"/>
 
-                    <static-data :value="formData.company_name"
-                                 name="Company"/>
+                    <static-data :ahref="{name: 'company:company:profile', params:{id: formData.company}}"
+                                 :value="formData.company_name"
+                                 name="Company"
+                                 permission="company.company.view_company"/>
 
                     <static-data :value="formData.name"
                                  name="Name"/>
@@ -55,8 +57,9 @@
             <CTab :to="{name: 'store:product:domain:resource', params: {id: productId}}"
                   title="Resources"/>
 
-            <CTab :to="{name: 'store:product:domain:profile', params: {id: productId}}"
-                  title="Prices"/>
+            <CTab :to="{name: 'store:product:price:search', params: {productId: productId, type: 'domain'}}"
+                  title="Prices"
+                  v-if="this.hasPerm('store.product.price.view_storeproductprice')"/>
         </CTabs>
     </div>
 </template>
