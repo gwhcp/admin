@@ -45,8 +45,8 @@ export default {
         }
     },
     created() {
-        if (this.value) {
-            this.innerValue = this.value;
+        if (this.value !== undefined) {
+            this.innerValue = this.value.toString();
         }
     }
 };

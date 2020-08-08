@@ -2,7 +2,7 @@
     <div class="mb-2">
         <h6 class="font-weight-bold">{{ name }}</h6>
         <div v-if="value && !ahref">
-            {{ value }}
+            {{ text_left }} {{ value }} {{ text_right }}
         </div>
 
         <div v-if="ahref">
@@ -45,6 +45,12 @@ export default {
         },
         permission: {
             type: String
+        },
+        text_left: {
+            type: null
+        },
+        text_right: {
+            type: null
         },
         value: {
             type: null
