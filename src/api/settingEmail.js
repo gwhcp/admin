@@ -47,6 +47,8 @@ const actions = {
             .then(data => commit(SETTING_EMAIL_CHOICE_TEMPLATE, data));
     },
     getProfile({commit}, data) {
+        commit(SETTING_EMAIL_FORM_CLEAN);
+
         client.get(`setting/email/profile/${data.id}`)
             .then(data => commit(SETTING_EMAIL_FORM_DATA, data));
     },

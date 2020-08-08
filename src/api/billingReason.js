@@ -47,6 +47,8 @@ const actions = {
             .then(data => commit(BILLING_REASON_CHOICE_TYPE, data));
     },
     getProfile({commit}, data) {
+        commit(BILLING_REASON_FORM_CLEAN);
+
         client.get(`billing/reason/profile/${data.id}`)
             .then(data => commit(BILLING_REASON_FORM_DATA, data));
     },

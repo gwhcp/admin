@@ -25,9 +25,6 @@ const state = {
 const getters = {};
 
 const actions = {
-    formClean({commit}) {
-        commit(ACCOUNT_ACCOUNT_FORM_CLEAN);
-    },
     getAccessLog({commit}) {
         client.get('account/account/accesslog')
             .then(data => commit(ACCOUNT_ACCOUNT_SEARCH, data));
@@ -53,10 +50,14 @@ const actions = {
             .then(data => commit(ACCOUNT_ACCOUNT_SEARCH, data));
     },
     getManageProfile({commit}, data) {
+        commit(ACCOUNT_ACCOUNT_FORM_CLEAN);
+
         client.get(`account/account/profile/${data.id}`)
             .then(data => commit(ACCOUNT_ACCOUNT_FORM_DATA, data));
     },
     getProfile({commit}) {
+        commit(ACCOUNT_ACCOUNT_FORM_CLEAN);
+
         client.get('account/account/profile')
             .then(data => commit(ACCOUNT_ACCOUNT_FORM_DATA, data));
     },

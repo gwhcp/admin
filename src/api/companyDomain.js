@@ -47,6 +47,8 @@ const actions = {
             .then(data => commit(COMPANY_DOMAIN_CHOICE_COMPANY, data));
     },
     getProfile({commit}, data) {
+        commit(COMPANY_DOMAIN_FORM_CLEAN);
+
         client.get(`company/domain/profile/${data.id}`)
             .then(data => commit(COMPANY_DOMAIN_FORM_DATA, data));
     },

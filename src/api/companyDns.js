@@ -47,6 +47,8 @@ const actions = {
             .then(data => commit(COMPANY_DNS_CHOICE_RECORD_TYPE, data));
     },
     getProfile({commit}, data) {
+        commit(COMPANY_DNS_FORM_CLEAN);
+
         client.get(`company/dns/profile/${data.id}`)
             .then(data => commit(COMPANY_DNS_FORM_DATA, data));
     },

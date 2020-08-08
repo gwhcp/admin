@@ -50,6 +50,8 @@ const actions = {
         commit(BILLING_PAYMENT_FORM_CLEAN);
     },
     getAuthentication({commit}, data) {
+        commit(BILLING_PAYMENT_FORM_CLEAN);
+
         client.get(`billing/payment/${data.merchant}/${data.id}/authentication`)
             .then(data => commit(BILLING_PAYMENT_FORM_DATA, data));
     },
@@ -66,10 +68,14 @@ const actions = {
             .then(data => commit(BILLING_PAYMENT_CHOICE_METHOD, data));
     },
     getMethod({commit}, data) {
+        commit(BILLING_PAYMENT_FORM_CLEAN);
+
         client.get(`billing/payment/${data.merchant}/${data.id}/method`)
             .then(data => commit(BILLING_PAYMENT_FORM_DATA, data));
     },
     getProfile({commit}, data) {
+        commit(BILLING_PAYMENT_FORM_CLEAN);
+
         client.get(`billing/payment/profile/${data.id}`)
             .then(data => commit(BILLING_PAYMENT_FORM_DATA, data));
     },

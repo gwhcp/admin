@@ -51,7 +51,7 @@ const actions = {
     updatePassword({commit, state}) {
         commit(ACCOUNT_LOGIN_FORM_VALIDATION);
 
-        return client.patch('account/login/password', state.data)
+        return client.patch('account/login/password', state.formData)
             .then(response => {
                 if (response.error) {
                     commit(ACCOUNT_LOGIN_FORM_ERRORS, response.errors);

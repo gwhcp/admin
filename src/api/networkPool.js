@@ -49,6 +49,8 @@ const actions = {
             .then(data => commit(NETWORK_POOL_CHOICE_ASSIGNED, data));
     },
     getProfile({commit}, data) {
+        commit(NETWORK_POOL_FORM_CLEAN);
+
         client.get(`network/pool/profile/${data.id}`)
             .then(data => commit(NETWORK_POOL_FORM_DATA, data));
     },

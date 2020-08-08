@@ -68,6 +68,8 @@ const actions = {
             .then(data => commit(HARDWARE_CLIENT_CHOICE_WEB, data));
     },
     getProfile({commit}, data) {
+        commit(HARDWARE_CLIENT_FORM_CLEAN);
+
         client.get(`hardware/client/profile/${data.id}`)
             .then(data => commit(HARDWARE_CLIENT_FORM_DATA, data));
     },

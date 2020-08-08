@@ -47,6 +47,8 @@ const actions = {
             .then(data => commit(SETTING_BANNED_CHOICE_TYPE, data));
     },
     getProfile({commit}, data) {
+        commit(SETTING_BANNED_FORM_CLEAN);
+
         client.get(`setting/banned/profile/${data.id}`)
             .then(data => commit(SETTING_BANNED_FORM_DATA, data));
     },

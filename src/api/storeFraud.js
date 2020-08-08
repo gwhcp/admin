@@ -47,6 +47,8 @@ const actions = {
             .then(data => commit(STORE_FRAUD_CHOICE_TYPE, data));
     },
     getProfile({commit}, data) {
+        commit(STORE_FRAUD_FORM_CLEAN);
+
         client.get(`store/fraud/profile/${data.id}`)
             .then(data => commit(STORE_FRAUD_FORM_DATA, data));
     },
