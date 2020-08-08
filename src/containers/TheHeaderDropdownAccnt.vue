@@ -8,7 +8,7 @@
                 <div class="c-avatar">
                     <img alt="Avatar"
                          class="c-avatar-img"
-                         src="img/avatars/6.jpg"/>
+                         src="img/6.jpg"/>
                 </div>
             </CHeaderNavLink>
         </template>
@@ -24,7 +24,8 @@
             Updates
 
             <CBadge class="ml-auto"
-                    color="info">{{ itemsCount }}
+                    color="info">
+                {{ itemsCount }}
             </CBadge>
         </CDropdownItem>
 
@@ -33,7 +34,8 @@
             Messages
 
             <CBadge class="ml-auto"
-                    color="success">{{ itemsCount }}
+                    color="success">
+                {{ itemsCount }}
             </CBadge>
         </CDropdownItem>
 
@@ -42,7 +44,8 @@
             Tasks
 
             <CBadge class="ml-auto"
-                    color="danger">{{ itemsCount }}
+                    color="danger">
+                {{ itemsCount }}
             </CBadge>
         </CDropdownItem>
 
@@ -51,7 +54,8 @@
             Comments
 
             <CBadge class="ml-auto"
-                    color="warning">{{ itemsCount }}
+                    color="warning">
+                {{ itemsCount }}
             </CBadge>
         </CDropdownItem>
 
