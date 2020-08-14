@@ -44,7 +44,8 @@
                         </template>
 
                         <template #delete="{ item }">
-                            <td class="py-2" v-if="!item.in_queue">
+                            <td class="py-2"
+                                v-if="!item.in_queue">
                                 <modal-open-delete :delete="deleteHardware"
                                                    :params="{id: item.id}"
                                                    :search="search"

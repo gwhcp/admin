@@ -22,6 +22,12 @@
                                     required="true"
                                     rules="required"
                                     v-model="formData.name"/>
+
+                        <input-text label="IP Address"
+                                    name="ip"
+                                    required="true"
+                                    rules="required"
+                                    v-model="formData.ip"/>
                         <CRow>
                             <CCol class="text-left"
                                   col="6">
