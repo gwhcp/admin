@@ -11,9 +11,6 @@
                      name="Company"
                      permission="company.company.view_company"/>
 
-        <static-data :value="formData.ipaddress"
-                     name="IP Address"/>
-
         <static-data :value="formData.name"
                      name="Domain"/>
     </CCard>

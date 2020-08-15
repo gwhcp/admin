@@ -16,20 +16,6 @@
                                 pagination
                                 sorter
                                 table-filter>
-                        <template #is_active="{ item }">
-                            <td>
-                                <CBadge color="success"
-                                        v-if="!item.in_queue">
-                                    Enabled
-                                </CBadge>
-
-                                <CBadge color="info"
-                                        v-else>
-                                    Pending Queue
-                                </CBadge>
-                            </td>
-                        </template>
-
                         <template #show_details="{ item }">
                             <td class="py-2">
                                 <CLink :to="{ name: 'company:domain:profile', params: { id: item.id }}">
@@ -44,8 +30,7 @@
                         </template>
 
                         <template #delete="{ item }">
-                            <td class="py-2"
-                                v-if="!item.in_queue">
+                            <td class="py-2">
                                 <modal-open-delete :delete="deleteDomain"
                                                    :params="{id: item.id}"
                                                    :search="search"
@@ -82,8 +67,6 @@ export default {
             fields: [
                 {key: 'id', label: 'ID', _style: 'min-width:100px;'},
                 {key: 'name', _style: 'min-width:100px'},
-                {key: 'ipaddress', label: 'IP Address', _style: 'min-width:100px'},
-                {key: 'is_active', label: 'Status', _style: 'min-width:100px'},
                 {key: 'show_details', label: '', _style: 'width:1%', sorter: false, filter: false}
             ]
         };
