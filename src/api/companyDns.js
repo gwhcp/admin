@@ -8,6 +8,8 @@ import {
     COMPANY_DNS_FORM_ERRORS,
     COMPANY_DNS_FORM_SUCCESS,
     COMPANY_DNS_FORM_VALIDATION,
+    COMPANY_DNS_NAMESERVER_BASE,
+    COMPANY_DNS_NAMESERVER_DOMAIN,
     COMPANY_DNS_SEARCH
 } from "@/api/types";
 
@@ -16,7 +18,9 @@ const state = {
     formData: {},
     formErrors: [],
     formSuccess: 0,
-    search: []
+    nameserverBase: [],
+    nameserverDomain: [],
+    search: [],
 };
 
 const getters = {};
@@ -46,6 +50,15 @@ const actions = {
         client.get('company/dns/choice/recordtype')
             .then(data => commit(COMPANY_DNS_CHOICE_RECORD_TYPE, data));
     },
+    getNameserver({commit}, data) {
+        commit(COMPANY_DNS_FORM_CLEAN);
+
+        client.get('company/dns/choice/ns')
+            .then(data => commit(COMPANY_DNS_NAMESERVER_BASE, data));
+
+        client.get(`company/dns/ns/${data.id}`)
+            .then(data => commit(COMPANY_DNS_NAMESERVER_DOMAIN, data));
+    },
     getProfile({commit}, data) {
         commit(COMPANY_DNS_FORM_CLEAN);
 
@@ -59,6 +72,18 @@ const actions = {
     getSearch({commit}) {
         client.get('company/dns/search')
             .then(data => commit(COMPANY_DNS_SEARCH, data));
+    },
+    updateNameserver({commit}, data) {
+        commit(COMPANY_DNS_FORM_VALIDATION);
+
+        return client.patch(`company/dns/ns/${data.id}`, {'ns': data.ns})
+            .then(response => {
+                if (response.error) {
+                    commit(COMPANY_DNS_FORM_ERRORS, response.errors);
+                } else {
+                    commit(COMPANY_DNS_FORM_SUCCESS);
+                }
+            })
     },
     updateProfile({commit, state}, data) {
         commit(COMPANY_DNS_FORM_VALIDATION);
@@ -99,6 +124,21 @@ const mutations = {
     [COMPANY_DNS_FORM_VALIDATION](state) {
         state.formErrors = [];
         state.formSuccess = 0;
+    },
+    [COMPANY_DNS_NAMESERVER_BASE](state, data) {
+        const ns = [];
+
+        for (const base of data) {
+            ns.push({
+                value: base.id,
+                label: base.name
+            })
+        }
+
+        state.nameserverBase = ns;
+    },
+    [COMPANY_DNS_NAMESERVER_DOMAIN](state, data) {
+        state.nameserverDomain = data.ns;
     },
     [COMPANY_DNS_SEARCH](state, data) {
         state.search = data;

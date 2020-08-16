@@ -423,6 +423,19 @@ function configRoutes() {
                             }
                         },
                         {
+                            path: 'ns/:id',
+                            name: 'company:dns:ns',
+                            meta: {
+                                label: 'Nameserver'
+                            },
+                            component: () => import('@/views/company/dns/TheNs'),
+                            beforeEnter: (to, from, next) => {
+                                checkPermission(to, from, next)([
+                                    'company.dns.view_dnszone'
+                                ])
+                            }
+                        },
+                        {
                             path: 'profile/:id',
                             name: 'company:dns:profile',
                             meta: {

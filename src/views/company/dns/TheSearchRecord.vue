@@ -45,6 +45,9 @@
 
             <CTab :to="{name: 'company:dns:create', params:{id: domainId}}"
                   title="Create"/>
+
+            <CTab :to="{name: 'company:dns:ns', params:{id: domainId}}"
+                  title="Nameserver"/>
         </CTabs>
     </div>
 </template>

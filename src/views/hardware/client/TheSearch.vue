@@ -82,7 +82,7 @@ export default {
             fields: [
                 {key: 'id', label: 'ID', _style: 'min-width:100px;'},
                 {key: 'domain_name', _style: 'min-width:100px'},
-                {key: 'ipaddress', _style: 'min-width:100px'},
+                {key: 'ipaddress', label: 'IP Address', _style: 'min-width:100px'},
                 {key: 'is_active', label: 'Status', _style: 'min-width:100px'},
                 {key: 'show_details', label: '', _style: 'width:1%', sorter: false, filter: false}
             ]
