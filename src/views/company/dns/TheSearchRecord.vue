@@ -32,7 +32,7 @@
                         </template>
 
                         <template #delete="{ item }">
-                            <td class="py-2" v-if="item.manage_dns">
+                            <td class="py-2" v-if="item.is_custom">
                                 <modal-open-delete :delete="deleteRecord"
                                             :params="{id: item.id, domain: domainId}"
                                             :search="search"

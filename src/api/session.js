@@ -9,4 +9,6 @@ const session = axios.create({
     xsrfHeaderName: CSRF_HEADER_NAME
 });
 
+session.defaults.timeout = 30000;
+
 export default session;
