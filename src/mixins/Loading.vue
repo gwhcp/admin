@@ -26,6 +26,12 @@ export default {
             else
                 this.$loading(false);
         },
+        formErrors(value) {
+            if (value)
+                this.$nextTick(() => {
+                    this.loadingState = false;
+                });
+        },
         formSuccess(value) {
             if (value)
                 this.$nextTick(() => {
