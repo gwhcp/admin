@@ -5,11 +5,10 @@ const CSRF_HEADER_NAME = 'X-CSRFToken';
 
 const session = axios.create({
     baseURL: process.env.VUE_APP_API_URL,
+    timeout: 10000,
     xsrfCookieName: CSRF_COOKIE_NAME,
     xsrfHeaderName: CSRF_HEADER_NAME
 });
-
-session.defaults.timeout = 30000;
 
 // before a request is made.
 session.interceptors.request.use(config => {
