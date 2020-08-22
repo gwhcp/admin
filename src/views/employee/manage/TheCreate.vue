@@ -2,7 +2,7 @@
     <CTabs :active-tab="1"
            addNavClasses="border-bottom-0"
            variant="tabs">
-        <CTab :to="{name: 'account:account:search'}"
+        <CTab :to="{name: 'employee:manage:search'}"
               title="Search"/>
 
         <CTab title="Create">
@@ -16,54 +16,54 @@
                                             name="first_name"
                                             required="true"
                                             rules="required"
-                                            v-model="formData.first_name"/>
+                                            v-model="formObj.first_name"/>
 
                                 <input-text label="Last Name"
                                             name="last_name"
                                             required="true"
                                             rules="required"
-                                            v-model="formData.last_name"/>
+                                            v-model="formObj.last_name"/>
 
                                 <input-text label="Address"
                                             name="address"
                                             required="true"
                                             rules="required"
-                                            v-model="formData.address"/>
+                                            v-model="formObj.address"/>
 
                                 <input-text label="City"
                                             name="city"
                                             required="true"
                                             rules="required"
-                                            v-model="formData.city"/>
+                                            v-model="formObj.city"/>
 
                                 <input-select-country label="Country"
                                                       name="country"
                                                       required="true"
                                                       rules="required"
-                                                      v-model="formData.country"/>
+                                                      v-model="formObj.country"/>
 
-                                <input-select-state :country="formData.country"
+                                <input-select-state :country="formObj.country"
                                                     label="State"
                                                     name="state"
                                                     required="true"
                                                     rules="required"
-                                                    v-model="formData.state"/>
+                                                    v-model="formObj.state"/>
 
                                 <input-text label="Zipcode"
                                             name="zipcode"
                                             required="true"
                                             rules="required"
-                                            v-model="formData.zipcode"/>
+                                            v-model="formObj.zipcode"/>
 
                                 <input-text label="Primary Phone"
                                             name="primary_phone"
                                             required="true"
                                             rules="required"
-                                            v-model="formData.primary_phone"/>
+                                            v-model="formObj.primary_phone"/>
 
                                 <input-text label="Secondary Phone"
                                             name="secondary_phone"
-                                            v-model="formData.secondary_phone"/>
+                                            v-model="formObj.secondary_phone"/>
                             </CCard>
                         </CCol>
 
@@ -73,13 +73,13 @@
                                             name="email"
                                             required="true"
                                             rules="required"
-                                            v-model="formData.email"/>
+                                            v-model="formObj.email"/>
 
                                 <input-password label="Password"
                                                 name="password"
                                                 required="true"
                                                 rules="required"
-                                                v-model="formData.password"/>
+                                                v-model="formObj.password"/>
 
                                 <CRow>
                                     <CCol class="text-left"
@@ -102,7 +102,7 @@
 
 <script>
 import {InputPassword, InputSelectCountry, InputSelectState, InputText} from "@/components/form";
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 import {ValidationObserver} from "vee-validate";
 
 export default {
@@ -115,26 +115,28 @@ export default {
         ValidationObserver
     },
     computed: {
-        ...mapState('accountLogin', [
-            'formData',
+        ...mapGetters('employeeManage', [
             'formErrors',
             'formSuccess'
+        ]),
+        ...mapState('employeeManage', [
+            'formObj'
         ])
     },
     beforeMount() {
         this.formClean();
     },
     methods: {
-        ...mapActions('accountLogin', [
+        ...mapActions('employeeManage', [
             'createAccount',
             'formClean'
         ]),
         submitCreate() {
-            this.formData['is_staff'] = true;
-
             this.createAccount()
                 .then(() => this.$refs.observer.setErrors(this.formErrors))
-                .then(() => this.formSuccess > 0 ? this.$router.push({name: 'account:account:search'}) : false);
+                .then(() => this.formSuccess ? this.$router.push({
+                    name: 'employee:manage:search'
+                }) : false);
         }
     }
 }

@@ -1,16 +1,17 @@
 <template>
     <div>
-        <CAlert :show.sync="successMessage"
+        <CAlert :show="5"
                 closeButton
-                color="success">
+                color="success"
+                v-if="formSuccess">
             Company profile has been updated.
         </CAlert>
 
         <CCard bodyWrapper>
-            <static-data :value="formData.id"
+            <static-data :value="formObj.id"
                          name="Company ID"/>
 
-            <static-data :datetime="formData.date_from"
+            <static-data :datetime="formObj.date_from"
                          name="Created Date"/>
 
             <ValidationObserver ref="observer"
@@ -20,48 +21,48 @@
                                 name="name"
                                 required="true"
                                 rules="required"
-                                v-model="formData.name"/>
+                                v-model="formObj.name"/>
 
                     <input-text label="Address"
                                 name="address"
                                 required="true"
                                 rules="required"
-                                v-model="formData.address"/>
+                                v-model="formObj.address"/>
 
                     <input-text label="City"
                                 name="city"
                                 required="true"
                                 rules="required"
-                                v-model="formData.city"/>
+                                v-model="formObj.city"/>
 
                     <input-select-country label="Country"
                                           name="country"
                                           required="true"
                                           rules="required"
-                                          v-model="formData.country"/>
+                                          v-model="formObj.country"/>
 
-                    <input-select-state :country="formData.country"
+                    <input-select-state :country="formObj.country"
                                         label="State"
                                         name="state"
                                         required="true"
                                         rules="required"
-                                        v-model="formData.state"/>
+                                        v-model="formObj.state"/>
 
                     <input-text label="Zipcode"
                                 name="zipcode"
                                 required="true"
                                 rules="required"
-                                v-model="formData.zipcode"/>
+                                v-model="formObj.zipcode"/>
 
                     <input-text label="Primary Phone"
                                 name="primary_phone"
                                 required="true"
                                 rules="required"
-                                v-model="formData.primary_phone"/>
+                                v-model="formObj.primary_phone"/>
 
                     <input-text label="Secondary Phone"
                                 name="secondary_phone"
-                                v-model="formData.secondary_phone"/>
+                                v-model="formObj.secondary_phone"/>
 
                     <CRow>
                         <CCol class="text-left"
@@ -83,7 +84,7 @@
 import StaticData from "@/components/StaticData";
 import {InputSelectCountry, InputSelectState, InputText} from "@/components/form";
 import Permission from "@/mixins/Permission";
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 import {ValidationObserver} from "vee-validate";
 
 export default {
@@ -100,15 +101,16 @@ export default {
     ],
     data() {
         return {
-            companyId: this.$route.params.id,
-            successMessage: 0
+            companyId: this.$route.params.id
         };
     },
     computed: {
-        ...mapState('companyCompany', [
-            'formData',
+        ...mapGetters('companyCompany', [
             'formErrors',
             'formSuccess'
+        ]),
+        ...mapState('companyCompany', [
+            'formObj'
         ])
     },
     created() {
@@ -128,8 +130,7 @@ export default {
             this.updateProfile({
                 id: this.companyId
             })
-                .then(() => this.$refs.observer.setErrors(this.formErrors))
-                .then(() => this.successMessage = this.formSuccess);
+                .then(() => this.$refs.observer.setErrors(this.formErrors));
 
             scroll(0, 0);
         }

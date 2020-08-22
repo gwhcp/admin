@@ -1,8 +1,9 @@
 <template>
     <div>
-        <CAlert :show.sync="successMessage"
+        <CAlert :show="5"
                 closeButton
-                color="success">
+                color="success"
+                v-if="formSuccess">
             Domain product resources have been updated.
         </CAlert>
 
@@ -25,87 +26,87 @@
                                         name="bandwidth"
                                         required="true"
                                         rules="required"
-                                        v-model="formData.bandwidth"/>
+                                        v-model="formObj.bandwidth"/>
 
                             <input-text label="Diskspace"
                                         name="diskspace"
                                         required="true"
                                         rules="required"
-                                        v-model="formData.diskspace"/>
+                                        v-model="formObj.diskspace"/>
 
                             <input-text label="Domain"
                                         name="domain"
                                         required="true"
                                         rules="required"
-                                        v-model="formData.domain"/>
+                                        v-model="formObj.domain"/>
 
                             <input-text label="Sub.Domain"
                                         name="sub_domain"
                                         required="true"
                                         rules="required"
-                                        v-model="formData.sub_domain"/>
+                                        v-model="formObj.sub_domain"/>
 
                             <input-text label="SFTP User"
                                         name="ftp_user"
                                         required="true"
                                         rules="required"
-                                        v-model="formData.ftp_user"/>
+                                        v-model="formObj.ftp_user"/>
 
                             <input-text label="Cron Tab"
                                         name="cron_tab"
                                         required="true"
                                         rules="required"
-                                        v-if="formData.has_cron"
-                                        v-model="formData.cron_tab"/>
+                                        v-if="formObj.has_cron"
+                                        v-model="formObj.cron_tab"/>
 
                             <input-text label="IP Address"
                                         name="ipaddress"
                                         required="true"
                                         rules="required"
-                                        v-if="formData.ipaddress_type === 'dedicated'"
-                                        v-model="formData.ipaddress"/>
+                                        v-if="formObj.ipaddress_type === 'dedicated'"
+                                        v-model="formObj.ipaddress"/>
 
                             <input-text label="Mail Account"
                                         name="mail_account"
                                         required="true"
                                         rules="required"
-                                        v-if="formData.has_mail"
-                                        v-model="formData.mail_account"/>
+                                        v-if="formObj.has_mail"
+                                        v-model="formObj.mail_account"/>
 
                             <input-text label="Mailing List"
                                         name="mail_list"
                                         required="true"
                                         rules="required"
-                                        v-if="formData.has_mail"
-                                        v-model="formData.mail_list"/>
+                                        v-if="formObj.has_mail"
+                                        v-model="formObj.mail_list"/>
 
                             <input-text label="MySQL Database"
                                         name="mysql_database"
                                         required="true"
                                         rules="required"
-                                        v-if="formData.has_mysql"
-                                        v-model="formData.mysql_database"/>
+                                        v-if="formObj.has_mysql"
+                                        v-model="formObj.mysql_database"/>
 
                             <input-text label="MySQL User"
                                         name="mysql_user"
                                         required="true"
                                         rules="required"
-                                        v-if="formData.has_mysql"
-                                        v-model="formData.mysql_user"/>
+                                        v-if="formObj.has_mysql"
+                                        v-model="formObj.mysql_user"/>
 
                             <input-text label="PostgreSQL Database"
                                         name="postgresql_database"
                                         required="true"
                                         rules="required"
-                                        v-if="formData.has_postgresql"
-                                        v-model="formData.postgresql_database"/>
+                                        v-if="formObj.has_postgresql"
+                                        v-model="formObj.postgresql_database"/>
 
                             <input-text label="PostgreSQL User"
                                         name="postgresql_user"
                                         required="true"
                                         rules="required"
-                                        v-if="formData.has_postgresql"
-                                        v-model="formData.postgresql_user"/>
+                                        v-if="formObj.has_postgresql"
+                                        v-model="formObj.postgresql_user"/>
 
                             <CRow>
                                 <CCol class="text-left"
@@ -132,7 +133,7 @@
 <script>
 import {InputText} from "@/components/form";
 import Permission from "@/mixins/Permission";
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 import {ValidationObserver} from "vee-validate";
 
 export default {
@@ -146,15 +147,16 @@ export default {
     ],
     data() {
         return {
-            productId: this.$route.params.id,
-            successMessage: 0
+            productId: this.$route.params.id
         };
     },
     computed: {
-        ...mapState('storeProductDomain', [
-            'formData',
+        ...mapGetters('storeProductDomain', [
             'formErrors',
             'formSuccess'
+        ]),
+        ...mapState('storeProductDomain', [
+            'formObj'
         ])
     },
     created() {
@@ -174,8 +176,7 @@ export default {
             this.updateResource({
                 id: this.productId
             })
-                .then(() => this.$refs.observer.setErrors(this.formErrors))
-                .then(() => this.successMessage = this.formSuccess);
+                .then(() => this.$refs.observer.setErrors(this.formErrors));
 
             scroll(0, 0);
         }

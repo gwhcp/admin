@@ -32,6 +32,13 @@ const catchMe = (error) => {
 };
 
 export default {
+    delete(url, conf = {}) {
+        return session.delete(url, conf)
+            .then(response => Promise.resolve(response))
+            .catch(function (error) {
+                catchMe(error);
+            });
+    },
     get(url, conf = {}) {
         return session.get(url, conf)
             .then(response => response.data)
@@ -39,11 +46,20 @@ export default {
                 catchMe(error);
             });
     },
-    delete(url, conf = {}) {
-        return session.delete(url, conf)
-            .then(response => Promise.resolve(response))
+    options(url, conf = {}) {
+        return session.options(url, conf)
+            .then(response => response.data)
             .catch(function (error) {
                 catchMe(error);
+            });
+    },
+    patch(url, data = {}, conf = {}) {
+        return session.patch(url, data, conf)
+            .then(response => response.data)
+            .catch(function (error) {
+                catchMe(error);
+
+                return catchError(error);
             });
     },
     post(url, data = {}, conf = {}) {
@@ -57,14 +73,5 @@ export default {
     },
     put(url, data = {}, conf = {}) {
         this.patch(url, data, conf);
-    },
-    patch(url, data = {}, conf = {}) {
-        return session.patch(url, data, conf)
-            .then(response => response.data)
-            .catch(function (error) {
-                catchMe(error);
-
-                return catchError(error);
-            });
     }
 }

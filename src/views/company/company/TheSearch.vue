@@ -8,7 +8,7 @@
             <CTab title="Search">
                 <CCard bodyWrapper>
                     <CDataTable :fields="fields"
-                                :items="search"
+                                :items="formArr"
                                 :items-per-page="10"
                                 column-filter
                                 hover
@@ -33,7 +33,7 @@
                             <td class="py-2">
                                 <modal-open-delete :delete="deleteCompany"
                                             :params="{id: item.id}"
-                                            :search="search"
+                                            :formArr="formArr"
                                             msg="Continuing will remove this company."/>
                             </td>
                         </template>
@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 import {ModalOpenDelete, ModalSuccess} from "@/components/modal";
 import Permission from "@/mixins/Permission";
 
@@ -72,8 +72,8 @@ export default {
         };
     },
     computed: {
-        ...mapState('companyCompany', [
-            'search'
+        ...mapGetters('companyCompany', [
+            'formArr'
         ])
     },
     created() {

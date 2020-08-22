@@ -1,7 +1,7 @@
 <template>
     <CCard bodyWrapper>
         <CDataTable :fields="fields"
-                    :items="search"
+                    :items="formArr"
                     :items-per-page="10"
                     column-filter
                     hover
@@ -20,7 +20,7 @@
 
 <script>
 import ConvertDate from "@/components/ConvertDate";
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
     name: 'TheAccessLog',
@@ -37,15 +37,15 @@ export default {
         };
     },
     computed: {
-        ...mapState('accountAccount', [
-            'search'
+        ...mapGetters('employeeAccount', [
+            'formArr'
         ])
     },
     created() {
         this.getAccessLog();
     },
     methods: {
-        ...mapActions('accountAccount', [
+        ...mapActions('employeeAccount', [
             'getAccessLog'
         ])
     }

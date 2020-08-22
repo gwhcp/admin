@@ -14,26 +14,26 @@
                                     name="sender"
                                     required="true"
                                     rules="required"
-                                    v-model="formData.sender"/>
+                                    v-model="formObj.sender"/>
 
-                        <input-select :options="choiceTemplate"
+                        <input-select :options="choices"
                                       label="Template"
                                       name="template"
                                       required="true"
                                       rules="required"
-                                      v-model="formData.template"/>
+                                      v-model="formObj.template"/>
 
                         <input-text label="Subject"
                                     name="subject"
                                     required="true"
                                     rules="required"
-                                    v-model="formData.subject"/>
+                                    v-model="formObj.subject"/>
 
                         <input-wysiwyg label="Body"
                                        name="body"
                                        required="true"
                                        rules="required"
-                                       v-model="formData.body"/>
+                                       v-model="formObj.body"/>
 
                         <CRow>
                             <CCol class="text-left"
@@ -54,7 +54,7 @@
 
 <script>
 import {InputSelect, InputText, InputWysiwyg} from "@/components/form";
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 import {ValidationObserver} from "vee-validate";
 
 export default {
@@ -66,15 +66,17 @@ export default {
         ValidationObserver
     },
     computed: {
-        ...mapState('settingEmail', [
-            'choiceTemplate',
-            'formData',
+        ...mapGetters('settingEmail', [
+            'choices',
             'formErrors',
             'formSuccess'
+        ]),
+        ...mapState('settingEmail', [
+            'formObj'
         ])
     },
     created() {
-        this.getChoiceTemplate();
+        this.getChoices();
     },
     beforeMount() {
         this.formClean();
@@ -83,12 +85,14 @@ export default {
         ...mapActions('settingEmail', [
             'createEmailTemplate',
             'formClean',
-            'getChoiceTemplate'
+            'getChoices'
         ]),
         submitCreate() {
             this.createEmailTemplate()
                 .then(() => this.$refs.observer.setErrors(this.formErrors))
-                .then(() => this.formSuccess > 0 ? this.$router.push({name: 'setting:email:search'}) : false);
+                .then(() => this.formSuccess ? this.$router.push({
+                    name: 'setting:email:search'
+                }) : false);
         }
     }
 }

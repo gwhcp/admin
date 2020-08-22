@@ -1,15 +1,16 @@
 <template>
     <div>
-        <CAlert :show.sync="successMessage"
+        <CAlert :show="5"
                 closeButton
-                color="success">
+                color="success"
+                v-if="formSuccess">
             Account permissions have been updated.
         </CAlert>
 
         <CTabs :active-tab="1"
                addNavClasses="border-bottom-0"
                variant="tabs">
-            <CTab :to="{name: 'account:account:manage:profile', params: {id: accountId}}"
+            <CTab :to="{name: 'employee:manage:profile', params: {id: accountId}}"
                   title="Profile"/>
 
             <CTab title="Permissions">
@@ -36,7 +37,7 @@
                 </CCard>
             </CTab>
 
-            <CTab :to="{name: 'account:account:manage:accesslog', params: {id: accountId}}"
+            <CTab :to="{name: 'employee:manage:accesslog', params: {id: accountId}}"
                   title="Access Logs"/>
         </CTabs>
     </div>
@@ -45,7 +46,7 @@
 <script>
 import vueSelectSides from "vue-select-sides";
 import Vue from "vue";
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 import Permission from "@/mixins/Permission";
 
 Vue.use(vueSelectSides, {
@@ -63,12 +64,11 @@ export default {
     data() {
         return {
             accountId: this.$route.params.id,
-            selected: [],
-            successMessage: 0
+            selected: []
         };
     },
     computed: {
-        ...mapState('accountLogin', [
+        ...mapGetters('employeeManage', [
             'formSuccess',
             'permissionBase',
             'permissionUser'
@@ -91,7 +91,7 @@ export default {
         this.hasPermForm('auth.change_permission');
     },
     methods: {
-        ...mapActions('accountLogin', [
+        ...mapActions('employeeManage', [
             'getPermissions',
             'updatePermissions'
         ]),
@@ -99,8 +99,7 @@ export default {
             this.updatePermissions({
                 id: this.accountId,
                 perms: this.selected
-            })
-                .then(() => this.successMessage = this.formSuccess);
+            });
 
             scroll(0, 0);
         }

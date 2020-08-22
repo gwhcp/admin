@@ -10,18 +10,18 @@
                                 v-slot="{ handleSubmit, invalid }">
                 <CForm>
                     <CCard bodyWrapper>
-                        <input-select :options="choiceCompany"
+                        <input-select :options="choices"
                                       label="Company"
                                       name="company"
                                       required="true"
                                       rules="required"
-                                      v-model="formData.company"/>
+                                      v-model="formObj.company"/>
 
                         <input-text label="Name"
                                     name="name"
                                     required="true"
                                     rules="required"
-                                    v-model="formData.name"/>
+                                    v-model="formObj.name"/>
 
                         <CRow>
                             <CCol class="text-left"
@@ -42,7 +42,7 @@
 
 <script>
 import {InputSelect, InputText} from "@/components/form";
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 import {ValidationObserver} from "vee-validate";
 
 export default {
@@ -53,15 +53,17 @@ export default {
         ValidationObserver
     },
     computed: {
-        ...mapState('companyDomain', [
-            'choiceCompany',
-            'formData',
+        ...mapGetters('companyDomain', [
+            'choices',
             'formErrors',
             'formSuccess'
+        ]),
+        ...mapState('companyDomain', [
+            'formObj'
         ])
     },
     created() {
-        this.getChoiceCompany();
+        this.getChoices();
     },
     beforeMount() {
         this.formClean();
@@ -70,12 +72,14 @@ export default {
         ...mapActions('companyDomain', [
             'createDomain',
             'formClean',
-            'getChoiceCompany'
+            'getChoices'
         ]),
         submitCreate() {
             this.createDomain()
                 .then(() => this.$refs.observer.setErrors(this.formErrors))
-                .then(() => this.formSuccess > 0 ? this.$router.push({name: 'company:domain:search'}) : false);
+                .then(() => this.formSuccess ? this.$router.push({
+                    name: 'company:domain:search'
+                }) : false);
         }
     }
 }

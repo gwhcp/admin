@@ -1,40 +1,26 @@
 import client from "@/api/client";
 
-import {STORE_PRODUCT_CHOICE_COMPANY, STORE_PRODUCT_CHOICE_IP, STORE_PRODUCT_CHOICE_WEB} from "@/api/types";
+import {FORM_CHOICES} from "@/api/types";
 
 const state = {
-    choiceCompany: {},
-    choiceIp: {},
-    choiceWeb: {}
+    choices: {}
 };
 
-const getters = {};
+const getters = {
+    choices: state => state.choices
+};
 
 const actions = {
-    getChoiceCompany({commit}) {
-        client.get('store/product/choice/company')
-            .then(data => commit(STORE_PRODUCT_CHOICE_COMPANY, data));
-    },
-    getChoiceIp({commit}) {
-        client.get('store/product/choice/ip')
-            .then(data => commit(STORE_PRODUCT_CHOICE_IP, data));
-    },
-    getChoiceWeb({commit}) {
-        client.get('store/product/choice/web')
-            .then(data => commit(STORE_PRODUCT_CHOICE_WEB, data));
-    },
+    getChoices({commit}) {
+        client.get('store/product/choices')
+            .then(data => commit(FORM_CHOICES, data));
+    }
 };
 
 const mutations = {
-    [STORE_PRODUCT_CHOICE_COMPANY](state, data) {
-        state.choiceCompany = data;
-    },
-    [STORE_PRODUCT_CHOICE_IP](state, data) {
-        state.choiceIp = data;
-    },
-    [STORE_PRODUCT_CHOICE_WEB](state, data) {
-        state.choiceWeb = data;
-    },
+    [FORM_CHOICES](state, data) {
+        state.choices = data;
+    }
 };
 
 export default {

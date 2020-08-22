@@ -12,9 +12,10 @@
 
                                     <p class="text-muted">Sign In to your account</p>
 
-                                    <CAlert :show.sync="nonFieldFormErrors"
+                                    <CAlert :show="5"
                                             closeButton
-                                            color="warning">
+                                            color="warning"
+                                            v-if="nonFieldFormError">
                                         {{ nonFieldFormMessage }}
                                     </CAlert>
 
@@ -22,13 +23,13 @@
                                                 name="email"
                                                 required="true"
                                                 rules="required"
-                                                v-model="formData.email"/>
+                                                v-model="formObj.email"/>
 
                                     <input-password label="Password"
                                                     name="password"
                                                     required="true"
                                                     rules="required"
-                                                    v-model="formData.password"/>
+                                                    v-model="formObj.password"/>
 
                                     <CRow>
                                         <CCol class="text-left"
@@ -59,7 +60,7 @@
 
 <script>
 import {InputPassword, InputText} from "@/components/form";
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 import {ValidationObserver} from "vee-validate/dist/vee-validate.full.esm";
 
 export default {
@@ -70,17 +71,14 @@ export default {
         ValidationObserver
     },
     computed: {
-        ...mapState('auth', [
-            'formData',
+        ...mapGetters('auth', [
             'formErrors',
             'nonFieldFormError',
             'nonFieldFormMessage'
+        ]),
+        ...mapState('auth', [
+            'formObj'
         ])
-    },
-    data() {
-        return {
-            nonFieldFormErrors: 0
-        };
     },
     beforeMount() {
         this.formClean();
@@ -92,9 +90,12 @@ export default {
         ]),
         submitLogin() {
             this.login()
-                .then(() => this.$router.push({name: 'dashboard'}))
-                .catch(() => this.$refs.observer.setErrors(this.formErrors))
-                .then(() => this.nonFieldFormErrors = this.nonFieldFormError);
+                .then(() => this.$router.push({
+                    name: 'dashboard'
+                }))
+                .catch(() => this.$refs.observer.setErrors(this.formErrors));
+
+            scroll(0, 0);
         }
     }
 }

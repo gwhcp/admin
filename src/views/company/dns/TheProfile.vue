@@ -1,8 +1,9 @@
 <template>
     <div>
-        <CAlert :show.sync="successMessage"
+        <CAlert :show="5"
                 closeButton
-                color="success">
+                color="success"
+                v-if="formSuccess">
             DNS profile have been updated.
         </CAlert>
 
@@ -11,24 +12,24 @@
                variant="tabs">
             <CTab title="Profile">
                 <CCard bodyWrapper>
-                    <static-data :value="formData.id"
+                    <static-data :value="formObj.id"
                                  name="Domain ID"/>
 
-                    <static-data :ahref="{name: 'company:company:profile', params:{id: formData.company}}"
-                                 :value="formData.company_name"
+                    <static-data :ahref="{name: 'company:company:profile', params:{id: formObj.company}}"
+                                 :value="formObj.company_name"
                                  name="Company"
                                  permission="company.company.view_company"/>
 
-                    <static-data :value="formData.name"
+                    <static-data :value="formObj.name"
                                  name="Domain"/>
 
                     <ValidationObserver ref="observer"
                                         v-slot="{ handleSubmit, invalid }">
                         <CForm>
-                            <input-switch :checked="formData.manage_dns"
+                            <input-switch :checked="formObj.manage_dns"
                                           label="Managed DNS"
                                           name="manage_dns"
-                                          v-model="formData.manage_dns"/>
+                                          v-model="formObj.manage_dns"/>
 
                             <CRow>
                                 <CCol class="text-left"
@@ -59,7 +60,7 @@ import StaticData from "@/components/StaticData";
 import InputSwitch from "@/components/form/InputSwitch";
 import Permission from "@/mixins/Permission";
 import {ValidationObserver} from "vee-validate";
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 
 export default {
     name: 'TheProfile',
@@ -73,14 +74,15 @@ export default {
     ],
     data() {
         return {
-            domainId: this.$route.params.id,
-            successMessage: 0
+            domainId: this.$route.params.id
         };
     },
     computed: {
-        ...mapState('companyDns', [
-            'formData',
+        ...mapGetters('companyDns', [
             'formSuccess'
+        ]),
+        ...mapState('companyDns', [
+            'formObj'
         ])
     },
     created() {
@@ -99,8 +101,7 @@ export default {
         submitUpdate() {
             this.updateProfile({
                 id: this.domainId
-            })
-                .then(() => this.successMessage = this.formSuccess);
+            });
         }
     }
 }

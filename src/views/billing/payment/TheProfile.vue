@@ -4,27 +4,27 @@
            variant="tabs">
         <CTab title="Profile">
             <CCard bodyWrapper>
-                <static-data :value="formData.id"
+                <static-data :value="formObj.id"
                              name="Payment Gateway ID"/>
 
-                <static-data :datetime="formData.date_from"
+                <static-data :datetime="formObj.date_from"
                              name="Created Date"/>
 
-                <static-data :value="formData.company"
+                <static-data :value="formObj.company"
                              name="Company"/>
 
-                <static-data :value="formData.merchant_name"
+                <static-data :value="formObj.merchant_name"
                              name="Merchant"/>
 
-                <static-data :value="formData.payment_method_name"
+                <static-data :value="formObj.payment_method_name"
                              name="Payment Method"/>
             </CCard>
         </CTab>
 
-        <CTab :to="{name: getAuthenticationUrl(formData.merchant), params: {id: paymentId}}"
+        <CTab :to="{name: getAuthenticationUrl(formObj.merchant), params: {id: paymentId}}"
               title="Authentication"/>
 
-        <CTab :to="{name: getPaymentMethodUrl(formData.merchant), params: {id: paymentId}}"
+        <CTab :to="{name: getPaymentMethodUrl(formObj.merchant), params: {id: paymentId}}"
               title="Payment Method"/>
     </CTabs>
 </template>
@@ -45,7 +45,7 @@ export default {
     },
     computed: {
         ...mapState('billingPayment', [
-            'formData'
+            'formObj'
         ])
     },
     created() {

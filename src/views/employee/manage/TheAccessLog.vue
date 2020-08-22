@@ -2,17 +2,17 @@
     <CTabs :active-tab="2"
            addNavClasses="border-bottom-0"
            variant="tabs">
-        <CTab :to="{name: 'account:account:manage:profile', params: {id: accountId}}"
+        <CTab :to="{name: 'employee:manage:profile', params: {id: accountId}}"
               title="Profile"/>
 
-        <CTab :to="{name: 'account:login:permission', params: {id: accountId}}"
+        <CTab :to="{name: 'employee:manage:permission', params: {id: accountId}}"
               title="Permissions"
               v-if="this.hasPerm('auth.view_permission')"/>
 
         <CTab title="Access Logs">
             <CCard bodyWrapper>
                 <CDataTable :fields="fields"
-                            :items="search"
+                            :items="formArr"
                             :items-per-page="10"
                             column-filter
                             hover
@@ -33,11 +33,11 @@
 
 <script>
 import ConvertDate from "@/components/ConvertDate";
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 import Permission from "@/mixins/Permission";
 
 export default {
-    name: 'TheManageAccessLog',
+    name: 'TheAccessLog',
     components: {
         ConvertDate
     },
@@ -55,18 +55,18 @@ export default {
         };
     },
     computed: {
-        ...mapState('accountAccount', [
-            'search'
+        ...mapGetters('employeeManage', [
+            'formArr'
         ])
     },
     created() {
-        this.getManageAccessLog({
+        this.getAccessLog({
             id: this.accountId
         });
     },
     methods: {
-        ...mapActions('accountAccount', [
-            'getManageAccessLog'
+        ...mapActions('employeeManage', [
+            'getAccessLog'
         ])
     }
 }

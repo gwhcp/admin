@@ -14,48 +14,48 @@
                                     name="name"
                                     required="true"
                                     rules="required"
-                                    v-model="formData.name"/>
+                                    v-model="formObj.name"/>
 
                         <input-text label="Address"
                                     name="address"
                                     required="true"
                                     rules="required"
-                                    v-model="formData.address"/>
+                                    v-model="formObj.address"/>
 
                         <input-text label="City"
                                     name="city"
                                     required="true"
                                     rules="required"
-                                    v-model="formData.city"/>
+                                    v-model="formObj.city"/>
 
                         <input-select-country label="Country"
                                               name="country"
                                               required="true"
                                               rules="required"
-                                              v-model="formData.country"/>
+                                              v-model="formObj.country"/>
 
-                        <input-select-state :country="formData.country"
+                        <input-select-state :country="formObj.country"
                                             label="State"
                                             name="state"
                                             required="true"
                                             rules="required"
-                                            v-model="formData.state"/>
+                                            v-model="formObj.state"/>
 
                         <input-text label="Zipcode"
                                     name="zipcode"
                                     required="true"
                                     rules="required"
-                                    v-model="formData.zipcode"/>
+                                    v-model="formObj.zipcode"/>
 
                         <input-text label="Primary Phone"
                                     name="primary_phone"
                                     required="true"
                                     rules="required"
-                                    v-model="formData.primary_phone"/>
+                                    v-model="formObj.primary_phone"/>
 
                         <input-text label="Secondary Phone"
                                     name="secondary_phone"
-                                    v-model="formData.secondary_phone"/>
+                                    v-model="formObj.secondary_phone"/>
 
                         <CRow>
                             <CCol class="text-left"
@@ -76,7 +76,7 @@
 
 <script>
 import {InputSelectCountry, InputSelectState, InputText} from "@/components/form";
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 import {ValidationObserver} from "vee-validate";
 
 export default {
@@ -88,10 +88,12 @@ export default {
         ValidationObserver
     },
     computed: {
-        ...mapState('companyCompany', [
-            'formData',
+        ...mapGetters('companyCompany', [
             'formErrors',
             'formSuccess'
+        ]),
+        ...mapState('companyCompany', [
+            'formObj'
         ])
     },
     beforeMount() {
@@ -105,7 +107,9 @@ export default {
         submitCreate() {
             this.createCompany()
                 .then(() => this.$refs.observer.setErrors(this.formErrors))
-                .then(() => this.formSuccess > 0 ? this.$router.push({name: 'company:company:search'}) : false);
+                .then(() => this.formSuccess ? this.$router.push({
+                    name: 'company:company:search'
+                }) : false);
         }
     }
 }

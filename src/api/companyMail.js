@@ -23,15 +23,14 @@ const getters = {
     choices: state => state.choices,
     formArr: state => state.formArr,
     formErrors: state => state.formErrors,
-    formObj: state => state.formObj,
     formSuccess: state => state.formSuccess
 };
 
 const actions = {
-    createBanned({commit, state}) {
+    createMail({commit, state}) {
         commit(FORM_VALIDATION);
 
-        return client.post('setting/banned/create', state.formObj)
+        return client.post('company/mail/create', state.formObj)
             .then(response => {
                 if (response.error) {
                     commit(FORM_ERRORS, response.errors);
@@ -40,27 +39,39 @@ const actions = {
                 }
             });
     },
-    deleteBanned({commit}, data) {
+    deleteMail({commit}, data) {
         commit(FORM_DELETE, data);
 
-        return client.delete(`setting/banned/delete/${data.id}`);
+        return client.delete(`company/mail/delete/${data.id}`);
     },
     formClean({commit}) {
         commit(FORM_CLEAN);
     },
     getChoices({commit}) {
-        client.get('setting/banned/choices')
+        client.get('company/mail/choices')
             .then(data => commit(FORM_CHOICES, data));
     },
     getProfile({commit}, data) {
         commit(FORM_CLEAN);
 
-        client.get(`setting/banned/profile/${data.id}`)
+        client.get(`company/mail/profile/${data.id}`)
             .then(data => commit(FORM_OBJECT, data));
     },
     getSearch({commit}) {
-        client.get('setting/banned/search')
+        client.get('company/mail/search')
             .then(data => commit(FORM_ARRAY, data));
+    },
+    updateProfile({commit, state}, data) {
+        commit(FORM_VALIDATION);
+
+        return client.patch(`company/mail/profile/${data.id}`, state.formObj)
+            .then(response => {
+                if (response.error) {
+                    commit(FORM_ERRORS, response.errors);
+                } else {
+                    commit(FORM_SUCCESS);
+                }
+            })
     }
 };
 

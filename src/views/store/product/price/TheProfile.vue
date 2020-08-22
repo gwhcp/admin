@@ -1,8 +1,9 @@
 <template>
     <div>
-        <CAlert :show.sync="successMessage"
+        <CAlert :show="5"
                 closeButton
-                color="success">
+                color="success"
+                v-if="formSuccess">
             Product price has been updated.
         </CAlert>
 
@@ -24,17 +25,17 @@
                         If a customer product is associated to this price then no changes can be made to the cost.
                     </CAlert>
 
-                    <static-data :value="formData.store_product"
+                    <static-data :value="formObj.store_product"
                                  name="Product ID"/>
 
-                    <static-data :value="formData.id"
+                    <static-data :value="formObj.id"
                                  name="Price ID"/>
 
-                    <static-data :datetime="formData.date_from"
+                    <static-data :datetime="formObj.date_from"
                                  name="Created Date"/>
 
-                    <static-data :text_right="'Month' | pluralize(formData.billing_cycle)"
-                                 :value="formData.billing_cycle"
+                    <static-data :text_right="'Month' | pluralize(formObj.billing_cycle)"
+                                 :value="formObj.billing_cycle"
                                  name="Billing Cycle"/>
 
                     <ValidationObserver ref="observer"
@@ -44,23 +45,23 @@
                                         name="base_price"
                                         required="true"
                                         rules="required"
-                                        v-model="formData.base_price"/>
+                                        v-model="formObj.base_price"/>
 
                             <input-text label="Setup Price"
                                         name="setup_price"
                                         required="true"
                                         rules="required"
-                                        v-model="formData.setup_price"/>
+                                        v-model="formObj.setup_price"/>
 
-                            <input-switch :checked="formData.is_active"
+                            <input-switch :checked="formObj.is_active"
                                           label="Status"
                                           name="is_active"
-                                          v-model="formData.is_active"/>
+                                          v-model="formObj.is_active"/>
 
-                            <input-switch :checked="formData.is_hidden"
+                            <input-switch :checked="formObj.is_hidden"
                                           label="Hidden"
                                           name="is_hidden"
-                                          v-model="formData.is_hidden"/>
+                                          v-model="formObj.is_hidden"/>
 
                             <CRow>
                                 <CCol class="text-left"
@@ -84,7 +85,7 @@
 import StaticData from "@/components/StaticData";
 import {InputSwitch, InputText} from "@/components/form";
 import Permission from "@/mixins/Permission";
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 import {ValidationObserver} from "vee-validate";
 import Vue from "vue";
 import VuePluralize from "vue-pluralize";
@@ -106,15 +107,16 @@ export default {
         return {
             priceId: this.$route.params.id,
             productId: this.$route.params.productId,
-            productType: this.$route.params.type,
-            successMessage: 0
+            productType: this.$route.params.type
         };
     },
     computed: {
-        ...mapState('storeProductPrice', [
-            'formData',
+        ...mapGetters('storeProductPrice', [
             'formErrors',
             'formSuccess'
+        ]),
+        ...mapState('storeProductPrice', [
+            'formObj'
         ])
     },
     created() {
@@ -142,8 +144,7 @@ export default {
                 id: this.priceId,
                 productId: this.productId
             })
-                .then(() => this.$refs.observer.setErrors(this.formErrors))
-                .then(() => this.successMessage = this.formSuccess);
+                .then(() => this.$refs.observer.setErrors(this.formErrors));
 
             scroll(0, 0);
         }

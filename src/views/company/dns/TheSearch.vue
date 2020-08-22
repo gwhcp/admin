@@ -1,7 +1,7 @@
 <template>
     <CCard bodyWrapper>
         <CDataTable :fields="fields"
-                    :items="search"
+                    :items="formArr"
                     :items-per-page="10"
                     column-filter
                     hover
@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 import Permission from "@/mixins/Permission";
 
 export default {
@@ -44,8 +44,8 @@ export default {
         };
     },
     computed: {
-        ...mapState('companyDns', [
-            'search'
+        ...mapGetters('companyDns', [
+            'formArr'
         ])
     },
     created() {

@@ -45,7 +45,7 @@ export default {
         params: {
             type: Object
         },
-        search: {
+        formArr: {
             type: Array
         }
     },
@@ -56,7 +56,7 @@ export default {
     },
     methods: {
         modalDelete() {
-            if (this.search.some(item => item.id === this.params.id)) {
+            if (this.formArr.some(item => item.id === this.params.id)) {
                 this.delete(this.params);
 
                 EventBus.$emit('modalSuccess');

@@ -1,103 +1,109 @@
 import client from "@/api/client";
 
 import {
-    SETTING_EMAIL_CHOICE_TEMPLATE,
-    SETTING_EMAIL_DELETE,
-    SETTING_EMAIL_FORM_CLEAN,
-    SETTING_EMAIL_FORM_DATA,
-    SETTING_EMAIL_FORM_ERRORS,
-    SETTING_EMAIL_FORM_SUCCESS,
-    SETTING_EMAIL_FORM_VALIDATION,
-    SETTING_EMAIL_SEARCH
+    FORM_ARRAY,
+    FORM_CHOICES,
+    FORM_CLEAN,
+    FORM_DELETE,
+    FORM_ERRORS,
+    FORM_OBJECT,
+    FORM_SUCCESS,
+    FORM_VALIDATION
 } from "@/api/types";
 
 const state = {
-    choiceTemplate: {},
-    formData: {},
-    formErrors: [],
-    formSuccess: 0,
-    search: []
+    choices: {},
+    formArr: [],
+    formErrors: {},
+    formObj: {},
+    formSuccess: false
 };
 
-const getters = {};
+const getters = {
+    choices: state => state.choices,
+    formArr: state => state.formArr,
+    formErrors: state => state.formErrors,
+    formSuccess: state => state.formSuccess
+};
 
 const actions = {
     createEmailTemplate({commit, state}) {
-        commit(SETTING_EMAIL_FORM_VALIDATION);
+        commit(FORM_VALIDATION);
 
-        return client.post('setting/email/create', state.formData)
+        return client.post('setting/email/create', state.formObj)
             .then(response => {
                 if (response.error) {
-                    commit(SETTING_EMAIL_FORM_ERRORS, response.errors);
+                    commit(FORM_ERRORS, response.errors);
                 } else {
-                    commit(SETTING_EMAIL_FORM_SUCCESS);
+                    commit(FORM_SUCCESS);
                 }
             });
     },
     deleteEmailTemplate({commit}, data) {
-        commit(SETTING_EMAIL_DELETE, data);
+        commit(FORM_DELETE, data);
 
         return client.delete(`setting/email/delete/${data.id}`);
     },
     formClean({commit}) {
-        commit(SETTING_EMAIL_FORM_CLEAN);
+        commit(FORM_CLEAN);
     },
-    getChoiceTemplate({commit}) {
-        client.get('setting/email/choice/template')
-            .then(data => commit(SETTING_EMAIL_CHOICE_TEMPLATE, data));
+    getChoices({commit}) {
+        client.get('setting/email/choices')
+            .then(data => commit(FORM_CHOICES, data));
     },
     getProfile({commit}, data) {
-        commit(SETTING_EMAIL_FORM_CLEAN);
+        commit(FORM_CLEAN);
 
         client.get(`setting/email/profile/${data.id}`)
-            .then(data => commit(SETTING_EMAIL_FORM_DATA, data));
+            .then(data => commit(FORM_OBJECT, data));
     },
     getSearch({commit}) {
         client.get('setting/email/search')
-            .then(data => commit(SETTING_EMAIL_SEARCH, data));
+            .then(data => commit(FORM_ARRAY, data));
     },
     updateProfile({commit, state}, data) {
-        commit(SETTING_EMAIL_FORM_VALIDATION);
+        commit(FORM_VALIDATION);
 
-        return client.patch(`setting/email/profile/${data.id}`, state.formData)
+        return client.patch(`setting/email/profile/${data.id}`, state.formObj)
             .then(response => {
                 if (response.error) {
-                    commit(SETTING_EMAIL_FORM_ERRORS, response.errors);
+                    commit(FORM_ERRORS, response.errors);
                 } else {
-                    commit(SETTING_EMAIL_FORM_SUCCESS);
+                    commit(FORM_SUCCESS);
                 }
             });
     }
 };
 
 const mutations = {
-    [SETTING_EMAIL_CHOICE_TEMPLATE](state, data) {
-        state.choiceTemplate = data;
+    [FORM_ARRAY](state, data) {
+        state.formArr = data;
     },
-    [SETTING_EMAIL_DELETE](state, data) {
-        state.search = state.search.filter(item => item.id !== data.id);
+    [FORM_CHOICES](state, data) {
+        state.choices = data;
     },
-    [SETTING_EMAIL_FORM_CLEAN](state) {
-        state.formData = {};
-        state.formErrors = [];
-        state.formSuccess = 0;
+    [FORM_CLEAN](state) {
+        state.formArr = [];
+        state.formErrors = {};
+        state.formObj = {};
+        state.formSuccess = false;
     },
-    [SETTING_EMAIL_FORM_DATA](state, data) {
-        state.formData = Object.assign({}, state.formData, data);
+    [FORM_DELETE](state, data) {
+        state.formArr = state.formArr.filter(item => item.id !== data.id);
     },
-    [SETTING_EMAIL_FORM_ERRORS](state, data) {
+    [FORM_ERRORS](state, data) {
         state.formErrors = Object.assign({}, state.formErrors, data);
     },
-    [SETTING_EMAIL_FORM_SUCCESS](state) {
-        state.formErrors = [];
-        state.formSuccess = 5;
+    [FORM_OBJECT](state, data) {
+        state.formObj = Object.assign({}, state.formObj, data);
     },
-    [SETTING_EMAIL_FORM_VALIDATION](state) {
-        state.formErrors = [];
-        state.formSuccess = 0;
+    [FORM_SUCCESS](state) {
+        state.formErrors = {};
+        state.formSuccess = true;
     },
-    [SETTING_EMAIL_SEARCH](state, data) {
-        state.search = data;
+    [FORM_VALIDATION](state) {
+        state.formErrors = {};
+        state.formSuccess = false;
     }
 };
 

@@ -1,87 +1,82 @@
 import client from "@/api/client";
 
 import {
+    EMPLOYEE_MANAGE_PERMISSION_BASE,
+    EMPLOYEE_MANAGE_PERMISSION_USER,
     FORM_ARRAY,
-    FORM_CHOICES,
     FORM_CLEAN,
     FORM_DELETE,
     FORM_ERRORS,
-    FORM_NON_FIELD_ERROR,
     FORM_OBJECT,
     FORM_SUCCESS,
     FORM_VALIDATION
 } from "@/api/types";
 
 const state = {
-    choices: {},
     formArr: [],
     formErrors: {},
     formObj: {},
     formSuccess: false,
-    nonFieldFormError: false,
-    nonFieldFormMessage: ''
+    permissionBase: [],
+    permissionUser: []
 };
 
 const getters = {
-    choices: state => state.choices,
     formArr: state => state.formArr,
     formErrors: state => state.formErrors,
     formSuccess: state => state.formSuccess,
-    nonFieldFormError: state => state.nonFieldFormError,
-    nonFieldFormMessage: state => state.nonFieldFormMessage
+    permissionBase: state => state.permissionBase,
+    permissionUser: state => state.permissionUser
 };
 
 const actions = {
-    createPaymentGateway({commit, state}) {
+    createAccount({commit, state}) {
         commit(FORM_VALIDATION);
 
-        return client.post('billing/payment/create', state.formObj)
+        return client.post('employee/manage/create', state.formObj)
             .then(response => {
                 if (response.error) {
                     commit(FORM_ERRORS, response.errors);
                 } else {
                     commit(FORM_SUCCESS);
                 }
-            });
+            })
     },
-    deletePaymentGateway({commit}, data) {
+    deleteAccount({commit}, data) {
         commit(FORM_DELETE, data);
 
-        return client.delete(`billing/payment/delete/${data.id}`);
+        return client.delete(`employee/manage/delete/${data.id}`);
     },
     formClean({commit}) {
         commit(FORM_CLEAN);
     },
-    getAuthentication({commit}, data) {
-        commit(FORM_CLEAN);
-
-        client.get(`billing/payment/${data.merchant}/${data.id}/authentication`)
-            .then(data => commit(FORM_OBJECT, data));
+    getAccessLog({commit}, data) {
+        client.get(`employee/manage/accesslog/${data.id}`)
+            .then(data => commit(FORM_ARRAY, data));
     },
-    getChoices({commit}) {
-        client.get('billing/payment/choices')
-            .then(data => commit(FORM_CHOICES, data));
+    getAccounts({commit}) {
+        client.get('employee/manage/search')
+            .then(data => commit(FORM_ARRAY, data));
     },
-    getMethod({commit}, data) {
-        commit(FORM_CLEAN);
+    getPermissions({commit}, data) {
+        client.get('employee/manage/permission/base')
+            .then(data => commit(EMPLOYEE_MANAGE_PERMISSION_BASE, data));
 
-        client.get(`billing/payment/${data.merchant}/${data.id}/method`)
-            .then(data => commit(FORM_OBJECT, data));
+        client.get(`employee/manage/permission/${data.id}`)
+            .then(data => commit(EMPLOYEE_MANAGE_PERMISSION_USER, data));
     },
     getProfile({commit}, data) {
         commit(FORM_CLEAN);
 
-        client.get(`billing/payment/profile/${data.id}`)
+        client.get(`employee/manage/profile/${data.id}`)
             .then(data => commit(FORM_OBJECT, data));
     },
-    getSearch({commit}) {
-        client.get('billing/payment/search')
-            .then(data => commit(FORM_ARRAY, data));
-    },
-    updateAuthentication({commit, state}, data) {
+    updatePermissions({commit}, data) {
         commit(FORM_VALIDATION);
 
-        return client.patch(`billing/payment/${data.merchant}/${data.id}/authentication`, state.formObj)
+        return client.patch(`employee/manage/permission/${data.id}`, {
+            'user_permissions': data.perms
+        })
             .then(response => {
                 if (response.error) {
                     commit(FORM_ERRORS, response.errors);
@@ -90,17 +85,13 @@ const actions = {
                 }
             });
     },
-    updateMethod({commit, state}, data) {
+    updateProfile({commit, state}, data) {
         commit(FORM_VALIDATION);
 
-        return client.patch(`billing/payment/${data.merchant}/${data.id}/method`, state.formObj)
+        return client.patch(`employee/manage/profile/${data.id}`, state.formObj)
             .then(response => {
                 if (response.error) {
-                    if ('non_field_errors' in response.errors) {
-                        commit(FORM_NON_FIELD_ERROR, response.errors['non_field_errors'][0]);
-                    } else {
-                        commit(FORM_ERRORS, response.errors);
-                    }
+                    commit(FORM_ERRORS, response.errors);
                 } else {
                     commit(FORM_SUCCESS);
                 }
@@ -112,16 +103,11 @@ const mutations = {
     [FORM_ARRAY](state, data) {
         state.formArr = data;
     },
-    [FORM_CHOICES](state, data) {
-        state.choices = data;
-    },
     [FORM_CLEAN](state) {
         state.formArr = [];
         state.formErrors = {};
         state.formObj = {};
         state.formSuccess = false;
-        state.nonFieldFormError = false;
-        state.nonFieldFormMessage = '';
     },
     [FORM_DELETE](state, data) {
         state.formArr = state.formArr.filter(item => item.id !== data.id);
@@ -129,24 +115,31 @@ const mutations = {
     [FORM_ERRORS](state, data) {
         state.formErrors = Object.assign({}, state.formErrors, data);
     },
-    [FORM_NON_FIELD_ERROR](state, data) {
-        state.nonFieldFormError = true;
-        state.nonFieldFormMessage = data;
-    },
     [FORM_OBJECT](state, data) {
         state.formObj = Object.assign({}, state.formObj, data);
     },
     [FORM_SUCCESS](state) {
         state.formErrors = {};
         state.formSuccess = true;
-        state.nonFieldFormError = false;
-        state.nonFieldFormMessage = '';
     },
     [FORM_VALIDATION](state) {
         state.formErrors = {};
         state.formSuccess = false;
-        state.nonFieldFormError = false;
-        state.nonFieldFormMessage = '';
+    },
+    [EMPLOYEE_MANAGE_PERMISSION_BASE](state, data) {
+        const perm = [];
+
+        for (const base of data) {
+            perm.push({
+                value: base.id,
+                label: base.name
+            })
+        }
+
+        state.permissionBase = perm;
+    },
+    [EMPLOYEE_MANAGE_PERMISSION_USER](state, data) {
+        state.permissionUser = data.user_permissions;
     }
 };
 

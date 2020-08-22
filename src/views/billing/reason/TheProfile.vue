@@ -1,22 +1,22 @@
 <template>
     <CCard bodyWrapper>
-        <static-data :value="formData.id"
+        <static-data :value="formObj.id"
                      name="Reason ID"/>
 
-        <static-data :datetime="formData.date_from"
+        <static-data :datetime="formObj.date_from"
                      name="Created Date"/>
 
-        <static-data :value="formData.name"
+        <static-data :value="formObj.name"
                      name="Name"/>
 
-        <static-data :value="formData.reason_type_name"
+        <static-data :value="formObj.reason_type_name"
                      name="Type"/>
     </CCard>
 </template>
 
 <script>
 import StaticData from "@/components/StaticData";
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
     name: 'TheProfile',
@@ -29,8 +29,8 @@ export default {
         };
     },
     computed: {
-        ...mapState('billingReason', [
-            'formData'
+        ...mapGetters('billingReason', [
+            'formObj'
         ])
     },
     created() {

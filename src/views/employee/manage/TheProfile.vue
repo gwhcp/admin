@@ -1,104 +1,85 @@
 <template>
     <div>
-        <CAlert :show.sync="messageSuccess"
+        <CAlert :show="5"
                 closeButton
-                color="success">
+                color="success"
+                v-if="formSuccess">
             Account profile has been updated.
         </CAlert>
 
-        <ValidationObserver
-            ref="observer"
-            v-slot="{ handleSubmit, invalid }">
-            <CForm>
-                <CRow>
-                    <CCol sm="6">
-                        <CCard bodyWrapper>
-                            <static-data :value="formData.id"
-                                         name="Account ID"/>
+        <CTabs :active-tab="0"
+               addNavClasses="border-bottom-0"
+               variant="tabs">
+            <CTab title="Profile">
+                <CCard bodyWrapper>
+                    <static-data :value="formObj.id"
+                                 name="Account ID"/>
 
-                            <static-data :datetime="formData.date_from"
-                                         name="Created Date"/>
+                    <static-data :datetime="formObj.date_from"
+                                 name="Created Date"/>
 
+                    <ValidationObserver
+                        ref="observer"
+                        v-slot="{ handleSubmit, invalid }">
+                        <CForm>
                             <input-text label="First Name"
                                         name="first_name"
                                         required="true"
                                         rules="required"
-                                        v-model="formData.first_name"/>
+                                        v-model="formObj.first_name"/>
 
                             <input-text label="Last Name"
                                         name="last_name"
                                         required="true"
                                         rules="required"
-                                        v-model="formData.last_name"/>
+                                        v-model="formObj.last_name"/>
 
                             <input-text label="Address"
                                         name="address"
                                         required="true"
                                         rules="required"
-                                        v-model="formData.address"/>
+                                        v-model="formObj.address"/>
 
                             <input-text label="City"
                                         name="city"
                                         required="true"
                                         rules="required"
-                                        v-model="formData.city"/>
+                                        v-model="formObj.city"/>
 
                             <input-select-country label="Country"
                                                   name="country"
                                                   required="true"
                                                   rules="required"
-                                                  v-model="formData.country"/>
+                                                  v-model="formObj.country"/>
 
-                            <input-select-state :country="formData.country"
+                            <input-select-state :country="formObj.country"
                                                 label="State"
                                                 name="state"
                                                 required="true"
                                                 rules="required"
-                                                v-model="formData.state"/>
+                                                v-model="formObj.state"/>
 
                             <input-text label="Zipcode"
                                         name="zipcode"
                                         required="true"
                                         rules="required"
-                                        v-model="formData.zipcode"/>
+                                        v-model="formObj.zipcode"/>
 
                             <input-text label="Primary Phone"
                                         name="primary_phone"
                                         required="true"
                                         rules="required"
-                                        v-model="formData.primary_phone"/>
+                                        v-model="formObj.primary_phone"/>
 
                             <input-text label="Secondary Phone"
                                         name="secondary_phone"
-                                        v-model="formData.secondary_phone"/>
+                                        v-model="formObj.secondary_phone"/>
 
                             <input-text label="Email Address"
                                         name="email"
                                         required="true"
                                         rules="required"
-                                        v-model="formData.email"/>
-                        </CCard>
-                    </CCol>
-
-                    <CCol sm="6">
-                        <CCard bodyWrapper>
-                            <input-select :options="choiceCommentOrder"
-                                          :selected="formData.comment_order"
-                                          label="Comment Order"
-                                          name="comment_order"
-                                          v-model="formData.comment_order"/>
-
-                            <input-select :options="choiceTimeFormat"
-                                          :selected="formData.time_format"
-                                          label="Time Format"
-                                          name="time_format"
-                                          v-model="formData.time_format"/>
-
-                            <input-select :options="choiceTimeZone"
-                                          :selected="formData.time_zone"
-                                          label="Time Zone"
-                                          name="time_zone"
-                                          v-model="formData.time_zone"/>
+                                        v-model="formObj.email"/>
 
                             <CRow>
                                 <CCol class="text-left"
@@ -110,28 +91,34 @@
                                     </CButton>
                                 </CCol>
                             </CRow>
-                        </CCard>
-                    </CCol>
-                </CRow>
-            </CForm>
-        </ValidationObserver>
+                        </CForm>
+                    </ValidationObserver>
+                </CCard>
+            </CTab>
+
+            <CTab :to="{name: 'employee:manage:permission', params: {id: accountId}}"
+                  title="Permissions"
+                  v-if="this.hasPerm('auth.view_permission')"/>
+
+            <CTab :to="{name: 'employee:manage:accesslog', params: {id: accountId}}"
+                  title="Access Logs"/>
+        </CTabs>
     </div>
 </template>
 
 <script>
-import {InputSelect, InputSelectCountry, InputSelectState, InputText} from "@/components/form";
+import {InputSelectCountry, InputSelectState, InputText} from "@/components/form";
 import Permission from "@/mixins/Permission";
 import StaticData from "@/components/StaticData";
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 import {ValidationObserver} from "vee-validate";
 
 export default {
     name: 'TheProfile',
     components: {
-        InputText,
-        InputSelect,
         InputSelectCountry,
         InputSelectState,
+        InputText,
         StaticData,
         ValidationObserver
     },
@@ -140,43 +127,36 @@ export default {
     ],
     data() {
         return {
-            messageSuccess: 0
+            accountId: this.$route.params.id
         };
     },
     computed: {
-        ...mapState('accountAccount', [
-            'choiceCommentOrder',
-            'choiceTimeFormat',
-            'choiceTimeZone',
-            'formData',
+        ...mapGetters('employeeManage', [
             'formErrors',
             'formSuccess'
+        ]),
+        ...mapState('employeeManage', [
+            'formObj'
         ])
     },
     created() {
-        this.getChoiceCommentOrder();
-
-        this.getChoiceTimeFormat();
-
-        this.getChoiceTimeZone();
-
-        this.getProfile();
+        this.getProfile({
+            id: this.accountId
+        });
     },
     mounted() {
-        this.hasPermForm('account.account.change_account');
+        this.hasPermForm('employee.manage.change_account');
     },
     methods: {
-        ...mapActions('accountAccount', [
-            'getChoiceCommentOrder',
-            'getChoiceTimeFormat',
-            'getChoiceTimeZone',
+        ...mapActions('employeeManage', [
             'getProfile',
             'updateProfile'
         ]),
         submitUpdate() {
-            this.updateProfile()
-                .then(() => this.$refs.observer.setErrors(this.formErrors))
-                .then(() => this.messageSuccess = this.formSuccess);
+            this.updateProfile({
+                id: this.accountId
+            })
+                .then(() => this.$refs.observer.setErrors(this.formErrors));
 
             scroll(0, 0);
         }

@@ -65,17 +65,17 @@
             <strong>Settings</strong>
         </CDropdownHeader>
 
-        <CDropdownItem :to="{name: 'account:account:profile'}">
+        <CDropdownItem :to="{name: 'employee:account:profile'}">
             <CIcon name="cil-user"/>
             Profile
         </CDropdownItem>
 
-        <CDropdownItem :to="{name: 'account:account:accesslog'}">
+        <CDropdownItem :to="{name: 'employee:account:accesslog'}">
             <CIcon name="cil-user"/>
             Access Logs
         </CDropdownItem>
 
-        <CDropdownItem :to="{name: 'account:login:password'}">
+        <CDropdownItem :to="{name: 'employee:account:password'}">
             <CIcon name="cil-lock-locked"/>
             Change Password
         </CDropdownItem>

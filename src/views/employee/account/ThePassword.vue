@@ -1,8 +1,9 @@
 <template>
     <div>
-        <CAlert :show.sync="successMessage"
+        <CAlert :show="5"
                 closeButton
-                color="success">
+                color="success"
+                v-if="formSuccess">
             Account password has been updated.
         </CAlert>
 
@@ -14,19 +15,19 @@
                                     name="old_password"
                                     required="true"
                                     rules="required"
-                                    v-model="formData.old_password"/>
+                                    v-model="formObj.old_password"/>
 
                     <input-password label="Password"
                                     name="password"
                                     required="true"
                                     rules="required"
-                                    v-model="formData.password"/>
+                                    v-model="formObj.password"/>
 
                     <input-password label="Confirm Password"
                                     name="confirmed_password"
                                     required="true"
                                     rules="required"
-                                    v-model="formData.confirmed_password"/>
+                                    v-model="formObj.confirmed_password"/>
 
                     <CRow>
                         <CCol class="text-left"
@@ -46,7 +47,7 @@
 
 <script>
 import InputPassword from "@/components/form/InputPassword";
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 import {ValidationObserver} from "vee-validate";
 
 export default {
@@ -55,30 +56,26 @@ export default {
         InputPassword,
         ValidationObserver
     },
-    data() {
-        return {
-            successMessage: 0
-        };
-    },
     computed: {
-        ...mapState('accountLogin', [
-            'formData',
+        ...mapGetters('employeeAccount', [
             'formErrors',
             'formSuccess'
+        ]),
+        ...mapState('employeeAccount', [
+            'formObj'
         ])
     },
     beforeMount() {
         this.formClean();
     },
     methods: {
-        ...mapActions('accountLogin', [
+        ...mapActions('employeeAccount', [
             'formClean',
             'updatePassword'
         ]),
         submitUpdate() {
             this.updatePassword()
-                .then(() => this.$refs.observer.setErrors(this.formErrors))
-                .then(() => this.successMessage = this.formSuccess);
+                .then(() => this.$refs.observer.setErrors(this.formErrors));
 
             scroll(0, 0);
         }

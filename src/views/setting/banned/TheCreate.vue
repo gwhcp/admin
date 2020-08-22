@@ -14,14 +14,14 @@
                                     name="name"
                                     required="true"
                                     rules="required"
-                                    v-model="formData.name"/>
+                                    v-model="formObj.name"/>
 
-                        <input-select :options="choiceType"
+                        <input-select :options="choices"
                                       label="Type"
                                       name="banned_type"
                                       required="true"
                                       rules="required"
-                                      v-model="formData.banned_type"/>
+                                      v-model="formObj.banned_type"/>
                         <CRow>
                             <CCol class="text-left"
                                   col="6">
@@ -41,7 +41,7 @@
 
 <script>
 import {InputSelect, InputText} from "@/components/form";
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 import {ValidationObserver} from "vee-validate";
 
 export default {
@@ -52,15 +52,17 @@ export default {
         ValidationObserver
     },
     computed: {
-        ...mapState('settingBanned', [
-            'choiceType',
-            'formData',
+        ...mapGetters('settingBanned', [
+            'choices',
             'formErrors',
             'formSuccess'
+        ]),
+        ...mapState('settingBanned', [
+            'formObj'
         ])
     },
     created() {
-        this.getChoiceType();
+        this.getChoices();
     },
     beforeMount() {
         this.formClean();
@@ -69,12 +71,14 @@ export default {
         ...mapActions('settingBanned', [
             'createBanned',
             'formClean',
-            'getChoiceType'
+            'getChoices'
         ]),
         submitCreate() {
             this.createBanned()
                 .then(() => this.$refs.observer.setErrors(this.formErrors))
-                .then(() => this.formSuccess > 0 ? this.$router.push({name: 'setting:banned:search'}) : false);
+                .then(() => this.formSuccess ? this.$router.push({
+                    name: 'setting:banned:search'
+                }) : false);
         }
     }
 }

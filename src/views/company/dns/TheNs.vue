@@ -1,8 +1,9 @@
 <template>
     <div>
-        <CAlert :show.sync="successMessage"
+        <CAlert :show="5"
                 closeButton
-                color="success">
+                color="success"
+                v-if="formSuccess">
             Nameservers have been updated.
         </CAlert>
 
@@ -44,7 +45,7 @@
 
 <script>
 import Permission from "@/mixins/Permission";
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 import vueSelectSides from "vue-select-sides";
 import Vue from "vue";
 
@@ -62,17 +63,18 @@ export default {
     ],
     data() {
         return {
-            domainId: this.$route.params.id,
-            successMessage: 0
+            domainId: this.$route.params.id
         };
     },
     computed: {
-        ...mapState('companyDns', [
-            'formData',
+        ...mapGetters('companyDns', [
             'formErrors',
             'formSuccess',
             'nameserverBase',
             'nameserverDomain'
+        ]),
+        ...mapState('companyDns', [
+            'formObj'
         ]),
         selectedNameserver: {
             get: function () {
@@ -100,8 +102,7 @@ export default {
             this.updateNameserver({
                 id: this.domainId,
                 ns: this.selected
-            })
-                .then(() => this.successMessage = this.formSuccess);
+            });
 
             scroll(0, 0);
         }

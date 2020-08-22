@@ -1,91 +1,98 @@
 import client from "@/api/client";
 
 import {
-    COMPANY_DOMAIN_CHOICE_COMPANY,
-    COMPANY_DOMAIN_DELETE,
-    COMPANY_DOMAIN_FORM_CLEAN,
-    COMPANY_DOMAIN_FORM_DATA,
-    COMPANY_DOMAIN_FORM_ERRORS,
-    COMPANY_DOMAIN_FORM_SUCCESS,
-    COMPANY_DOMAIN_FORM_VALIDATION,
-    COMPANY_DOMAIN_SEARCH
+    FORM_ARRAY,
+    FORM_CHOICES,
+    FORM_CLEAN,
+    FORM_DELETE,
+    FORM_ERRORS,
+    FORM_OBJECT,
+    FORM_SUCCESS,
+    FORM_VALIDATION
 } from "@/api/types";
 
 const state = {
-    choiceCompany: {},
-    formData: {},
-    formErrors: [],
-    formSuccess: 0,
-    search: []
+    choices: {},
+    formArr: [],
+    formErrors: {},
+    formObj: {},
+    formSuccess: false
 };
 
-const getters = {};
+const getters = {
+    choices: state => state.choices,
+    formArr: state => state.formArr,
+    formErrors: state => state.formErrors,
+    formObj: state => state.formObj,
+    formSuccess: state => state.formSuccess
+};
 
 const actions = {
     createDomain({commit, state}) {
-        commit(COMPANY_DOMAIN_FORM_VALIDATION);
+        commit(FORM_VALIDATION);
 
-        return client.post('company/domain/create', state.formData)
+        return client.post('company/domain/create', state.formObj)
             .then(response => {
                 if (response.error) {
-                    commit(COMPANY_DOMAIN_FORM_ERRORS, response.errors);
+                    commit(FORM_ERRORS, response.errors);
                 } else {
-                    commit(COMPANY_DOMAIN_FORM_SUCCESS);
+                    commit(FORM_SUCCESS);
                 }
             });
     },
     deleteDomain({commit}, data) {
-        commit(COMPANY_DOMAIN_DELETE, data);
+        commit(FORM_DELETE, data);
 
         return client.delete(`company/domain/delete/${data.id}`);
     },
     formClean({commit}) {
-        commit(COMPANY_DOMAIN_FORM_CLEAN);
+        commit(FORM_CLEAN);
     },
-    getChoiceCompany({commit}) {
-        client.get('company/domain/choice/company')
-            .then(data => commit(COMPANY_DOMAIN_CHOICE_COMPANY, data));
+    getChoices({commit}) {
+        client.get('company/domain/choices')
+            .then(data => commit(FORM_CHOICES, data));
     },
     getProfile({commit}, data) {
-        commit(COMPANY_DOMAIN_FORM_CLEAN);
+        commit(FORM_CLEAN);
 
         client.get(`company/domain/profile/${data.id}`)
-            .then(data => commit(COMPANY_DOMAIN_FORM_DATA, data));
+            .then(data => commit(FORM_OBJECT, data));
     },
     getSearch({commit}) {
         client.get('company/domain/search')
-            .then(data => commit(COMPANY_DOMAIN_SEARCH, data));
+            .then(data => commit(FORM_ARRAY, data));
     }
 };
 
 const mutations = {
-    [COMPANY_DOMAIN_CHOICE_COMPANY](state, data) {
-        state.choiceCompany = data;
+    [FORM_ARRAY](state, data) {
+        state.formArr = data;
     },
-    [COMPANY_DOMAIN_DELETE](state, data) {
-        state.search = state.search.filter(item => item.id !== data.id);
+    [FORM_CHOICES](state, data) {
+        state.choices = data;
     },
-    [COMPANY_DOMAIN_FORM_CLEAN](state) {
-        state.formData = {};
-        state.formErrors = [];
-        state.formSuccess = 0;
+    [FORM_CLEAN](state) {
+        state.formArr = [];
+        state.formErrors = {};
+        state.formObj = {};
+        state.formSuccess = false;
     },
-    [COMPANY_DOMAIN_FORM_DATA](state, data) {
-        state.formData = Object.assign({}, state.formData, data);
+    [FORM_DELETE](state, data) {
+        state.formArr = state.formArr.filter(item => item.id !== data.id);
     },
-    [COMPANY_DOMAIN_FORM_ERRORS](state, data) {
+    [FORM_ERRORS](state, data) {
         state.formErrors = Object.assign({}, state.formErrors, data);
     },
-    [COMPANY_DOMAIN_FORM_SUCCESS](state) {
-        state.formErrors = [];
-        state.formSuccess = 5;
+    [FORM_OBJECT](state, data) {
+        state.formObj = Object.assign({}, state.formObj, data);
     },
-    [COMPANY_DOMAIN_FORM_VALIDATION](state) {
-        state.formErrors = [];
-        state.formSuccess = 0;
+    [FORM_SUCCESS](state) {
+        state.formErrors = {};
+        state.formSuccess = true;
     },
-    [COMPANY_DOMAIN_SEARCH](state, data) {
-        state.search = data;
+    [FORM_VALIDATION](state) {
+        state.formErrors = {};
+        state.formSuccess = false;
     }
 };
 

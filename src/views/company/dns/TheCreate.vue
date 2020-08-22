@@ -15,27 +15,27 @@
                     <CCard bodyWrapper>
                         <input-text label="Host"
                                     name="host"
-                                    v-model="formData.host"/>
+                                    v-model="formObj.host"/>
 
-                        <input-select :options="choiceRecordType"
+                        <input-select :options="choices.zone"
                                       label="Type"
                                       name="record_type"
                                       required="true"
                                       rules="required"
-                                      v-model="formData.record_type"/>
+                                      v-model="formObj.record_type"/>
 
                         <input-text label="MX Priority"
                                     name="mx_priority"
                                     required="true"
                                     rules="required"
-                                    v-if="formData.record_type === 'MX'"
-                                    v-model="formData.mx_priority"/>
+                                    v-if="formObj.record_type === 'MX'"
+                                    v-model="formObj.mx_priority"/>
 
                         <input-text label="Data"
                                     name="data"
                                     required="true"
                                     rules="required"
-                                    v-model="formData.data"/>
+                                    v-model="formObj.data"/>
                         <CRow>
                             <CCol class="text-left"
                                   col="6">
@@ -55,7 +55,7 @@
 
 <script>
 import {InputSelect, InputText} from "@/components/form";
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 import {ValidationObserver} from "vee-validate";
 
 export default {
@@ -71,15 +71,17 @@ export default {
         };
     },
     computed: {
-        ...mapState('companyDns', [
-            'choiceRecordType',
-            'formData',
+        ...mapGetters('companyDns', [
+            'choices',
             'formErrors',
             'formSuccess'
+        ]),
+        ...mapState('companyDns', [
+            'formObj'
         ])
     },
     created() {
-        this.getChoiceRecordType();
+        this.getChoices();
     },
     beforeMount() {
         this.formClean();
@@ -88,14 +90,14 @@ export default {
         ...mapActions('companyDns', [
             'createRecord',
             'formClean',
-            'getChoiceRecordType'
+            'getChoices'
         ]),
         submitCreate() {
-            this.formData['domain'] = this.domainId;
+            this.formObj['domain'] = this.domainId;
 
             this.createRecord()
                 .then(() => this.$refs.observer.setErrors(this.formErrors))
-                .then(() => this.formSuccess > 0 ? this.$router.push({
+                .then(() => this.formSuccess ? this.$router.push({
                     name: 'company:dns:records',
                     params: {id: this.domainId}
                 }) : false);

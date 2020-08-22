@@ -1,8 +1,9 @@
 <template>
     <div>
-        <CAlert :show.sync="successMessage"
+        <CAlert :show="5"
                 closeButton
-                color="success">
+                color="success"
+                v-if="formSuccess">
             Authentication has been updated.
         </CAlert>
 
@@ -21,23 +22,23 @@
                                         name="login_id"
                                         required="true"
                                         rules="required"
-                                        v-model="formData.login_id"/>
+                                        v-model="formObj.login_id"/>
 
                             <input-text label="Transaction Key"
                                         name="transaction_key"
                                         required="true"
                                         rules="required"
-                                        v-model="formData.transaction_key"/>
+                                        v-model="formObj.transaction_key"/>
 
-                            <input-switch :checked="formData.in_test_mode"
+                            <input-switch :checked="formObj.in_test_mode"
                                           label="Test Mode"
                                           name="in_test_mode"
-                                          v-model="formData.in_test_mode"/>
+                                          v-model="formObj.in_test_mode"/>
 
-                            <input-switch :checked="formData.is_active"
+                            <input-switch :checked="formObj.is_active"
                                           label="Status"
                                           name="is_active"
-                                          v-model="formData.is_active"/>
+                                          v-model="formObj.is_active"/>
                             <CRow>
                                 <CCol class="text-left"
                                       col="6">
@@ -62,7 +63,7 @@
 <script>
 import {InputSwitch, InputText} from "@/components/form";
 import Permission from "@/mixins/Permission";
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 import {ValidationObserver} from "vee-validate";
 
 export default {
@@ -77,15 +78,16 @@ export default {
     ],
     data() {
         return {
-            paymentId: this.$route.params.id,
-            successMessage: 0
+            paymentId: this.$route.params.id
         };
     },
     computed: {
-        ...mapState('billingPayment', [
-            'formData',
+        ...mapGetters('billingPayment', [
             'formErrors',
             'formSuccess'
+        ]),
+        ...mapState('billingPayment', [
+            'formObj'
         ])
     },
     created() {
@@ -107,8 +109,7 @@ export default {
                 id: this.paymentId,
                 merchant: 'authorize'
             })
-                .then(() => this.$refs.observer.setErrors(this.formErrors))
-                .then(() => this.successMessage = this.formSuccess);
+                .then(() => this.$refs.observer.setErrors(this.formErrors));
 
             scroll(0, 0);
         }

@@ -11,7 +11,7 @@
             <CTab title="Records">
                 <CCard bodyWrapper>
                     <CDataTable :fields="fields"
-                                :items="search"
+                                :items="formArr"
                                 :items-per-page="10"
                                 column-filter
                                 hover
@@ -35,7 +35,7 @@
                             <td class="py-2" v-if="item.is_custom">
                                 <modal-open-delete :delete="deleteRecord"
                                             :params="{id: item.id, domain: domainId}"
-                                            :search="search"
+                                            :formArr="formArr"
                                             msg="Continuing will remove this record."/>
                             </td>
                         </template>
@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 import {ModalOpenDelete, ModalSuccess} from "@/components/modal";
 import Permission from "@/mixins/Permission";
 
@@ -77,8 +77,8 @@ export default {
         };
     },
     computed: {
-        ...mapState('companyDns', [
-            'search'
+        ...mapGetters('companyDns', [
+            'formArr'
         ])
     },
     created() {

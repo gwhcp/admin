@@ -2,6 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import store from "@/store";
 
+
 Vue.use(Router);
 
 const checkPermission = (to, from, next) => {
@@ -68,141 +69,6 @@ function configRoutes() {
                         label: 'Dashboard'
                     },
                     component: () => import('@/views/TheDashboard')
-                },
-                {
-                    path: '/account/account',
-                    redirect: '/account/account/search',
-                    name: 'account:account',
-                    meta: {
-                        label: 'Account'
-                    },
-                    component: {
-                        render(c) {
-                            return c('router-view')
-                        }
-                    },
-                    children: [
-                        {
-                            path: 'accesslog',
-                            name: 'account:account:accesslog',
-                            meta: {
-                                label: 'Access Logs'
-                            },
-                            component: () => import('@/views/account/account/TheAccessLog'),
-                            beforeEnter: (to, from, next) => {
-                                checkPermission(to, from, next)([
-                                    'account.account.view_accesslog'
-                                ])
-                            }
-                        },
-                        {
-                            path: 'profile',
-                            name: 'account:account:profile',
-                            meta: {
-                                label: 'Profile'
-                            },
-                            component: () => import('@/views/account/account/TheProfile'),
-                            beforeEnter: (to, from, next) => {
-                                checkPermission(to, from, next)([
-                                    'account.account.view_account'
-                                ])
-                            }
-                        },
-                        {
-                            path: 'manage/:id/accesslog',
-                            name: 'account:account:manage:accesslog',
-                            meta: {
-                                label: 'Manage Access Logs'
-                            },
-                            component: () => import('@/views/account/account/TheManageAccessLog'),
-                            beforeEnter: (to, from, next) => {
-                                checkPermission(to, from, next)([
-                                    'account.account.view_manage'
-                                ])
-                            }
-                        },
-                        {
-                            path: 'manage/:id/profile',
-                            name: 'account:account:manage:profile',
-                            meta: {
-                                label: 'Manage Profile'
-                            },
-                            component: () => import('@/views/account/account/TheManageProfile'),
-                            beforeEnter: (to, from, next) => {
-                                checkPermission(to, from, next)([
-                                    'account.account.view_manage'
-                                ])
-                            }
-                        },
-                        {
-                            path: 'search',
-                            name: 'account:account:search',
-                            meta: {
-                                label: 'Search'
-                            },
-                            component: () => import('@/views/account/account/TheSearch'),
-                            beforeEnter: (to, from, next) => {
-                                checkPermission(to, from, next)([
-                                    'account.account.view_manage'
-                                ])
-                            }
-                        }
-                    ]
-                },
-                {
-                    path: '/account/login',
-                    redirect: '/account/account/search',
-                    name: 'account:login',
-                    meta: {
-                        label: 'Login'
-                    },
-                    component: {
-                        render(c) {
-                            return c('router-view')
-                        }
-                    },
-                    children: [
-                        {
-                            path: 'create',
-                            name: 'account:login:create',
-                            meta: {
-                                label: 'Create'
-                            },
-                            component: () => import('@/views/account/login/TheCreate'),
-                            beforeEnter: (to, from, next) => {
-                                checkPermission(to, from, next)([
-                                    'account.account.view_account',
-                                    'account.login.add_account'
-                                ])
-                            }
-                        },
-                        {
-                            path: 'password',
-                            name: 'account:login:password',
-                            meta: {
-                                label: 'Change Password'
-                            },
-                            component: () => import('@/views/account/login/ThePassword'),
-                            beforeEnter: (to, from, next) => {
-                                checkPermission(to, from, next)([
-                                    'account.account.view_account'
-                                ])
-                            }
-                        },
-                        {
-                            path: 'permission/:id',
-                            name: 'account:login:permission',
-                            meta: {
-                                label: 'User Permissions'
-                            },
-                            component: () => import('@/views/account/login/ThePermission'),
-                            beforeEnter: (to, from, next) => {
-                                checkPermission(to, from, next)([
-                                    'auth.view_permission'
-                                ])
-                            }
-                        }
-                    ]
                 },
                 {
                     path: '/billing/payment',
@@ -526,6 +392,196 @@ function configRoutes() {
                             beforeEnter: (to, from, next) => {
                                 checkPermission(to, from, next)([
                                     'company.domain.view_domain'
+                                ])
+                            }
+                        }
+                    ]
+                },
+                {
+                    path: '/company/mail',
+                    redirect: '/company/mail/search',
+                    name: 'company:mail',
+                    meta: {
+                        label: 'Mail'
+                    },
+                    component: {
+                        render(c) {
+                            return c('router-view')
+                        }
+                    },
+                    children: [
+                        {
+                            path: 'create',
+                            name: 'company:mail:create',
+                            meta: {
+                                label: 'Create'
+                            },
+                            component: () => import('@/views/company/mail/TheCreate'),
+                            beforeEnter: (to, from, next) => {
+                                checkPermission(to, from, next)([
+                                    'company.mail.view_mail',
+                                    'company.mail.add_mail'
+                                ])
+                            }
+                        },
+                        {
+                            path: 'profile/:id',
+                            name: 'company:mail:profile',
+                            meta: {
+                                label: 'Profile'
+                            },
+                            component: () => import('@/views/company/mail/TheProfile'),
+                            beforeEnter: (to, from, next) => {
+                                checkPermission(to, from, next)([
+                                    'company.mail.view_mail'
+                                ])
+                            }
+                        },
+                        {
+                            path: 'search',
+                            name: 'company:mail:search',
+                            meta: {
+                                label: 'Search'
+                            },
+                            component: () => import('@/views/company/mail/TheSearch'),
+                            beforeEnter: (to, from, next) => {
+                                checkPermission(to, from, next)([
+                                    'company.mail.view_mail'
+                                ])
+                            }
+                        }
+                    ]
+                },
+                {
+                    path: '/employee/account',
+                    redirect: {name: 'dashboard'},
+                    name: 'employee:account',
+                    meta: {
+                        label: 'Employee'
+                    },
+                    component: {
+                        render(c) {
+                            return c('router-view')
+                        }
+                    },
+                    children: [
+                        {
+                            path: 'accesslog',
+                            name: 'employee:account:accesslog',
+                            meta: {
+                                label: 'Access Logs'
+                            },
+                            component: () => import('@/views/employee/account/TheAccessLog'),
+                            beforeEnter: (to, from, next) => {
+                                checkPermission(to, from, next)([
+                                    'employee.account.view_accesslog'
+                                ])
+                            }
+                        },
+                        {
+                            path: 'password',
+                            name: 'employee:account:password',
+                            meta: {
+                                label: 'Change Password'
+                            },
+                            component: () => import('@/views/employee/account/ThePassword'),
+                            beforeEnter: (to, from, next) => {
+                                checkPermission(to, from, next)([
+                                    'employee.account.view_account'
+                                ])
+                            }
+                        },
+                        {
+                            path: 'profile',
+                            name: 'employee:account:profile',
+                            meta: {
+                                label: 'Profile'
+                            },
+                            component: () => import('@/views/employee/account/TheProfile'),
+                            beforeEnter: (to, from, next) => {
+                                checkPermission(to, from, next)([
+                                    'employee.account.view_account'
+                                ])
+                            }
+                        }
+                    ]
+                },
+                {
+                    path: '/employee/manage',
+                    redirect: {name: 'employee:manage:search'},
+                    name: 'employee:manage',
+                    meta: {
+                        label: 'Manage Employee'
+                    },
+                    component: {
+                        render(c) {
+                            return c('router-view')
+                        }
+                    },
+                    children: [
+                        {
+                            path: 'accesslog/:id',
+                            name: 'employee:manage:accesslog',
+                            meta: {
+                                label: 'Access Logs'
+                            },
+                            component: () => import('@/views/employee/manage/TheAccessLog'),
+                            beforeEnter: (to, from, next) => {
+                                checkPermission(to, from, next)([
+                                    'employee.manage.view_accesslog'
+                                ])
+                            }
+                        },
+                        {
+                            path: 'create',
+                            name: 'employee:manage:create',
+                            meta: {
+                                label: 'Create'
+                            },
+                            component: () => import('@/views/employee/manage/TheCreate'),
+                            beforeEnter: (to, from, next) => {
+                                checkPermission(to, from, next)([
+                                    'employee.manage.view_account',
+                                    'employee.manage.add_account'
+                                ])
+                            }
+                        },
+                        {
+                            path: 'permission/:id',
+                            name: 'employee:manage:permission',
+                            meta: {
+                                label: 'User Permissions'
+                            },
+                            component: () => import('@/views/employee/manage/ThePermission'),
+                            beforeEnter: (to, from, next) => {
+                                checkPermission(to, from, next)([
+                                    'auth.view_permission'
+                                ])
+                            }
+                        },
+                        {
+                            path: 'profile/:id',
+                            name: 'employee:manage:profile',
+                            meta: {
+                                label: 'Profile'
+                            },
+                            component: () => import('@/views/employee/manage/TheProfile'),
+                            beforeEnter: (to, from, next) => {
+                                checkPermission(to, from, next)([
+                                    'employee.manage.view_account'
+                                ])
+                            }
+                        },
+                        {
+                            path: 'search',
+                            name: 'employee:manage:search',
+                            meta: {
+                                label: 'Search'
+                            },
+                            component: () => import('@/views/employee/manage/TheSearch'),
+                            beforeEnter: (to, from, next) => {
+                                checkPermission(to, from, next)([
+                                    'employee.manage.view_account'
                                 ])
                             }
                         }

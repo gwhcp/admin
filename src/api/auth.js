@@ -2,16 +2,16 @@ import client from "@/api/client";
 import session from "@/api/session";
 import {
     AUTH_BEGIN_LOGIN,
-    AUTH_FORM_CLEAN,
-    AUTH_FORM_ERRORS,
-    AUTH_FORM_NON_FIELD_ERROR,
     AUTH_LOGIN_FAILURE,
     AUTH_LOGIN_SUCCESS,
     AUTH_LOGOUT,
     AUTH_PERMISSIONS,
     AUTH_PROFILE,
     AUTH_REMOVE_TOKEN,
-    AUTH_SET_TOKEN
+    AUTH_SET_TOKEN,
+    FORM_CLEAN,
+    FORM_ERRORS,
+    FORM_NON_FIELD_ERROR
 } from "@/api/types";
 
 const isProduction = process.env.NODE_ENV === 'production';
@@ -21,9 +21,9 @@ const state = {
     authenticating: false,
     email: String,
     error: false,
-    formData: {},
-    formErrors: [],
-    nonFieldFormError: 0,
+    formErrors: {},
+    formObj: {},
+    nonFieldFormError: false,
     nonFieldFormMessage: '',
     password: String,
     permit: [],
@@ -32,12 +32,15 @@ const state = {
 };
 
 const getters = {
-    isAuthenticated: state => !!state.token
+    isAuthenticated: state => !!state.token,
+    formErrors: state => state.formErrors,
+    nonFieldFormError: state => state.nonFieldFormError,
+    nonFieldFormMessage: state => state.nonFieldFormMessage
 };
 
 const actions = {
     formClean({commit}) {
-        commit(AUTH_FORM_CLEAN);
+        commit(FORM_CLEAN);
     },
     initialize({commit}) {
         const token = localStorage.getItem(TOKEN_STORAGE_KEY);
@@ -53,24 +56,24 @@ const actions = {
     login({commit, state}) {
         commit(AUTH_BEGIN_LOGIN);
 
-        return client.post('rest-auth/login/', state.formData)
+        return client.post('rest-auth/login/', state.formObj)
             .then(response => {
                 if (response.error) {
                     commit(AUTH_LOGIN_FAILURE);
 
                     if ('non_field_errors' in response.errors) {
-                        commit(AUTH_FORM_NON_FIELD_ERROR, response.errors['non_field_errors'][0]);
+                        commit(FORM_NON_FIELD_ERROR, response.errors['non_field_errors'][0]);
                     } else {
-                        commit(AUTH_FORM_ERRORS, response.errors);
+                        commit(FORM_ERRORS, response.errors);
                     }
                 } else {
                     commit(AUTH_SET_TOKEN, response.key);
                     commit(AUTH_LOGIN_SUCCESS);
 
-                    client.get('account/account/profile')
+                    client.get('employee/account/profile')
                         .then(response => commit(AUTH_PROFILE, response));
 
-                    client.get('account/login/permission/user')
+                    client.get('employee/manage/permission/user')
                         .then(response => commit(AUTH_PERMISSIONS, response));
                 }
             });
@@ -86,22 +89,6 @@ const mutations = {
     [AUTH_BEGIN_LOGIN](state) {
         state.authenticating = true;
         state.error = false;
-    },
-    [AUTH_FORM_CLEAN](state) {
-        state.authenticating = false;
-        state.error = false;
-        state.formData = {};
-        state.formErrors = [];
-        state.permit = [];
-        state.profile = {};
-        state.token = null;
-    },
-    [AUTH_FORM_ERRORS](state, data) {
-        state.formErrors = data;
-    },
-    [AUTH_FORM_NON_FIELD_ERROR](state, data) {
-        state.nonFieldFormError = 5;
-        state.nonFieldFormMessage = data;
     },
     [AUTH_LOGIN_FAILURE](state) {
         state.authenticating = false;
@@ -136,7 +123,24 @@ const mutations = {
         if (!isProduction) localStorage.setItem(TOKEN_STORAGE_KEY, token);
         session.defaults.headers.Authorization = `Token ${token}`;
         state.token = token;
-    }
+    },
+    [FORM_CLEAN](state) {
+        state.authenticating = false;
+        state.error = false;
+        state.formObj = {};
+        state.formErrors = {};
+        state.nonFieldFormError = false;
+        state.permit = [];
+        state.profile = {};
+        state.token = null;
+    },
+    [FORM_ERRORS](state, data) {
+        state.formErrors = data;
+    },
+    [FORM_NON_FIELD_ERROR](state, data) {
+        state.nonFieldFormError = true;
+        state.nonFieldFormMessage = data;
+    },
 };
 
 export default {

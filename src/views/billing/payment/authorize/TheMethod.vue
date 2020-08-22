@@ -1,14 +1,16 @@
 <template>
     <div>
-        <CAlert :show.sync="successMessage"
+        <CAlert :show="5"
                 closeButton
-                color="success">
+                color="success"
+                v-if="formSuccess">
             Payment methods have been updated.
         </CAlert>
 
-        <CAlert :show.sync="nonFieldFormErrors"
+        <CAlert :show="5"
                 closeButton
-                color="warning">
+                color="warning"
+                v-if="nonFieldFormError">
             {{ nonFieldFormMessage }}
         </CAlert>
 
@@ -26,35 +28,35 @@
                                     v-slot="{ handleSubmit, invalid }">
                     <CForm>
                         <CCard bodyWrapper>
-                            <input-switch :checked="formData.has_amex"
+                            <input-switch :checked="formObj.has_amex"
                                           label="American Express"
                                           name="has_amex"
-                                          v-model="formData.has_amex"/>
+                                          v-model="formObj.has_amex"/>
 
-                            <input-switch :checked="formData.has_diner"
+                            <input-switch :checked="formObj.has_diner"
                                           label="Diner Club"
                                           name="has_diner"
-                                          v-model="formData.has_diner"/>
+                                          v-model="formObj.has_diner"/>
 
-                            <input-switch :checked="formData.has_discover"
+                            <input-switch :checked="formObj.has_discover"
                                           label="Discover"
                                           name="has_discover"
-                                          v-model="formData.has_discover"/>
+                                          v-model="formObj.has_discover"/>
 
-                            <input-switch :checked="formData.has_jcb"
+                            <input-switch :checked="formObj.has_jcb"
                                           label="JCB"
                                           name="has_jcb"
-                                          v-model="formData.has_jcb"/>
+                                          v-model="formObj.has_jcb"/>
 
-                            <input-switch :checked="formData.has_mastercard"
+                            <input-switch :checked="formObj.has_mastercard"
                                           label="Mastercard"
                                           name="has_mastercard"
-                                          v-model="formData.has_mastercard"/>
+                                          v-model="formObj.has_mastercard"/>
 
-                            <input-switch :checked="formData.has_visa"
+                            <input-switch :checked="formObj.has_visa"
                                           label="Visa"
                                           name="has_visa"
-                                          v-model="formData.has_visa"/>
+                                          v-model="formObj.has_visa"/>
 
                             <CRow>
                                 <CCol class="text-left"
@@ -77,7 +79,7 @@
 <script>
 import InputSwitch from "@/components/form/InputSwitch";
 import Permission from "@/mixins/Permission";
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 import {ValidationObserver} from "vee-validate";
 
 export default {
@@ -91,18 +93,18 @@ export default {
     ],
     data() {
         return {
-            nonFieldFormErrors: 0,
-            paymentId: this.$route.params.id,
-            successMessage: 0
+            paymentId: this.$route.params.id
         };
     },
     computed: {
-        ...mapState('billingPayment', [
-            'formData',
+        ...mapGetters('billingPayment', [
             'formErrors',
             'formSuccess',
             'nonFieldFormError',
             'nonFieldFormMessage'
+        ]),
+        ...mapState('billingPayment', [
+            'formObj'
         ])
     },
     created() {
@@ -124,9 +126,7 @@ export default {
                 id: this.paymentId,
                 merchant: 'authorize'
             })
-                .then(() => this.$refs.observer.setErrors(this.formErrors))
-                .then(() => this.nonFieldFormErrors = this.nonFieldFormError)
-                .then(() => this.successMessage = this.formSuccess);
+                .then(() => this.$refs.observer.setErrors(this.formErrors));
 
             scroll(0, 0);
         }

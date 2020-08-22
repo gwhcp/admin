@@ -4,60 +4,52 @@
                 closeButton
                 color="success"
                 v-if="formSuccess">
-            IP Address pool has been updated.
+            Mail account has been updated.
         </CAlert>
 
         <CCard bodyWrapper>
             <static-data :value="formObj.id"
-                         name="IP Address Setup ID"/>
+                         name="Mail ID"/>
 
             <static-data :datetime="formObj.date_from"
                          name="Created Date"/>
 
-            <static-data :value="formObj.ip_type"
-                         name="IP Address Type"/>
+            <static-data :ahref="{name: 'company:company:profile', params:{id: formObj.company}}"
+                         :value="formObj.company_name"
+                         name="Company"
+                         permission="company.company.view_company"/>
 
-            <static-data :value="formObj.network"
-                         name="Network IP Address"/>
+            <static-data :value="formObj.domain_name"
+                         name="Domain"/>
 
-            <static-data :value="formObj.subnet"
-                         name="Subnet"/>
+            <static-data :value="formObj.mail_type_name"
+                         name="Type"/>
 
-            <static-data :value="formObj.netmask"
-                         name="Netmask"
-                         v-if="formObj.ip_type === 4"/>
-
-            <static-data :value="formObj.broadcast"
-                         name="Broadcast"
-                         v-if="formObj.ip_type === 4"/>
-
-            <static-data :value="formObj.ip_total"
-                         name="Total IP Addresses"/>
-
-            <static-data :value="formObj.ip_available"
-                         name="Available"/>
+            <static-data :value="formObj.name"
+                         name="Name"/>
 
             <ValidationObserver ref="observer"
                                 v-slot="{ handleSubmit, invalid }">
                 <CForm>
-                    <input-text label="Name"
-                                name="name"
-                                required="true"
-                                rules="required"
-                                v-model="formObj.name"/>
-
-                    <input-select :options="choices"
-                                  :selected="formObj.assigned"
-                                  label="Assigned"
-                                  name="assigned"
+                    <input-select :options="choices.account"
+                                  :selected="formObj.account"
+                                  label="Account"
+                                  name="account"
                                   required="true"
                                   rules="required"
-                                  v-model="formObj.assigned"/>
+                                  v-model="formObj.account"/>
 
-                    <input-switch :checked="formObj.is_active"
-                                  label="Status"
-                                  name="is_active"
-                                  v-model="formObj.is_active"/>
+                    <input-text label="Forward To"
+                                name="forward_to"
+                                required="true"
+                                rules="required"
+                                v-if="formObj.mail_type === 'forward'"
+                                v-model="formObj.forward_to"/>
+
+                    <input-text label="Quota"
+                                name="quota"
+                                v-if="formObj.mail_type === 'mailbox'"
+                                v-model="formObj.quota"/>
 
                     <CRow>
                         <CCol class="text-left"
@@ -77,7 +69,7 @@
 
 <script>
 import StaticData from "@/components/StaticData";
-import {InputSelect, InputSwitch, InputText} from "@/components/form";
+import {InputSelect, InputText} from "@/components/form";
 import Permission from "@/mixins/Permission";
 import {mapActions, mapGetters, mapState} from "vuex";
 import {ValidationObserver} from "vee-validate";
@@ -86,7 +78,6 @@ export default {
     name: 'TheProfile',
     components: {
         InputSelect,
-        InputSwitch,
         InputText,
         StaticData,
         ValidationObserver
@@ -96,16 +87,16 @@ export default {
     ],
     data() {
         return {
-            setupId: this.$route.params.id
+            mailId: this.$route.params.id
         };
     },
     computed: {
-        ...mapGetters('networkPool', [
+        ...mapGetters('companyMail', [
             'choices',
             'formErrors',
             'formSuccess'
         ]),
-        ...mapState('networkPool', [
+        ...mapState('companyMail', [
             'formObj'
         ])
     },
@@ -113,21 +104,21 @@ export default {
         this.getChoices();
 
         this.getProfile({
-            id: this.setupId
+            id: this.mailId
         });
     },
     mounted() {
-        this.hasPermForm('network.pool.change_ipaddresssetup');
+        this.hasPermForm('company.mail.change_mail');
     },
     methods: {
-        ...mapActions('networkPool', [
+        ...mapActions('companyMail', [
             'getChoices',
             'getProfile',
             'updateProfile'
         ]),
         submitUpdate() {
             this.updateProfile({
-                id: this.setupId
+                id: this.mailId
             })
                 .then(() => this.$refs.observer.setErrors(this.formErrors));
 

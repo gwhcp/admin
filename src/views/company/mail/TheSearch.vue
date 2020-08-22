@@ -1,6 +1,6 @@
 <template>
     <div>
-        <modal-success msg="Billing reason has been removed."/>
+        <modal-success msg="Mail account has been removed."/>
 
         <CTabs :active-tab="0"
                addNavClasses="border-bottom-0"
@@ -18,7 +18,7 @@
                                 table-filter>
                         <template #show_details="{ item }">
                             <td class="py-2">
-                                <CLink :to="{ name: 'billing:reason:profile', params: { id: item.id }}">
+                                <CLink :to="{ name: 'company:mail:profile', params: { id: item.id }}">
                                     <CButton color="info"
                                              size="sm"
                                              square
@@ -31,19 +31,19 @@
 
                         <template #delete="{ item }">
                             <td class="py-2">
-                                <modal-open-delete :delete="deleteReason"
+                                <modal-open-delete :delete="deleteMail"
                                             :params="{id: item.id}"
                                             :formArr="formArr"
-                                            msg="Continuing will remove this billing reason."/>
+                                            msg="Continuing will remove this mail account."/>
                             </td>
                         </template>
                     </CDataTable>
                 </CCard>
             </CTab>
 
-            <CTab :to="{name: 'billing:reason:create'}"
+            <CTab :to="{name: 'company:mail:create'}"
                   title="Create"
-                  v-if="this.hasPerm('billing.reason.add_reason')"/>
+                  v-if="this.hasPerm('company.mail.add_mail')"/>
         </CTabs>
     </div>
 </template>
@@ -67,13 +67,12 @@ export default {
             fields: [
                 {key: 'id', label: 'ID', _style: 'min-width:100px;'},
                 {key: 'name', _style: 'min-width:100px'},
-                {key: 'reason_type_name', label: 'Type', _style: 'min-width:100px;'},
                 {key: 'show_details', label: '', _style: 'width:1%', sorter: false, filter: false}
             ]
         };
     },
     computed: {
-        ...mapGetters('billingReason', [
+        ...mapGetters('companyMail', [
             'formArr'
         ])
     },
@@ -81,13 +80,13 @@ export default {
         this.getSearch();
     },
     mounted() {
-        if (this.hasPerm('billing.reason.delete_reason')) {
+        if (this.hasPerm('company.mail.delete_mail')) {
             this.fields.push({key: 'delete', label: '', _style: 'width:1%', sorter: false, filter: false});
         }
     },
     methods: {
-        ...mapActions('billingReason', [
-            'deleteReason',
+        ...mapActions('companyMail', [
+            'deleteMail',
             'getSearch'
         ])
     }

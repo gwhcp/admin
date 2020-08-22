@@ -1,91 +1,98 @@
 import client from "@/api/client";
 
 import {
-    STORE_FRAUD_CHOICE_TYPE,
-    STORE_FRAUD_DELETE,
-    STORE_FRAUD_FORM_CLEAN,
-    STORE_FRAUD_FORM_DATA,
-    STORE_FRAUD_FORM_ERRORS,
-    STORE_FRAUD_FORM_SUCCESS,
-    STORE_FRAUD_FORM_VALIDATION,
-    STORE_FRAUD_SEARCH
+    FORM_ARRAY,
+    FORM_CHOICES,
+    FORM_CLEAN,
+    FORM_DELETE,
+    FORM_ERRORS,
+    FORM_OBJECT,
+    FORM_SUCCESS,
+    FORM_VALIDATION
 } from "@/api/types";
 
 const state = {
-    choiceType: {},
-    formData: {},
-    formErrors: [],
-    formSuccess: 0,
-    search: []
+    choices: {},
+    formArr: [],
+    formErrors: {},
+    formObj: {},
+    formSuccess: false
 };
 
-const getters = {};
+const getters = {
+    choices: state => state.choices,
+    formArr: state => state.formArr,
+    formErrors: state => state.formErrors,
+    formObj: state => state.formObj,
+    formSuccess: state => state.formSuccess
+};
 
 const actions = {
     createFraudString({commit, state}) {
-        commit(STORE_FRAUD_FORM_VALIDATION);
+        commit(FORM_VALIDATION);
 
-        return client.post('store/fraud/create', state.formData)
+        return client.post('store/fraud/create', state.formObj)
             .then(response => {
                 if (response.error) {
-                    commit(STORE_FRAUD_FORM_ERRORS, response.errors);
+                    commit(FORM_ERRORS, response.errors);
                 } else {
-                    commit(STORE_FRAUD_FORM_SUCCESS);
+                    commit(FORM_SUCCESS);
                 }
             });
     },
     deleteFraudString({commit}, data) {
-        commit(STORE_FRAUD_DELETE, data);
+        commit(FORM_DELETE, data);
 
         return client.delete(`store/fraud/delete/${data.id}`);
     },
     formClean({commit}) {
-        commit(STORE_FRAUD_FORM_CLEAN);
+        commit(FORM_CLEAN);
     },
-    getChoiceType({commit}) {
-        client.get('store/fraud/choice/type')
-            .then(data => commit(STORE_FRAUD_CHOICE_TYPE, data));
+    getChoices({commit}) {
+        client.get('store/fraud/choices')
+            .then(data => commit(FORM_CHOICES, data));
     },
     getProfile({commit}, data) {
-        commit(STORE_FRAUD_FORM_CLEAN);
+        commit(FORM_CLEAN);
 
         client.get(`store/fraud/profile/${data.id}`)
-            .then(data => commit(STORE_FRAUD_FORM_DATA, data));
+            .then(data => commit(FORM_OBJECT, data));
     },
     getSearch({commit}) {
         client.get('store/fraud/search')
-            .then(data => commit(STORE_FRAUD_SEARCH, data));
+            .then(data => commit(FORM_ARRAY, data));
     }
 };
 
 const mutations = {
-    [STORE_FRAUD_CHOICE_TYPE](state, data) {
-        state.choiceType = data;
+    [FORM_ARRAY](state, data) {
+        state.formArr = data;
     },
-    [STORE_FRAUD_DELETE](state, data) {
-        state.search = state.search.filter(item => item.id !== data.id);
+    [FORM_CHOICES](state, data) {
+        state.choices = data;
     },
-    [STORE_FRAUD_FORM_CLEAN](state) {
-        state.formData = {};
-        state.formErrors = [];
-        state.formSuccess = 0;
+    [FORM_CLEAN](state) {
+        state.formArr = [];
+        state.formErrors = {};
+        state.formObj = {};
+        state.formSuccess = false;
     },
-    [STORE_FRAUD_FORM_DATA](state, data) {
-        state.formData = Object.assign({}, state.formData, data);
+    [FORM_DELETE](state, data) {
+        state.formArr = state.formArr.filter(item => item.id !== data.id);
     },
-    [STORE_FRAUD_FORM_ERRORS](state, data) {
+    [FORM_ERRORS](state, data) {
         state.formErrors = Object.assign({}, state.formErrors, data);
     },
-    [STORE_FRAUD_FORM_SUCCESS](state) {
-        state.formErrors = [];
-        state.formSuccess = 5;
+    [FORM_OBJECT](state, data) {
+        state.formObj = Object.assign({}, state.formObj, data);
     },
-    [STORE_FRAUD_FORM_VALIDATION](state) {
-        state.formErrors = [];
-        state.formSuccess = 0;
+    [FORM_SUCCESS](state) {
+        state.formErrors = {};
+        state.formSuccess = true;
     },
-    [STORE_FRAUD_SEARCH](state, data) {
-        state.search = data;
+    [FORM_VALIDATION](state) {
+        state.formErrors = {};
+        state.formSuccess = false;
     }
 };
 

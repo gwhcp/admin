@@ -13,14 +13,14 @@
                                     name="name"
                                     required="true"
                                     rules="required"
-                                    v-model="formData.name"/>
+                                    v-model="formObj.name"/>
 
-                        <input-select :options="choiceType"
+                        <input-select :options="choices"
                                       label="Type"
                                       name="reason_type"
                                       required="true"
                                       rules="required"
-                                      v-model="formData.reason_type"/>
+                                      v-model="formObj.reason_type"/>
                         <CRow>
                             <CCol class="text-left"
                                   col="6">
@@ -40,7 +40,7 @@
 
 <script>
 import {InputSelect, InputText} from "@/components/form";
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 import {ValidationObserver} from "vee-validate";
 
 export default {
@@ -51,15 +51,17 @@ export default {
         ValidationObserver
     },
     computed: {
-        ...mapState('billingReason', [
-            'choiceType',
-            'formData',
+        ...mapGetters('billingReason', [
+            'choices',
             'formErrors',
             'formSuccess'
+        ]),
+        ...mapState('billingReason', [
+            'formObj'
         ])
     },
     created() {
-        this.getChoiceType();
+        this.getChoices();
     },
     beforeMount() {
         this.formClean();
@@ -68,12 +70,14 @@ export default {
         ...mapActions('billingReason', [
             'createReason',
             'formClean',
-            'getChoiceType'
+            'getChoices'
         ]),
         submitCreate() {
             this.createReason()
                 .then(() => this.$refs.observer.setErrors(this.formErrors))
-                .then(() => this.formSuccess > 0 ? this.$router.push({name: 'billing:reason:search'}) : false);
+                .then(() => this.formSuccess ? this.$router.push({
+                    name: 'billing:reason:search'
+                }) : false);
         }
     }
 }

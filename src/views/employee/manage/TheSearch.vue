@@ -8,7 +8,7 @@
             <CTab title="Search">
                 <CCard bodyWrapper>
                     <CDataTable :fields="fields"
-                                :items="search"
+                                :items="formArr"
                                 :items-per-page="10"
                                 column-filter
                                 hover
@@ -26,7 +26,7 @@
 
                         <template #show_details="{ item }">
                             <td class="py-2">
-                                <CLink :to="{ name: 'account:account:manage:profile', params: { id: item.id }}">
+                                <CLink :to="{ name: 'employee:manage:profile', params: { id: item.id }}">
                                     <CButton color="info"
                                              size="sm"
                                              square
@@ -40,24 +40,24 @@
                         <template #delete="{ item }">
                             <td class="py-2">
                                 <modal-open-delete :delete="deleteAccount"
-                                            :params="{id: item.id}"
-                                            :search="search"
-                                            msg="Continuing will remove this employee account."/>
+                                                   :formArr="formArr"
+                                                   :params="{id: item.id}"
+                                                   msg="Continuing will remove this employee account."/>
                             </td>
                         </template>
                     </CDataTable>
                 </CCard>
             </CTab>
 
-            <CTab :to="{name: 'account:login:create'}"
+            <CTab :to="{name: 'employee:manage:create'}"
                   title="Create"
-                  v-if="this.hasPerm('account.login.add_account')"/>
+                  v-if="this.hasPerm('employee.manage.add_account')"/>
         </CTabs>
     </div>
 </template>
 
 <script>
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 import {ModalOpenDelete, ModalSuccess} from "@/components/modal";
 import Permission from "@/mixins/Permission";
 
@@ -83,24 +83,22 @@ export default {
         };
     },
     computed: {
-        ...mapState('accountAccount', [
-            'search'
+        ...mapGetters('employeeManage', [
+            'formArr'
         ])
     },
     created() {
         this.getAccounts();
     },
     mounted() {
-        if (this.hasPerm('account.login.delete_account')) {
+        if (this.hasPerm('employee.manage.delete_account')) {
             this.fields.push({key: 'delete', label: '', _style: 'width:1%', sorter: false, filter: false});
         }
     },
     methods: {
-        ...mapActions('accountAccount', [
+        ...mapActions('employeeManage', [
+            'deleteAccount',
             'getAccounts'
-        ]),
-        ...mapActions('accountLogin', [
-            'deleteAccount'
         ]),
         getBadge(value) {
             switch (value) {

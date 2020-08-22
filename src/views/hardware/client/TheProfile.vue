@@ -1,8 +1,9 @@
 <template>
     <div>
-        <CAlert :show.sync="successMessage"
+        <CAlert :show="5"
                 closeButton
-                color="success">
+                color="success"
+                v-if="formSuccess">
             Hardware profile has been updated.
         </CAlert>
 
@@ -10,45 +11,45 @@
 
         <modal-warning msg="Hardware installation failed."/>
 
-        <CWidgetSimple v-if="!formData.is_installed && !formData.in_queue && installSuccess === 0">
+        <CWidgetSimple v-if="!formObj.is_installed && !formObj.in_queue && installSuccess === 0">
             <div class="mb-3">Hardware is not installed.</div>
 
             <modal-open-install :install="installHardware"
-                                :params="{id: formData.id}"
+                                :params="{id: formObj.id}"
                                 msg="Continuing will install this hardware."/>
         </CWidgetSimple>
 
         <CRow>
             <CCol sm="6">
                 <CCard bodyWrapper>
-                    <static-data :value="formData.id"
+                    <static-data :value="formObj.id"
                                  name="Server ID"/>
 
-                    <static-data :datetime="formData.date_from"
+                    <static-data :datetime="formObj.date_from"
                                  name="Created Date"/>
 
-                    <static-data :ahref="{name: 'company:company:profile', params:{id: formData.company}}"
-                                 :value="formData.company_name"
+                    <static-data :ahref="{name: 'company:company:profile', params:{id: formObj.company}}"
+                                 :value="formObj.company_name"
                                  name="Company"
                                  permission="company.company.view_company"/>
 
-                    <static-data :value="formData.hardware_type_name"
+                    <static-data :value="formObj.hardware_type_name"
                                  name="Hardware"/>
 
-                    <static-data :value="formData.domain_name"
+                    <static-data :value="formObj.domain_name"
                                  name="Domain"/>
 
-                    <static-data :value="formData.ipaddress"
+                    <static-data :value="formObj.ipaddress"
                                  name="IP Address"/>
 
                     <ValidationObserver ref="observer"
-                                        v-if="formData.is_installed && !formData.in_queue"
+                                        v-if="formObj.is_installed && !formObj.in_queue"
                                         v-slot="{ handleSubmit, invalid }">
                         <CForm>
-                            <input-switch :checked="formData.is_active"
+                            <input-switch :checked="formObj.is_active"
                                           label="Status"
                                           name="is_active"
-                                          v-model="formData.is_active"/>
+                                          v-model="formObj.is_active"/>
 
                             <CRow>
                                 <CCol class="text-left"
@@ -70,34 +71,34 @@
                     <div class="mb-2">
                         <h6 class="font-weight-bold">Domain</h6>
 
-                        <span :class="getColor(formData.is_domain)">
-                            {{ formData.is_domain ? 'Yes' : 'No' }}
+                        <span :class="getColor(formObj.is_domain)">
+                            {{ formObj.is_domain ? 'Yes' : 'No' }}
                         </span>
 
-                        <span v-if="formData.is_domain">( {{ formData.web_type_name }} )</span>
+                        <span v-if="formObj.is_domain">( {{ formObj.web_type_name }} )</span>
                     </div>
 
                     <div class="mb-2">
                         <h6 class="font-weight-bold">Mail</h6>
 
-                        <span :class="getColor(formData.is_mail)">
-                            {{ formData.is_mail ? 'Yes' : 'No' }}
+                        <span :class="getColor(formObj.is_mail)">
+                            {{ formObj.is_mail ? 'Yes' : 'No' }}
                         </span>
                     </div>
 
                     <div class="mb-2">
                         <h6 class="font-weight-bold">MySQL</h6>
 
-                        <span :class="getColor(formData.is_mysql)">
-                            {{ formData.is_mysql ? 'Yes' : 'No' }}
+                        <span :class="getColor(formObj.is_mysql)">
+                            {{ formObj.is_mysql ? 'Yes' : 'No' }}
                         </span>
                     </div>
 
                     <div class="mb-2">
                         <h6 class="font-weight-bold">PostgreSQL</h6>
 
-                        <span :class="getColor(formData.is_postgresql)">
-                            {{ formData.is_postgresql ? 'Yes' : 'No' }}
+                        <span :class="getColor(formObj.is_postgresql)">
+                            {{ formObj.is_postgresql ? 'Yes' : 'No' }}
                         </span>
                     </div>
                 </CCard>
@@ -112,7 +113,7 @@ import InputSwitch from "@/components/form/InputSwitch";
 import {ModalOpenInstall, ModalSuccess, ModalWarning} from "@/components/modal";
 import Permission from "@/mixins/Permission";
 import {ValidationObserver} from "vee-validate";
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 
 export default {
     name: 'TheProfile',
@@ -129,15 +130,16 @@ export default {
     ],
     data() {
         return {
-            serverId: this.$route.params.id,
-            successMessage: 0
+            serverId: this.$route.params.id
         };
     },
     computed: {
-        ...mapState('hardwareClient', [
-            'formData',
+        ...mapGetters('hardwareClient', [
             'formSuccess',
             'installSuccess'
+        ]),
+        ...mapState('hardwareClient', [
+            'formObj'
         ])
     },
     created() {
@@ -165,8 +167,9 @@ export default {
         submitUpdate() {
             this.updateProfile({
                 id: this.serverId
-            })
-                .then(() => this.successMessage = this.formSuccess);
+            });
+
+            scroll(0, 0);
         }
     }
 }

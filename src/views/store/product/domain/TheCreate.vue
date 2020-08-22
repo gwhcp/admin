@@ -10,48 +10,48 @@
                                 v-slot="{ handleSubmit, invalid }">
                 <CForm>
                     <CCard bodyWrapper>
-                        <input-select :options="choiceCompany"
+                        <input-select :options="choices.company"
                                       label="Company"
                                       name="company"
                                       required="true"
                                       rules="required"
-                                      v-model="formData.company"/>
+                                      v-model="formObj.company"/>
 
                         <input-text label="Name"
                                     name="name"
                                     required="true"
                                     rules="required"
-                                    v-model="formData.name"/>
+                                    v-model="formObj.name"/>
 
                         <input-switch label="Cron"
                                       name="has_cron"
-                                      v-model="formData.has_cron"/>
+                                      v-model="formObj.has_cron"/>
 
                         <input-switch label="Mail"
                                       name="has_mail"
-                                      v-model="formData.has_mail"/>
+                                      v-model="formObj.has_mail"/>
 
                         <input-switch label="MySQL"
                                       name="has_mysql"
-                                      v-model="formData.has_mysql"/>
+                                      v-model="formObj.has_mysql"/>
 
                         <input-switch label="PostgreSQL"
                                       name="has_postgresql"
-                                      v-model="formData.has_postgresql"/>
+                                      v-model="formObj.has_postgresql"/>
 
-                        <input-select :options="choiceIp"
+                        <input-select :options="choices.ip_type"
                                       label="IP Address Type"
                                       name="ipaddress_type"
                                       required="true"
                                       rules="required"
-                                      v-model="formData.ipaddress_type"/>
+                                      v-model="formObj.ipaddress_type"/>
 
-                        <input-select :options="choiceWeb"
+                        <input-select :options="choices.web"
                                       label="Web Type"
                                       name="web_type"
                                       required="true"
                                       rules="required"
-                                      v-model="formData.web_type"/>
+                                      v-model="formObj.web_type"/>
 
                         <CRow>
                             <CCol class="text-left"
@@ -72,7 +72,7 @@
 
 <script>
 import {InputSelect, InputSwitch, InputText} from "@/components/form";
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 import {ValidationObserver} from "vee-validate";
 
 export default {
@@ -84,32 +84,26 @@ export default {
         ValidationObserver
     },
     computed: {
-        ...mapState('storeProduct', [
-            'choiceCompany',
-            'choiceIp',
-            'choiceWeb'
+        ...mapGetters('storeProduct', [
+            'choices'
         ]),
-        ...mapState('storeProductDomain', [
-            'formData',
+        ...mapGetters('storeProductDomain', [
             'formErrors',
             'formSuccess'
+        ]),
+        ...mapState('storeProductDomain', [
+            'formObj'
         ])
     },
     created() {
-        this.getChoiceCompany();
-
-        this.getChoiceIp();
-
-        this.getChoiceWeb();
+        this.getChoices();
     },
     beforeMount() {
         this.formClean();
     },
     methods: {
         ...mapActions('storeProduct', [
-            'getChoiceCompany',
-            'getChoiceIp',
-            'getChoiceWeb'
+            'getChoices'
         ]),
         ...mapActions('storeProductDomain', [
             'createProduct',
@@ -118,7 +112,9 @@ export default {
         submitCreate() {
             this.createProduct()
                 .then(() => this.$refs.observer.setErrors(this.formErrors))
-                .then(() => this.formSuccess > 0 ? this.$router.push({name: 'store:product:domain:search'}) : false);
+                .then(() => this.formSuccess ? this.$router.push({
+                    name: 'store:product:domain:search'
+                }) : false);
         }
     }
 }

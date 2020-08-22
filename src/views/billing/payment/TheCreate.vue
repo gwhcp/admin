@@ -10,27 +10,28 @@
                                 v-slot="{ handleSubmit, invalid }">
                 <CForm>
                     <CCard bodyWrapper>
-                        <input-select :options="choiceMerchant"
-                                      @input="setMethod(formData.merchant)"
+                        <input-select :options="choices.merchant"
+                                      @input="setMethod(formObj.merchant)"
                                       label="Merchant"
                                       name="merchant"
                                       required="true"
                                       rules="required"
-                                      v-model="formData.merchant"/>
+                                      v-model="formObj.merchant"/>
 
-                        <input-select :options="choiceMethod"
+                        <input-select :options="choices.method"
                                       label="Method"
                                       name="payment_method"
                                       required="true"
                                       rules="required"
-                                      v-model="formData.payment_method"/>
+                                      v-model="formObj.payment_method"
+                                      v-show="method"/>
 
-                        <input-select :options="choiceCompany"
+                        <input-select :options="choices.company"
                                       label="Company"
                                       name="company"
                                       required="true"
                                       rules="required"
-                                      v-model="formData.company"/>
+                                      v-model="formObj.company"/>
                         <CRow>
                             <CCol class="text-left"
                                   col="6">
@@ -50,7 +51,7 @@
 
 <script>
 import InputSelect from "@/components/form/InputSelect";
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 import {ValidationObserver} from "vee-validate";
 
 export default {
@@ -59,20 +60,23 @@ export default {
         InputSelect,
         ValidationObserver
     },
+    data() {
+        return {
+            method: false
+        };
+    },
     computed: {
-        ...mapState('billingPayment', [
-            'choiceCompany',
-            'choiceMerchant',
-            'choiceMethod',
-            'formData',
+        ...mapGetters('billingPayment', [
+            'choices',
             'formErrors',
             'formSuccess'
         ]),
+        ...mapState('billingPayment', [
+            'formObj'
+        ])
     },
     created() {
-        this.getChoiceCompany();
-
-        this.getChoiceMerchant();
+        this.getChoices();
     },
     beforeMount() {
         this.formClean();
@@ -81,19 +85,22 @@ export default {
         ...mapActions('billingPayment', [
             'createPaymentGateway',
             'formClean',
-            'getChoiceCompany',
-            'getChoiceMerchant',
-            'getChoiceMethod'
+            'getChoices'
         ]),
         setMethod(value) {
-            this.getChoiceMethod({
-                merchant: value
-            });
+            switch (value) {
+                case 'authorize':
+                    this.choices.method = this.choices.method.authorize;
+
+                    this.method = true;
+            }
         },
         submitCreate() {
             this.createPaymentGateway()
                 .then(() => this.$refs.observer.setErrors(this.formErrors))
-                .then(() => this.formSuccess > 0 ? this.$router.push({name: 'billing:payment:search'}) : false);
+                .then(() => this.formSuccess ? this.$router.push({
+                    name: 'billing:payment:search'
+                }) : false);
         }
     }
 }

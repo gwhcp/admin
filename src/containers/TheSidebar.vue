@@ -66,8 +66,8 @@ export default {
                         item.items.push({name: 'Domain', to: {name: 'company:domain:search'}});
                     }
 
-                    if (this.hasPerm('company.email.view_email')) {
-                        item.items.push({name: 'Email', to: '/company/email'});
+                    if (this.hasPerm('company.mail.view_mail')) {
+                        item.items.push({name: 'Mail', to: {name: 'company:mail:search'}});
                     }
 
                     if (this.hasPerm('company.xmpp.view_xmpp')) {
@@ -98,8 +98,8 @@ export default {
                 if (item.name === 'Employee') {
                     item.items = [];
 
-                    if (this.hasPerm('account.account.view_manage')) {
-                        item.items.push({name: 'Account', to: {name: 'account:account:search'}});
+                    if (this.hasPerm('employee.manage.view_account')) {
+                        item.items.push({name: 'Account', to: {name: 'employee:manage:search'}});
                     }
                 }
 

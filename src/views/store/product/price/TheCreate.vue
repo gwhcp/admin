@@ -23,19 +23,19 @@
                                     name="billing_cycle"
                                     required="true"
                                     rules="required"
-                                    v-model="formData.billing_cycle"/>
+                                    v-model="formObj.billing_cycle"/>
 
                         <input-text label="Base Price"
                                     name="base_price"
                                     required="true"
                                     rules="required"
-                                    v-model="formData.base_price"/>
+                                    v-model="formObj.base_price"/>
 
                         <input-text label="Setup Price"
                                     name="setup_price"
                                     required="true"
                                     rules="required"
-                                    v-model="formData.setup_price"/>
+                                    v-model="formObj.setup_price"/>
 
                         <CRow>
                             <CCol class="text-left"
@@ -57,7 +57,7 @@
 <script>
 import StaticData from "@/components/StaticData";
 import {InputText} from "@/components/form";
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 import {ValidationObserver} from "vee-validate";
 
 export default {
@@ -74,21 +74,23 @@ export default {
         };
     },
     computed: {
-        ...mapState('storeProductPrice', [
-            'formData',
+        ...mapGetters('storeProductPrice', [
             'formErrors',
             'formSuccess'
+        ]),
+        ...mapState('storeProductPrice', [
+            'formObj'
         ])
     },
     beforeMount() {
         this.formClean();
     },
     mounted() {
-        this.formData.billing_cycle = 0;
+        this.formObj.billing_cycle = 0;
 
-        this.formData.base_price = '0.00';
+        this.formObj.base_price = '0.00';
 
-        this.formData.setup_price = '0.00';
+        this.formObj.setup_price = '0.00';
     },
     methods: {
         ...mapActions('storeProductPrice', [
@@ -102,11 +104,11 @@ export default {
             }
         },
         submitCreate() {
-            this.formData['store_product'] = this.productId;
+            this.formObj['store_product'] = this.productId;
 
             this.createPrice()
                 .then(() => this.$refs.observer.setErrors(this.formErrors))
-                .then(() => this.formSuccess > 0 ? this.$router.push({
+                .then(() => this.formSuccess ? this.$router.push({
                     name: 'store:product:price:search',
                     params: {
                         productId: this.productId

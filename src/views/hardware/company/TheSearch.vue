@@ -8,7 +8,7 @@
             <CTab title="Search">
                 <CCard bodyWrapper>
                     <CDataTable :fields="fields"
-                                :items="search"
+                                :items="formArr"
                                 :items-per-page="10"
                                 column-filter
                                 hover
@@ -48,7 +48,7 @@
                                 v-if="!item.in_queue">
                                 <modal-open-delete :delete="deleteHardware"
                                                    :params="{id: item.id}"
-                                                   :search="search"
+                                                   :formArr="formArr"
                                                    msg="Continuing will remove this hardware."/>
                             </td>
                         </template>
@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 import {ModalOpenDelete, ModalSuccess} from "@/components/modal";
 import Permission from "@/mixins/Permission";
 
@@ -89,8 +89,8 @@ export default {
         };
     },
     computed: {
-        ...mapState('hardwareCompany', [
-            'search'
+        ...mapGetters('hardwareCompany', [
+            'formArr'
         ])
     },
     created() {

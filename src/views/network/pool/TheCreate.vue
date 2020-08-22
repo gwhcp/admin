@@ -14,26 +14,26 @@
                                     name="name"
                                     required="true"
                                     rules="required"
-                                    v-model="formData.name"/>
+                                    v-model="formObj.name"/>
 
                         <input-text label="Network"
                                     name="network"
                                     required="true"
                                     rules="required"
-                                    v-model="formData.network"/>
+                                    v-model="formObj.network"/>
 
                         <input-text label="Subnet"
                                     name="subnet"
                                     required="true"
                                     rules="required"
-                                    v-model="formData.subnet"/>
+                                    v-model="formObj.subnet"/>
 
-                        <input-select :options="choiceAssigned"
+                        <input-select :options="choices"
                                       label="Assigned"
                                       name="assigned"
                                       required="true"
                                       rules="required"
-                                      v-model="formData.assigned"/>
+                                      v-model="formObj.assigned"/>
                         <CRow>
                             <CCol class="text-left"
                                   col="6">
@@ -53,7 +53,7 @@
 
 <script>
 import {InputSelect, InputText} from "@/components/form";
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 import {ValidationObserver} from "vee-validate";
 
 export default {
@@ -64,29 +64,33 @@ export default {
         ValidationObserver
     },
     computed: {
-        ...mapState('networkPool', [
-            'choiceAssigned',
-            'formData',
+        ...mapGetters('networkPool', [
+            'choices',
             'formErrors',
             'formSuccess'
+        ]),
+        ...mapState('networkPool', [
+            'formObj'
         ])
     },
     created() {
-        this.getChoiceAssigned();
+        this.getChoices();
     },
     beforeMount() {
         this.formClean();
     },
     methods: {
         ...mapActions('networkPool', [
-            'getChoiceAssigned',
+            'getChoices',
             'createPool',
             'formClean'
         ]),
         submitCreate() {
             this.createPool()
                 .then(() => this.$refs.observer.setErrors(this.formErrors))
-                .then(() => this.formSuccess > 0 ? this.$router.push({name: 'network:pool:search'}) : false);
+                .then(() => this.formSuccess ? this.$router.push({
+                    name: 'network:pool:search'
+                }) : false);
         }
     }
 }

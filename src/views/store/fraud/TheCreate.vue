@@ -14,14 +14,14 @@
                                     name="name"
                                     required="true"
                                     rules="required"
-                                    v-model="formData.name"/>
+                                    v-model="formObj.name"/>
 
-                        <input-select :options="choiceType"
+                        <input-select :options="choices"
                                       label="Type"
                                       name="fraud_type"
                                       required="true"
                                       rules="required"
-                                      v-model="formData.fraud_type"/>
+                                      v-model="formObj.fraud_type"/>
                         <CRow>
                             <CCol class="text-left"
                                   col="6">
@@ -41,7 +41,7 @@
 
 <script>
 import {InputSelect, InputText} from "@/components/form";
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 import {ValidationObserver} from "vee-validate";
 
 export default {
@@ -52,15 +52,17 @@ export default {
         ValidationObserver
     },
     computed: {
-        ...mapState('storeFraud', [
-            'choiceType',
-            'formData',
+        ...mapGetters('storeFraud', [
+            'choices',
             'formErrors',
             'formSuccess'
+        ]),
+        ...mapState('storeFraud', [
+            'formObj'
         ])
     },
     created() {
-        this.getChoiceType();
+        this.getChoices();
     },
     beforeMount() {
         this.formClean();
@@ -69,12 +71,14 @@ export default {
         ...mapActions('storeFraud', [
             'createFraudString',
             'formClean',
-            'getChoiceType'
+            'getChoices'
         ]),
         submitCreate() {
             this.create()
                 .then(() => this.$refs.observer.setErrors(this.formErrors))
-                .then(() => this.formSuccess > 0 ? this.$router.push({name: 'store:fraud:search'}) : false);
+                .then(() => this.formSuccess ? this.$router.push({
+                    name: 'store:fraud:search'
+                }) : false);
         }
     }
 }

@@ -1,24 +1,24 @@
 <template>
     <CCard bodyWrapper>
-        <static-data :value="formData.id"
+        <static-data :value="formObj.id"
                      name="Domain ID"/>
 
-        <static-data :datetime="formData.date_from"
+        <static-data :datetime="formObj.date_from"
                      name="Created Date"/>
 
-        <static-data :ahref="{name: 'company:company:profile', params:{id: formData.company}}"
-                     :value="formData.company_name"
+        <static-data :ahref="{name: 'company:company:profile', params:{id: formObj.company}}"
+                     :value="formObj.company_name"
                      name="Company"
                      permission="company.company.view_company"/>
 
-        <static-data :value="formData.name"
+        <static-data :value="formObj.name"
                      name="Domain"/>
     </CCard>
 </template>
 
 <script>
 import StaticData from "@/components/StaticData";
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 import Permission from "@/mixins/Permission";
 
 export default {
@@ -35,8 +35,8 @@ export default {
         };
     },
     computed: {
-        ...mapState('companyDomain', [
-            'formData'
+        ...mapGetters('companyDomain', [
+            'formObj'
         ])
     },
     created() {

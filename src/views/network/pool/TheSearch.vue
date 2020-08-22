@@ -8,7 +8,7 @@
             <CTab title="Search">
                 <CCard bodyWrapper>
                     <CDataTable :fields="fields"
-                                :items="search"
+                                :items="formArr"
                                 :items-per-page="10"
                                 column-filter
                                 hover
@@ -38,9 +38,9 @@
                         <template #delete="{ item }">
                             <td class="py-2">
                                 <modal-open-delete :delete="deletePool"
-                                            :params="{id: item.id}"
-                                            :search="search"
-                                            msg="Continuing will remove this IP Address pool."/>
+                                                   :formArr="formArr"
+                                                   :params="{id: item.id}"
+                                                   msg="Continuing will remove this IP Address pool."/>
                             </td>
                         </template>
                     </CDataTable>
@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 import {ModalOpenDelete, ModalSuccess} from "@/components/modal";
 import Permission from "@/mixins/Permission";
 
@@ -80,8 +80,8 @@ export default {
         };
     },
     computed: {
-        ...mapState('networkPool', [
-            'search'
+        ...mapGetters('networkPool', [
+            'formArr'
         ])
     },
     created() {

@@ -9,25 +9,25 @@
             <ValidationObserver ref="observer" v-slot="{ handleSubmit, invalid }">
                 <CForm>
                     <CCard bodyWrapper>
-                        <input-select :options="choiceDomain"
+                        <input-select :options="choices.domain"
                                       label="Domain"
                                       name="domain"
                                       required="true"
                                       rules="required"
-                                      v-model="formData.domain"/>
+                                      v-model="formObj.domain"/>
 
                         <input-text label="IP Address"
                                     name="ip"
                                     required="true"
                                     rules="required"
-                                    v-model="formData.ip"/>
+                                    v-model="formObj.ip"/>
 
-                        <input-select :options="choiceTarget"
+                        <input-select :options="choices.hardware_target"
                                       label="Target"
                                       name="target_type"
                                       required="true"
                                       rules="required"
-                                      v-model="formData.target_type"/>
+                                      v-model="formObj.target_type"/>
                         <CRow>
                             <CCol class="text-left"
                                   col="6">
@@ -47,7 +47,7 @@
 
 <script>
 import {InputSelect, InputText} from "@/components/form";
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 import {ValidationObserver} from "vee-validate";
 
 export default {
@@ -58,18 +58,17 @@ export default {
         ValidationObserver
     },
     computed: {
-        ...mapState('hardwareCompany', [
-            'choiceDomain',
-            'choiceTarget',
-            'formData',
+        ...mapGetters('hardwareCompany', [
+            'choices',
             'formErrors',
             'formSuccess'
+        ]),
+        ...mapState('hardwareCompany', [
+            'formObj'
         ])
     },
     created() {
-        this.getChoiceDomain();
-
-        this.getChoiceTarget();
+        this.getChoices();
     },
     beforeMount() {
         this.formClean();
@@ -78,13 +77,14 @@ export default {
         ...mapActions('hardwareCompany', [
             'createHardware',
             'formClean',
-            'getChoiceDomain',
-            'getChoiceTarget'
+            'getChoices'
         ]),
         submitCreate() {
             this.createHardware()
                 .then(() => this.$refs.observer.setErrors(this.formErrors))
-                .then(() => this.formSuccess > 0 ? this.$router.push({name: 'hardware:company:search'}) : false);
+                .then(() => this.formSuccess ? this.$router.push({
+                    name: 'hardware:company:search'
+                }) : false);
         }
     }
 }
