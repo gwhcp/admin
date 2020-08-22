@@ -48,6 +48,7 @@ import Permission from "@/mixins/Permission";
 import {mapActions, mapGetters, mapState} from "vuex";
 import vueSelectSides from "vue-select-sides";
 import Vue from "vue";
+import Loading from "@/mixins/Loading";
 
 Vue.use(vueSelectSides, {
     locale: "en_US"
@@ -59,6 +60,7 @@ export default {
         vueSelectSides
     },
     mixins: [
+        Loading,
         Permission
     ],
     data() {
@@ -99,6 +101,8 @@ export default {
             'updateNameserver'
         ]),
         submitUpdate() {
+            this.loadingState = true;
+
             this.updateNameserver({
                 id: this.domainId,
                 ns: this.selected

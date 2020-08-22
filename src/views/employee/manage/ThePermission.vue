@@ -48,6 +48,7 @@ import vueSelectSides from "vue-select-sides";
 import Vue from "vue";
 import {mapActions, mapGetters} from "vuex";
 import Permission from "@/mixins/Permission";
+import Loading from "@/mixins/Loading";
 
 Vue.use(vueSelectSides, {
     locale: "en_US"
@@ -59,6 +60,7 @@ export default {
         vueSelectSides
     },
     mixins: [
+        Loading,
         Permission
     ],
     data() {
@@ -96,6 +98,8 @@ export default {
             'updatePermissions'
         ]),
         submitPermission() {
+            this.loadingState = true;
+
             this.updatePermissions({
                 id: this.accountId,
                 perms: this.selected

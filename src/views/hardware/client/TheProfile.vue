@@ -114,6 +114,7 @@ import {ModalOpenInstall, ModalSuccess, ModalWarning} from "@/components/modal";
 import Permission from "@/mixins/Permission";
 import {ValidationObserver} from "vee-validate";
 import {mapActions, mapGetters, mapState} from "vuex";
+import Loading from "@/mixins/Loading";
 
 export default {
     name: 'TheProfile',
@@ -126,6 +127,7 @@ export default {
         ValidationObserver
     },
     mixins: [
+        Loading,
         Permission
     ],
     data() {
@@ -165,6 +167,8 @@ export default {
             }
         },
         submitUpdate() {
+            this.loadingState = true;
+
             this.updateProfile({
                 id: this.serverId
             });

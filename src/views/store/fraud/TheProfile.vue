@@ -17,12 +17,16 @@
 <script>
 import StaticData from "@/components/StaticData";
 import {mapActions, mapGetters} from "vuex";
+import Loading from "@/mixins/Loading";
 
 export default {
     name: 'TheProfile',
     components: {
         StaticData
     },
+    mixins: [
+        Loading
+    ],
     data() {
         return {
             fraudId: this.$route.params.id

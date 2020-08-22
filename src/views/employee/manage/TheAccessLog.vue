@@ -35,6 +35,7 @@
 import ConvertDate from "@/components/ConvertDate";
 import {mapActions, mapGetters} from "vuex";
 import Permission from "@/mixins/Permission";
+import Loading from "@/mixins/Loading";
 
 export default {
     name: 'TheAccessLog',
@@ -42,6 +43,7 @@ export default {
         ConvertDate
     },
     mixins: [
+        Loading,
         Permission
     ],
     data() {

@@ -32,12 +32,16 @@
 <script>
 import StaticData from "@/components/StaticData";
 import {mapActions, mapState} from "vuex";
+import Loading from "@/mixins/Loading";
 
 export default {
     name: 'TheProfile',
     components: {
         StaticData
     },
+    mixins: [
+        Loading
+    ],
     data() {
         return {
             paymentId: this.$route.params.id

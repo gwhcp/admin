@@ -60,6 +60,7 @@
 import {mapActions, mapGetters} from "vuex";
 import {ModalOpenDelete, ModalSuccess} from "@/components/modal";
 import Permission from "@/mixins/Permission";
+import Loading from "@/mixins/Loading";
 
 export default {
     name: 'TheSearch',
@@ -68,6 +69,7 @@ export default {
         ModalSuccess
     },
     mixins: [
+        Loading,
         Permission
     ],
     data() {

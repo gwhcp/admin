@@ -98,7 +98,12 @@
 
 <script>
 
+import Loading from "@/mixins/Loading";
+
 export default {
-    name: 'TheIndex'
+    name: 'TheIndex',
+    mixins: [
+        Loading
+    ]
 }
 </script>

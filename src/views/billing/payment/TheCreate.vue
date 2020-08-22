@@ -53,6 +53,7 @@
 import InputSelect from "@/components/form/InputSelect";
 import {mapActions, mapGetters, mapState} from "vuex";
 import {ValidationObserver} from "vee-validate";
+import Loading from "@/mixins/Loading";
 
 export default {
     name: 'TheCreate',
@@ -60,6 +61,9 @@ export default {
         InputSelect,
         ValidationObserver
     },
+    mixins: [
+        Loading
+    ],
     data() {
         return {
             method: false
@@ -96,6 +100,8 @@ export default {
             }
         },
         submitCreate() {
+            this.loadingState = true;
+
             this.createPaymentGateway()
                 .then(() => this.$refs.observer.setErrors(this.formErrors))
                 .then(() => this.formSuccess ? this.$router.push({

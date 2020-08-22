@@ -135,6 +135,7 @@ import {InputText} from "@/components/form";
 import Permission from "@/mixins/Permission";
 import {mapActions, mapGetters, mapState} from "vuex";
 import {ValidationObserver} from "vee-validate";
+import Loading from "@/mixins/Loading";
 
 export default {
     name: 'TheResource',
@@ -143,6 +144,7 @@ export default {
         ValidationObserver
     },
     mixins: [
+        Loading,
         Permission
     ],
     data() {
@@ -173,6 +175,8 @@ export default {
             'updateResource'
         ]),
         submitUpdate() {
+            this.loadingState = true;
+
             this.updateResource({
                 id: this.productId
             })

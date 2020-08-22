@@ -11,4 +11,14 @@ const session = axios.create({
 
 session.defaults.timeout = 30000;
 
+// before a request is made.
+session.interceptors.request.use(config => {
+    return config;
+});
+
+// before a response is returned.
+session.interceptors.response.use(response => {
+    return response;
+});
+
 export default session;

@@ -20,6 +20,7 @@
 import StaticData from "@/components/StaticData";
 import {mapActions, mapGetters} from "vuex";
 import Permission from "@/mixins/Permission";
+import Loading from "@/mixins/Loading";
 
 export default {
     name: 'TheProfile',
@@ -27,6 +28,7 @@ export default {
         StaticData
     },
     mixins: [
+        Loading,
         Permission
     ],
     data() {

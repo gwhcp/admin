@@ -89,6 +89,7 @@ import {mapActions, mapGetters, mapState} from "vuex";
 import {ValidationObserver} from "vee-validate";
 import Vue from "vue";
 import VuePluralize from "vue-pluralize";
+import Loading from "@/mixins/Loading";
 
 Vue.use(VuePluralize);
 
@@ -101,6 +102,7 @@ export default {
         ValidationObserver
     },
     mixins: [
+        Loading,
         Permission
     ],
     data() {
@@ -140,6 +142,8 @@ export default {
             }
         },
         submitUpdate() {
+            this.loadingState = true;
+
             this.updateProfile({
                 id: this.priceId,
                 productId: this.productId

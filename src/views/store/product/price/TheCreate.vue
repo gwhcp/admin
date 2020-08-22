@@ -59,6 +59,7 @@ import StaticData from "@/components/StaticData";
 import {InputText} from "@/components/form";
 import {mapActions, mapGetters, mapState} from "vuex";
 import {ValidationObserver} from "vee-validate";
+import Loading from "@/mixins/Loading";
 
 export default {
     name: 'TheCreate',
@@ -67,6 +68,9 @@ export default {
         StaticData,
         ValidationObserver
     },
+    mixins: [
+        Loading
+    ],
     data() {
         return {
             productId: this.$route.params.productId,
@@ -104,6 +108,8 @@ export default {
             }
         },
         submitCreate() {
+            this.loadingState = true;
+
             this.formObj['store_product'] = this.productId;
 
             this.createPrice()

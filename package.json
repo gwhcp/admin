@@ -50,6 +50,7 @@
     "vee-validate": "^3.3.9",
     "vue": "^2.6.11",
     "vue-country-region-select": "^2.0.14",
+    "vuejs-loading-plugin": "^1.0.51",
     "vue-multiselect": "^2.1.6",
     "vue-pluralize": "^0.0.2",
     "vue-router": "^3.4.3",

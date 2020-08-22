@@ -89,6 +89,7 @@
 import {InputSelect, InputSwitch, InputText} from "@/components/form";
 import {mapActions, mapGetters, mapState} from "vuex";
 import {ValidationObserver} from "vee-validate";
+import Loading from "@/mixins/Loading";
 
 export default {
     name: 'TheCreate',
@@ -98,6 +99,9 @@ export default {
         InputText,
         ValidationObserver
     },
+    mixins: [
+        Loading
+    ],
     data() {
         return {
             has_domain: false,
@@ -131,6 +135,8 @@ export default {
             'getChoices'
         ]),
         submitCreate() {
+            this.loadingState = true;
+
             this.createHardware()
                 .then(() => this.$refs.observer.setErrors(this.formErrors))
                 .then(() => this.formSuccess ? this.$router.push({

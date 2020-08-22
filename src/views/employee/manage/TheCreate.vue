@@ -104,6 +104,7 @@
 import {InputPassword, InputSelectCountry, InputSelectState, InputText} from "@/components/form";
 import {mapActions, mapGetters, mapState} from "vuex";
 import {ValidationObserver} from "vee-validate";
+import Loading from "@/mixins/Loading";
 
 export default {
     name: 'TheCreate',
@@ -114,6 +115,9 @@ export default {
         InputText,
         ValidationObserver
     },
+    mixins: [
+        Loading
+    ],
     computed: {
         ...mapGetters('employeeManage', [
             'formErrors',
@@ -132,6 +136,8 @@ export default {
             'formClean'
         ]),
         submitCreate() {
+            this.loadingState = true;
+
             this.createAccount()
                 .then(() => this.$refs.observer.setErrors(this.formErrors))
                 .then(() => this.formSuccess ? this.$router.push({

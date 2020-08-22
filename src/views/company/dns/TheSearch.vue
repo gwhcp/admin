@@ -28,10 +28,12 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
 import Permission from "@/mixins/Permission";
+import Loading from "@/mixins/Loading";
 
 export default {
     name: 'TheSearch',
     mixins: [
+        Loading,
         Permission
     ],
     data() {

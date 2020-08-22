@@ -59,6 +59,8 @@ const actions = {
             .then(data => commit(FORM_ARRAY, data));
     },
     getPermissions({commit}, data) {
+        commit(FORM_CLEAN);
+
         client.get('employee/manage/permission/base')
             .then(data => commit(EMPLOYEE_MANAGE_PERMISSION_BASE, data));
 

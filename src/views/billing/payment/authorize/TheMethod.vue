@@ -81,6 +81,7 @@ import InputSwitch from "@/components/form/InputSwitch";
 import Permission from "@/mixins/Permission";
 import {mapActions, mapGetters, mapState} from "vuex";
 import {ValidationObserver} from "vee-validate";
+import Loading from "@/mixins/Loading";
 
 export default {
     name: 'TheMethod',
@@ -89,6 +90,7 @@ export default {
         ValidationObserver
     },
     mixins: [
+        Loading,
         Permission
     ],
     data() {
@@ -122,6 +124,8 @@ export default {
             'updateMethod'
         ]),
         submitUpdate() {
+            this.loadingState = true;
+
             this.updateMethod({
                 id: this.paymentId,
                 merchant: 'authorize'

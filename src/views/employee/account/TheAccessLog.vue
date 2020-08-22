@@ -21,12 +21,16 @@
 <script>
 import ConvertDate from "@/components/ConvertDate";
 import {mapActions, mapGetters} from "vuex";
+import Loading from "@/mixins/Loading";
 
 export default {
     name: 'TheAccessLog',
     components: {
         ConvertDate
     },
+    mixins: [
+        Loading
+    ],
     data() {
         return {
             fields: [

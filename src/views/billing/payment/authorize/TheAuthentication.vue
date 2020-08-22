@@ -65,6 +65,7 @@ import {InputSwitch, InputText} from "@/components/form";
 import Permission from "@/mixins/Permission";
 import {mapActions, mapGetters, mapState} from "vuex";
 import {ValidationObserver} from "vee-validate";
+import Loading from "@/mixins/Loading";
 
 export default {
     name: 'TheAuthentication',
@@ -74,6 +75,7 @@ export default {
         ValidationObserver
     },
     mixins: [
+        Loading,
         Permission
     ],
     data() {
@@ -105,6 +107,8 @@ export default {
             'updateAuthentication'
         ]),
         submitUpdate() {
+            this.loadingState = true;
+
             this.updateAuthentication({
                 id: this.paymentId,
                 merchant: 'authorize'

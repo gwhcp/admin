@@ -62,6 +62,7 @@
 import {InputPassword, InputText} from "@/components/form";
 import {mapActions, mapGetters, mapState} from "vuex";
 import {ValidationObserver} from "vee-validate/dist/vee-validate.full.esm";
+import Loading from "@/mixins/Loading";
 
 export default {
     name: 'TheLogin',
@@ -70,6 +71,9 @@ export default {
         InputText,
         ValidationObserver
     },
+    mixins: [
+        Loading
+    ],
     computed: {
         ...mapGetters('auth', [
             'formErrors',
@@ -89,6 +93,8 @@ export default {
             'login'
         ]),
         submitLogin() {
+            this.loadingState = true;
+
             this.login()
                 .then(() => this.$router.push({
                     name: 'dashboard'

@@ -49,6 +49,7 @@
 import InputPassword from "@/components/form/InputPassword";
 import {mapActions, mapGetters, mapState} from "vuex";
 import {ValidationObserver} from "vee-validate";
+import Loading from "@/mixins/Loading";
 
 export default {
     name: 'ThePassword',
@@ -56,6 +57,9 @@ export default {
         InputPassword,
         ValidationObserver
     },
+    mixins: [
+        Loading
+    ],
     computed: {
         ...mapGetters('employeeAccount', [
             'formErrors',
@@ -74,6 +78,8 @@ export default {
             'updatePassword'
         ]),
         submitUpdate() {
+            this.loadingState = true;
+
             this.updatePassword()
                 .then(() => this.$refs.observer.setErrors(this.formErrors));
 
