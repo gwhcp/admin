@@ -2,6 +2,7 @@
     <CSidebar :minimize="minimize"
               :show="show"
               @update:show="(value) => $store.commit('set', ['sidebarShow', value])"
+              dropdownMode="noAction"
               fixed>
 
         <CSidebarBrand :to="{name: 'dashboard'}"
