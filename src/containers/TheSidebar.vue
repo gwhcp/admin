@@ -127,8 +127,8 @@ export default {
                         item.items.push({name: 'IP Address Pool', to: {name: 'network:pool:search'}});
                     }
 
-                    if (this.hasPerm('network.queue.view_queue')) {
-                        item.items.push({name: 'Queue', to: '/network/queue'});
+                    if (this.hasPerm('network.queue.view_queuestatus')) {
+                        item.items.push({name: 'Queue', to: {name: 'network:queue:search'}});
                     }
                 }
 

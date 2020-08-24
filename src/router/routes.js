@@ -9,6 +9,7 @@ import {employeeManageRoutes} from "@/router/employeeManage";
 import {hardwareClientRoutes} from "@/router/hardwareClient";
 import {hardwareCompanyRoutes} from "@/router/hardwareCompany";
 import {networkPoolRoutes} from "@/router/networkPool";
+import {networkQueueRoutes} from "@/router/networkQueue";
 import {pagesRoutes} from "@/router/pages";
 import {settingBannedRoutes} from "@/router/settingBanned";
 import {settingEmailRoutes} from "@/router/settingEmail";
@@ -29,6 +30,7 @@ export {
     hardwareClientRoutes,
     hardwareCompanyRoutes,
     networkPoolRoutes,
+    networkQueueRoutes,
     pagesRoutes,
     settingBannedRoutes,
     settingEmailRoutes,

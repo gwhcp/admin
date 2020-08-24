@@ -10,6 +10,7 @@ import employeeManage from "@/api/employeeManage";
 import hardwareClient from "@/api/hardwareClient";
 import hardwareCompany from "@/api/hardwareCompany";
 import networkPool from "@/api/networkPool";
+import networkQueue from "@/api/networkQueue";
 import settingBanned from "@/api/settingBanned";
 import settingEmail from "@/api/settingEmail";
 import storeFraud from "@/api/storeFraud";
@@ -30,6 +31,7 @@ export {
     hardwareClient,
     hardwareCompany,
     networkPool,
+    networkQueue,
     settingBanned,
     settingEmail,
     storeFraud,
