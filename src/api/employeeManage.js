@@ -137,6 +137,8 @@ const mutations = {
         state.formErrors = {};
         state.formObj = {};
         state.formSuccess = false;
+        state.permissionBase = [];
+        state.permissionUser = [];
     },
     [FORM_DELETE](state, data) {
         state.formArr = state.formArr.filter(item => item.id !== data.id);
