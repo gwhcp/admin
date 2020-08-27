@@ -13,12 +13,12 @@ import {
 } from "@/api/types";
 
 const state = {
-    formArr: [],
-    formErrors: {},
-    formObj: {},
+    formArr: Array,
+    formErrors: Object,
+    formObj: Object,
     formSuccess: false,
-    permissionBase: [],
-    permissionUser: []
+    permissionBase: Array,
+    permissionUser: Array
 };
 
 const getters = {
@@ -30,74 +30,101 @@ const getters = {
 };
 
 const actions = {
-    createAccount({commit, state}) {
+    async createAccount({commit, state}) {
         commit(FORM_VALIDATION);
 
-        return client.post('employee/manage/create', state.formObj)
-            .then(response => {
-                if (response.error) {
-                    commit(FORM_ERRORS, response.errors);
-                } else {
-                    commit(FORM_SUCCESS);
-                }
-            })
+        const response = await client.post(
+            'employee/manage/create',
+            state.formObj
+        );
+
+        if (response.error) {
+            commit(FORM_ERRORS, response.errors);
+        } else {
+            commit(FORM_SUCCESS);
+        }
     },
-    deleteAccount({commit}, data) {
+    async deleteAccount({commit}, data) {
         commit(FORM_DELETE, data);
 
-        return client.delete(`employee/manage/delete/${data.id}`);
+        await client.delete(
+            `employee/manage/delete/${data.id}`
+        );
     },
     formClean({commit}) {
         commit(FORM_CLEAN);
     },
-    getAccessLog({commit}, data) {
-        client.get(`employee/manage/accesslog/${data.id}`)
-            .then(data => commit(FORM_ARRAY, data));
-    },
-    getAccounts({commit}) {
-        client.get('employee/manage/search')
-            .then(data => commit(FORM_ARRAY, data));
-    },
-    getPermissions({commit}, data) {
+    async getAccessLog({commit}, data) {
         commit(FORM_CLEAN);
 
-        client.get('employee/manage/permission/base')
-            .then(data => commit(EMPLOYEE_MANAGE_PERMISSION_BASE, data));
+        const response = await client.get(
+            `employee/manage/accesslog/${data.id}`
+        );
 
-        client.get(`employee/manage/permission/${data.id}`)
-            .then(data => commit(EMPLOYEE_MANAGE_PERMISSION_USER, data));
+        commit(FORM_ARRAY, response);
     },
-    getProfile({commit}, data) {
+    async getAccounts({commit}) {
         commit(FORM_CLEAN);
 
-        client.get(`employee/manage/profile/${data.id}`)
-            .then(data => commit(FORM_OBJECT, data));
+        const response = await client.get(
+            'employee/manage/search'
+        );
+
+        commit(FORM_ARRAY, response);
     },
-    updatePermissions({commit}, data) {
+    async getPermissions({commit}, data) {
+        commit(FORM_CLEAN);
+
+        const responseBase = await client.get(
+            'employee/manage/permission/base'
+        );
+
+        commit(EMPLOYEE_MANAGE_PERMISSION_BASE, responseBase);
+
+        const responseUser = await client.get(
+            `employee/manage/permission/${data.id}`
+        );
+
+        commit(EMPLOYEE_MANAGE_PERMISSION_USER, responseUser);
+    },
+    async getProfile({commit}, data) {
+        commit(FORM_CLEAN);
+
+        const response = await client.get(
+            `employee/manage/profile/${data.id}`
+        );
+
+        commit(FORM_OBJECT, response);
+    },
+    async updatePermissions({commit}, data) {
         commit(FORM_VALIDATION);
 
-        return client.patch(`employee/manage/permission/${data.id}`, {
-            'user_permissions': data.perms
-        })
-            .then(response => {
-                if (response.error) {
-                    commit(FORM_ERRORS, response.errors);
-                } else {
-                    commit(FORM_SUCCESS);
-                }
-            });
+        const response = await client.patch(
+            `employee/manage/permission/${data.id}`,
+            {
+                'user_permissions': data.perms
+            }
+        );
+
+        if (response.error) { // TODO Do we need this?
+            commit(FORM_ERRORS, response.errors);
+        } else {
+            commit(FORM_SUCCESS);
+        }
     },
-    updateProfile({commit, state}, data) {
+    async updateProfile({commit, state}, data) {
         commit(FORM_VALIDATION);
 
-        return client.patch(`employee/manage/profile/${data.id}`, state.formObj)
-            .then(response => {
-                if (response.error) {
-                    commit(FORM_ERRORS, response.errors);
-                } else {
-                    commit(FORM_SUCCESS);
-                }
-            });
+        const response = await client.patch(
+            `employee/manage/profile/${data.id}`,
+            state.formObj
+        );
+
+        if (response.error) {
+            commit(FORM_ERRORS, response.errors);
+        } else {
+            commit(FORM_SUCCESS);
+        }
     }
 };
 
@@ -151,4 +178,4 @@ export default {
     getters,
     actions,
     mutations
-}
+};

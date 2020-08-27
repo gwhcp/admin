@@ -87,8 +87,8 @@ export default {
             'formObj'
         ])
     },
-    created() {
-        this.getProfile({
+    async created() {
+        await this.getProfile({
             id: this.domainId
         });
     },
@@ -100,13 +100,17 @@ export default {
             'getProfile',
             'updateProfile'
         ]),
-        submitUpdate() {
+        async submitUpdate() {
             this.loadingState = true;
 
-            this.updateProfile({
+            await this.updateProfile({
                 id: this.domainId
             });
+
+            scroll(0, 0);
+
+            this.loadingState = false;
         }
     }
-}
+};
 </script>

@@ -78,8 +78,8 @@ export default {
             'formArr'
         ])
     },
-    created() {
-        this.getSearch();
+    async created() {
+        await this.getSearch();
     },
     mounted() {
         if (this.hasPerm('company.company.delete_company')) {
@@ -92,5 +92,5 @@ export default {
             'getSearch'
         ])
     }
-}
+};
 </script>

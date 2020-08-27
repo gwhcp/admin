@@ -130,8 +130,8 @@ export default {
             'formSuccess'
         ])
     },
-    created() {
-        this.getProfile({
+    async created() {
+        await this.getProfile({
             id: this.queueId
         });
     },
@@ -157,20 +157,28 @@ export default {
                     return 'secondary';
             }
         },
-        refresh() {
-            this.getProfile({
-                id: this.queueId
-            });
-        },
-        retry() {
+        async refresh() {
             this.loadingState = true;
 
-            this.retryQueue({
+            await this.getProfile({
+                id: this.queueId
+            });
+
+            scroll(0, 0);
+
+            this.loadingState = false;
+        },
+        async retry() {
+            this.loadingState = true;
+
+            await this.retryQueue({
                 queue_status: this.queueId
             });
 
             scroll(0, 0);
+
+            this.loadingState = false;
         }
     }
-}
+};
 </script>

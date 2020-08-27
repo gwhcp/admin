@@ -3,7 +3,7 @@ import client from "@/api/client";
 import {FORM_CHOICES} from "@/api/types";
 
 const state = {
-    choices: {}
+    choices: Object
 };
 
 const getters = {
@@ -11,9 +11,12 @@ const getters = {
 };
 
 const actions = {
-    getChoices({commit}) {
-        client.get('store/product/choices')
-            .then(data => commit(FORM_CHOICES, data));
+    async getChoices({commit}) {
+        const response = await client.get(
+            'store/product/choices'
+        );
+
+        commit(FORM_CHOICES, response);
     }
 };
 
@@ -29,4 +32,4 @@ export default {
     getters,
     actions,
     mutations
-}
+};

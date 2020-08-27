@@ -10,7 +10,7 @@
                                 <CForm>
                                     <h1>Login</h1>
 
-                                    <p class="text-muted">Sign In to your account</p>
+                                    <p class="text-muted">Sign in to your account</p>
 
                                     <CAlert :show="5"
                                             closeButton
@@ -77,6 +77,7 @@ export default {
     computed: {
         ...mapGetters('auth', [
             'formErrors',
+            'formSuccess',
             'nonFieldFormError',
             'nonFieldFormMessage'
         ]),
@@ -92,17 +93,23 @@ export default {
             'formClean',
             'login'
         ]),
-        submitLogin() {
+        async submitLogin() {
             this.loadingState = true;
 
-            this.login()
-                .then(() => this.$router.push({
-                    name: 'dashboard'
-                }))
-                .catch(() => this.$refs.observer.setErrors(this.formErrors));
+            await this.login();
 
-            scroll(0, 0);
+            if (this.formSuccess) {
+                await this.$router.push({
+                    name: 'dashboard'
+                })
+            } else {
+                this.$refs.observer.setErrors(this.formErrors);
+
+                scroll(0, 0);
+
+                this.loadingState = false;
+            }
         }
     }
-}
+};
 </script>

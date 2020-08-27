@@ -38,4 +38,4 @@ export {
     storeProductRoutes,
     storeProductDomainRoutes,
     storeProductPriceRoutes
-}
+};

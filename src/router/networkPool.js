@@ -54,4 +54,4 @@ export const networkPoolRoutes = (checkPermission) => {
             }
         ]
     }
-}
+};

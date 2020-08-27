@@ -11,10 +11,10 @@ import {
 } from "@/api/types";
 
 const state = {
-    choices: {},
-    formArr: [],
-    formErrors: {},
-    formObj: {},
+    choices: Object,
+    formArr: Array,
+    formErrors: Object,
+    formObj: Object,
     formSuccess: false
 };
 
@@ -29,43 +29,55 @@ const actions = {
     formClean({commit}) {
         commit(FORM_CLEAN);
     },
-    getAccessLog({commit}) {
-        client.get('employee/account/accesslog')
-            .then(data => commit(FORM_ARRAY, data));
+    async getAccessLog({commit}) {
+        const response = await client.get(
+            'employee/account/accesslog'
+        );
+
+        commit(FORM_ARRAY, response);
     },
-    getChoices({commit}) {
-        client.get('employee/account/choices')
-            .then(data => commit(FORM_CHOICES, data));
-    },
-    getProfile({commit}) {
+    async getProfile({commit}) {
         commit(FORM_CLEAN);
 
-        client.get('employee/account/profile')
-            .then(data => commit(FORM_OBJECT, data));
+        const responseChoices = await client.get(
+            'employee/account/choices'
+        );
+
+        commit(FORM_CHOICES, responseChoices);
+
+        const responseProfile = await client.get(
+            'employee/account/profile'
+        );
+
+        commit(FORM_OBJECT, responseProfile);
     },
-    updatePassword({commit, state}) {
+    async updatePassword({commit, state}) {
         commit(FORM_VALIDATION);
 
-        return client.patch('employee/account/password', state.formObj)
-            .then(response => {
-                if (response.error) {
-                    commit(FORM_ERRORS, response.errors);
-                } else {
-                    commit(FORM_SUCCESS);
-                }
-            });
+        const response = await client.patch(
+            'employee/account/password',
+            state.formObj
+        );
+
+        if (response.error) {
+            commit(FORM_ERRORS, response.errors);
+        } else {
+            commit(FORM_SUCCESS);
+        }
     },
-    updateProfile({commit, state}) {
+    async updateProfile({commit, state}) {
         commit(FORM_VALIDATION);
 
-        return client.patch('employee/account/profile', state.formObj)
-            .then(response => {
-                if (response.error) {
-                    commit(FORM_ERRORS, response.errors);
-                } else {
-                    commit(FORM_SUCCESS);
-                }
-            });
+        const response = await client.patch(
+            'employee/account/profile',
+            state.formObj
+        );
+
+        if (response.error) {
+            commit(FORM_ERRORS, response.errors);
+        } else {
+            commit(FORM_SUCCESS);
+        }
     }
 };
 
@@ -104,4 +116,4 @@ export default {
     getters,
     actions,
     mutations
-}
+};

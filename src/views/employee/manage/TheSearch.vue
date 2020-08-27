@@ -89,8 +89,8 @@ export default {
             'formArr'
         ])
     },
-    created() {
-        this.getAccounts();
+    async created() {
+        await this.getAccounts();
     },
     mounted() {
         if (this.hasPerm('employee.manage.delete_account')) {
@@ -111,5 +111,5 @@ export default {
             }
         }
     }
-}
+};
 </script>

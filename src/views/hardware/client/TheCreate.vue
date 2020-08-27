@@ -122,8 +122,8 @@ export default {
             'formObj'
         ])
     },
-    created() {
-        this.getChoices();
+    async created() {
+        await this.getChoices();
     },
     beforeMount() {
         this.formClean();
@@ -134,29 +134,53 @@ export default {
             'formClean',
             'getChoices'
         ]),
-        submitCreate() {
+        async submitCreate() {
             this.loadingState = true;
 
-            this.createHardware()
-                .then(() => this.$refs.observer.setErrors(this.formErrors))
-                .then(() => this.formSuccess ? this.$router.push({
+            await this.createHardware();
+
+            if (this.formSuccess) {
+                await this.$router.push({
                     name: 'hardware:client:search'
-                }) : false);
+                })
+            } else {
+                this.$refs.observer.setErrors(this.formErrors);
+
+                scroll(0, 0);
+
+                this.loadingState = false;
+            }
         },
         hardwareChange(value) {
             let target_type = document.getElementById('target_type');
 
             switch (value) {
                 case 'dedicated':
-                    target_type.querySelector('option[value="domain"]').style.display = "block";
-                    target_type.querySelector('option[value="mail"]').style.display = "block";
-                    target_type.querySelector('option[value="mysql"]').style.display = "block";
-                    target_type.querySelector('option[value="postgresql"]').style.display = "block";
+                    target_type.querySelector(
+                        'option[value="domain"]'
+                    ).style.display = "block";
+
+                    target_type.querySelector(
+                        'option[value="mail"]'
+                    ).style.display = "block";
+
+                    target_type.querySelector(
+                        'option[value="mysql"]'
+                    ).style.display = "block";
+
+                    target_type.querySelector(
+                        'option[value="postgresql"]'
+                    ).style.display = "block";
 
                     this.selected_target = 'domain';
 
-                    target_type.querySelector('option[value="managed"]').style.display = "none";
-                    target_type.querySelector('option[value="unmanaged"]').style.display = "none";
+                    target_type.querySelector(
+                        'option[value="managed"]'
+                    ).style.display = "none";
+
+                    target_type.querySelector(
+                        'option[value="unmanaged"]'
+                    ).style.display = "none";
 
                     this.has_domain = false;
                     this.has_mail = false;
@@ -167,15 +191,31 @@ export default {
                     break;
 
                 case 'private':
-                    target_type.querySelector('option[value="managed"]').style.display = "block";
-                    target_type.querySelector('option[value="unmanaged"]').style.display = "block";
+                    target_type.querySelector(
+                        'option[value="managed"]'
+                    ).style.display = "block";
+
+                    target_type.querySelector(
+                        'option[value="unmanaged"]'
+                    ).style.display = "block";
 
                     this.selected_target = 'managed';
 
-                    target_type.querySelector('option[value="domain"]').style.display = "none";
-                    target_type.querySelector('option[value="mail"]').style.display = "none";
-                    target_type.querySelector('option[value="mysql"]').style.display = "none";
-                    target_type.querySelector('option[value="postgresql"]').style.display = "none";
+                    target_type.querySelector(
+                        'option[value="domain"]'
+                    ).style.display = "none";
+
+                    target_type.querySelector(
+                        'option[value="mail"]'
+                    ).style.display = "none";
+
+                    target_type.querySelector(
+                        'option[value="mysql"]'
+                    ).style.display = "none";
+
+                    target_type.querySelector(
+                        'option[value="postgresql"]'
+                    ).style.display = "none";
 
                     this.has_domain = false;
                     this.has_mail = false;
@@ -186,7 +226,9 @@ export default {
                     break;
 
                 default:
-                    Array.from(document.querySelector('#target_type').options).forEach(function (option_element) {
+                    Array.from(document.querySelector(
+                        '#target_type'
+                    ).options).forEach(function (option_element) {
                         option_element.style.display = "none";
                     });
             }
@@ -236,5 +278,5 @@ export default {
             }
         }
     }
-}
+};
 </script>

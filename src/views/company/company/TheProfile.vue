@@ -115,8 +115,8 @@ export default {
             'formObj'
         ])
     },
-    created() {
-        this.getProfile({
+    async created() {
+        await this.getProfile({
             id: this.companyId
         });
     },
@@ -128,16 +128,21 @@ export default {
             'getProfile',
             'updateProfile'
         ]),
-        submitUpdate() {
-            this.loadingState = true;
+       async submitUpdate() {
+           this.loadingState = true;
 
-            this.updateProfile({
-                id: this.companyId
-            })
-                .then(() => this.$refs.observer.setErrors(this.formErrors));
+           await this.updateProfile({
+               id: this.companyId
+           });
 
-            scroll(0, 0);
+           if (!this.formSuccess) {
+               this.$refs.observer.setErrors(this.formErrors);
+           }
+
+           scroll(0, 0);
+
+           this.loadingState = false;
         }
     }
-}
+};
 </script>

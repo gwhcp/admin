@@ -47,9 +47,9 @@
                 </CCard>
             </CTab>
 
-            <CTab :to="{name: 'network:pool:create'}"
-                  title="Create"
-                  v-if="this.hasPerm('network.pool.add_ipaddresssetup')"/>
+            <CTab v-if="this.hasPerm('network.pool.add_ipaddresssetup')"
+                  :to="{name: 'network:pool:create'}"
+                  title="Create"/>
         </CTabs>
     </div>
 </template>
@@ -86,8 +86,8 @@ export default {
             'formArr'
         ])
     },
-    created() {
-        this.getSearch();
+    async created() {
+        await this.getSearch();
     },
     mounted() {
         if (this.hasPerm('network.pool.delete_ipaddresssetup')) {
@@ -100,5 +100,5 @@ export default {
             'getSearch'
         ])
     }
-}
+};
 </script>

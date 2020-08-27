@@ -12,10 +12,10 @@ import {
 } from "@/api/types";
 
 const state = {
-    choices: {},
-    formArr: [],
-    formErrors: {},
-    formObj: {},
+    choices: Object,
+    formArr: Array,
+    formErrors: Object,
+    formObj: Object,
     formSuccess: false
 };
 
@@ -28,39 +28,54 @@ const getters = {
 };
 
 const actions = {
-    createDomain({commit, state}) {
+    async createDomain({commit, state}) {
         commit(FORM_VALIDATION);
 
-        return client.post('company/domain/create', state.formObj)
-            .then(response => {
-                if (response.error) {
-                    commit(FORM_ERRORS, response.errors);
-                } else {
-                    commit(FORM_SUCCESS);
-                }
-            });
+        const response = await client.post(
+            'company/domain/create',
+            state.formObj
+        );
+
+        if (response.error) {
+            commit(FORM_ERRORS, response.errors);
+        } else {
+            commit(FORM_SUCCESS);
+        }
     },
-    deleteDomain({commit}, data) {
+    async deleteDomain({commit}, data) {
         commit(FORM_DELETE, data);
 
-        return client.delete(`company/domain/delete/${data.id}`);
+        await client.delete(
+            `company/domain/delete/${data.id}`
+        );
     },
     formClean({commit}) {
         commit(FORM_CLEAN);
     },
-    getChoices({commit}) {
-        client.get('company/domain/choices')
-            .then(data => commit(FORM_CHOICES, data));
+    async getChoices({commit}) {
+        const response = await client.get(
+            'company/domain/choices'
+        );
+
+        commit(FORM_CHOICES, response);
     },
-    getProfile({commit}, data) {
+    async getProfile({commit}, data) {
         commit(FORM_CLEAN);
 
-        client.get(`company/domain/profile/${data.id}`)
-            .then(data => commit(FORM_OBJECT, data));
+        const response = await client.get(
+            `company/domain/profile/${data.id}`
+        );
+
+        commit(FORM_OBJECT, response);
     },
-    getSearch({commit}) {
-        client.get('company/domain/search')
-            .then(data => commit(FORM_ARRAY, data));
+    async getSearch({commit}) {
+        commit(FORM_CLEAN);
+
+        const response = await client.get(
+            'company/domain/search'
+        );
+
+        commit(FORM_ARRAY, response);
     }
 };
 
@@ -102,4 +117,4 @@ export default {
     getters,
     actions,
     mutations
-}
+};

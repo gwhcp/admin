@@ -68,5 +68,5 @@ export default {
             this.modalToggle = true;
         }
     }
-}
+};
 </script>

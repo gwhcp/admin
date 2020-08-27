@@ -77,4 +77,4 @@ export default new Vuex.Store({
         storeProductDomain,
         storeProductPrice
     }
-})
+});

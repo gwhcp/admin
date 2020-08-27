@@ -11,9 +11,9 @@ import {
 } from "@/api/types";
 
 const state = {
-    formArr: [],
-    formErrors: {},
-    formObj: {},
+    formArr: Array,
+    formErrors: Object,
+    formObj: Object,
     formSuccess: false
 };
 
@@ -24,47 +24,61 @@ const getters = {
 };
 
 const actions = {
-    createPrice({commit, state}) {
+    async createPrice({commit, state}) {
         commit(FORM_VALIDATION);
 
-        return client.post('store/product/price/create', state.formObj)
-            .then(response => {
-                if (response.error) {
-                    commit(FORM_ERRORS, response.errors);
-                } else {
-                    commit(FORM_SUCCESS);
-                }
-            });
+        const response = await client.post(
+            'store/product/price/create',
+            state.formObj
+        );
+
+        if (response.error) {
+            commit(FORM_ERRORS, response.errors);
+        } else {
+            commit(FORM_SUCCESS);
+        }
     },
-    deletePrice({commit}, data) {
+    async deletePrice({commit}, data) {
         commit(FORM_DELETE, data);
 
-        return client.delete(`store/product/price/delete/${data.productId}/${data.id}`);
+        await client.delete(
+            `store/product/price/delete/${data.productId}/${data.id}`
+        );
     },
     formClean({commit}) {
         commit(FORM_CLEAN);
     },
-    getProfile({commit}, data) {
+    async getProfile({commit}, data) {
         commit(FORM_CLEAN);
 
-        client.get(`store/product/price/profile/${data.productId}/${data.id}`)
-            .then(data => commit(FORM_OBJECT, data));
+        const response = await client.get(
+            `store/product/price/profile/${data.productId}/${data.id}`
+        );
+
+        commit(FORM_OBJECT, response);
     },
-    getSearch({commit}, data) {
-        client.get(`store/product/price/search/${data.productId}`)
-            .then(data => commit(FORM_ARRAY, data));
+    async getSearch({commit}, data) {
+        commit(FORM_CLEAN);
+
+        const response = await client.get(
+            `store/product/price/search/${data.productId}`
+        );
+
+        commit(FORM_ARRAY, response);
     },
-    updateProfile({commit, state}, data) {
+    async updateProfile({commit, state}, data) {
         commit(FORM_VALIDATION);
 
-        return client.patch(`store/product/price/profile/${data.productId}/${data.id}`, state.formObj)
-            .then(response => {
-                if (response.error) {
-                    commit(FORM_ERRORS, response.errors);
-                } else {
-                    commit(FORM_SUCCESS);
-                }
-            });
+        const response = await client.patch(
+            `store/product/price/profile/${data.productId}/${data.id}`,
+            state.formObj
+        );
+
+        if (response.error) {
+            commit(FORM_ERRORS, response.errors);
+        } else {
+            commit(FORM_SUCCESS);
+        }
     }
 };
 
@@ -103,4 +117,4 @@ export default {
     getters,
     actions,
     mutations
-}
+};

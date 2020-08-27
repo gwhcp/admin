@@ -32,18 +32,18 @@
                         <template #delete="{ item }">
                             <td class="py-2">
                                 <modal-open-delete :delete="deleteBanned"
-                                            :params="{id: item.id}"
-                                            :formArr="formArr"
-                                            msg="Continuing will remove this banned item."/>
+                                                   :formArr="formArr"
+                                                   :params="{id: item.id}"
+                                                   msg="Continuing will remove this banned item."/>
                             </td>
                         </template>
                     </CDataTable>
                 </CCard>
             </CTab>
 
-            <CTab :to="{name: 'setting:banned:create'}"
-                  title="Create"
-                  v-if="this.hasPerm('setting.banned.add_banned')"/>
+            <CTab v-if="this.hasPerm('setting.banned.add_banned')"
+                  :to="{name: 'setting:banned:create'}"
+                  title="Create"/>
         </CTabs>
     </div>
 </template>
@@ -79,8 +79,8 @@ export default {
             'formArr'
         ])
     },
-    created() {
-        this.getSearch();
+    async created() {
+        await this.getSearch();
     },
     mounted() {
         if (this.hasPerm('setting.banned.delete_banned')) {
@@ -93,5 +93,5 @@ export default {
             'getSearch'
         ])
     }
-}
+};
 </script>

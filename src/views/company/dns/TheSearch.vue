@@ -50,13 +50,13 @@ export default {
             'formArr'
         ])
     },
-    created() {
-        this.getSearch();
+    async created() {
+        await this.getSearch();
     },
     methods: {
         ...mapActions('companyDns', [
             'getSearch'
         ])
     }
-}
+};
 </script>

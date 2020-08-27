@@ -89,8 +89,8 @@ export default {
             'formArr'
         ])
     },
-    created() {
-        this.getSearch();
+    async created() {
+        await this.getSearch();
     },
     mounted() {
         if (this.hasPerm('store.product.delete_storeproduct')) {
@@ -111,5 +111,5 @@ export default {
             }
         }
     }
-}
+};
 </script>

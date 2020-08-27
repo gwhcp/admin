@@ -92,8 +92,8 @@ export default {
             'formObj'
         ])
     },
-    created() {
-        this.getAuthentication({
+    async created() {
+        await this.getAuthentication({
             id: this.paymentId,
             merchant: 'authorize'
         });
@@ -106,17 +106,22 @@ export default {
             'getAuthentication',
             'updateAuthentication'
         ]),
-        submitUpdate() {
+        async submitUpdate() {
             this.loadingState = true;
 
-            this.updateAuthentication({
+            await this.updateAuthentication({
                 id: this.paymentId,
                 merchant: 'authorize'
-            })
-                .then(() => this.$refs.observer.setErrors(this.formErrors));
+            });
+
+            if (!this.formSuccess) {
+                this.$refs.observer.setErrors(this.formErrors);
+            }
 
             scroll(0, 0);
+
+            this.loadingState = false;
         }
     }
-}
+};
 </script>

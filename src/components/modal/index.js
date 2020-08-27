@@ -10,4 +10,4 @@ export {
     ModalOpenQueue,
     ModalSuccess,
     ModalWarning
-}
+};

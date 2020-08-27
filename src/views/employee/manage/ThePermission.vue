@@ -1,9 +1,9 @@
 <template>
     <div>
-        <CAlert :show="5"
+        <CAlert v-if="formSuccess"
+                :show="5"
                 closeButton
-                color="success"
-                v-if="formSuccess">
+                color="success">
             Account permissions have been updated.
         </CAlert>
 
@@ -17,18 +17,18 @@
                 <CCard bodyWrapper>
                     <CForm>
                         <vue-select-sides
-                            :list="permissionBase"
                             id="permission_user"
+                            v-model="selectedPermissions"
+                            :list="permissionBase"
                             name="permission_user"
-                            type="mirror"
-                            v-model="selectedPermissions"/>
+                            type="mirror"/>
 
                         <CRow class="mt-3">
                             <CCol class="text-left"
                                   col="6">
-                                <CButton @click="submitPermission"
-                                         class="px-4"
-                                         color="primary">
+                                <CButton class="px-4"
+                                         color="primary"
+                                         @click="submitPermission">
                                     Update
                                 </CButton>
                             </CCol>
@@ -84,8 +84,8 @@ export default {
             }
         }
     },
-    created() {
-        this.getPermissions({
+    async created() {
+        await this.getPermissions({
             id: this.accountId
         });
     },
@@ -97,18 +97,20 @@ export default {
             'getPermissions',
             'updatePermissions'
         ]),
-        submitPermission() {
+        async submitPermission() {
             this.loadingState = true;
 
-            this.updatePermissions({
+            await this.updatePermissions({
                 id: this.accountId,
                 perms: this.selected
             });
 
             scroll(0, 0);
+
+            this.loadingState = false;
         }
     }
-}
+};
 </script>
 
 <style lang="scss">

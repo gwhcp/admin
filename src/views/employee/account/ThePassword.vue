@@ -77,14 +77,19 @@ export default {
             'formClean',
             'updatePassword'
         ]),
-        submitUpdate() {
+        async submitUpdate() {
             this.loadingState = true;
 
-            this.updatePassword()
-                .then(() => this.$refs.observer.setErrors(this.formErrors));
+            await this.updatePassword();
+
+            if (!this.formSuccess) {
+                this.$refs.observer.setErrors(this.formErrors);
+            }
 
             scroll(0, 0);
+
+            this.loadingState = false;
         }
     }
-}
+};
 </script>

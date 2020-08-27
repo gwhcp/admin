@@ -11,9 +11,9 @@ import {
 } from "@/api/types";
 
 const state = {
-    formArr: [],
-    formErrors: {},
-    formObj: {},
+    formArr: Array,
+    formErrors: Object,
+    formObj: Object,
     formSuccess: false
 };
 
@@ -24,47 +24,61 @@ const getters = {
 };
 
 const actions = {
-    createCompany({commit, state}) {
+    async createCompany({commit, state}) {
         commit(FORM_VALIDATION);
 
-        return client.post('company/company/create', state.formData)
-            .then(response => {
-                if (response.error) {
-                    commit(FORM_ERRORS, response.errors);
-                } else {
-                    commit(FORM_SUCCESS);
-                }
-            });
+        const response = await client.post(
+            'company/company/create',
+            state.formObj
+        );
+
+        if (response.error) {
+            commit(FORM_ERRORS, response.errors);
+        } else {
+            commit(FORM_SUCCESS);
+        }
     },
-    deleteCompany({commit}, data) {
+    async deleteCompany({commit}, data) {
         commit(FORM_DELETE, data);
 
-        return client.delete(`company/company/delete/${data.id}`);
+        await client.delete(
+            `company/company/delete/${data.id}`
+        );
     },
     formClean({commit}) {
         commit(FORM_CLEAN);
     },
-    getProfile({commit}, data) {
+    async getProfile({commit}, data) {
         commit(FORM_CLEAN);
 
-        client.get(`company/company/profile/${data.id}`)
-            .then(data => commit(FORM_OBJECT, data));
+        const response = await client.get(
+            `company/company/profile/${data.id}`
+        );
+
+        commit(FORM_OBJECT, response);
     },
-    getSearch({commit}) {
-        client.get('company/company/search')
-            .then(data => commit(FORM_ARRAY, data));
+    async getSearch({commit}) {
+        commit(FORM_CLEAN);
+
+        const response = await client.get(
+            'company/company/search'
+        );
+
+        commit(FORM_ARRAY, response);
     },
-    updateProfile({commit, state}, data) {
+    async updateProfile({commit, state}, data) {
         commit(FORM_VALIDATION);
 
-        return client.patch(`company/company/profile/${data.id}`, state.formData)
-            .then(response => {
-                if (response.error) {
-                    commit(FORM_ERRORS, response.errors);
-                } else {
-                    commit(FORM_SUCCESS);
-                }
-            })
+        const response = await client.patch(
+            `company/company/profile/${data.id}`,
+            state.formObj
+        );
+
+        if (response.error) {
+            commit(FORM_ERRORS, response.errors);
+        } else {
+            commit(FORM_SUCCESS);
+        }
     }
 };
 
@@ -103,4 +117,4 @@ export default {
     getters,
     actions,
     mutations
-}
+};

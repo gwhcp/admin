@@ -71,7 +71,7 @@ export default new Router({
     linkActiveClass: 'active',
     scrollBehavior: () => ({x: 0, y: 0}),
     routes: configRoutes()
-})
+});
 
 function configRoutes() {
     return [

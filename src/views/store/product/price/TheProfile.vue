@@ -121,8 +121,8 @@ export default {
             'formObj'
         ])
     },
-    created() {
-        this.getProfile({
+    async created() {
+        await this.getProfile({
             id: this.priceId,
             productId: this.productId
         });
@@ -141,17 +141,22 @@ export default {
                     return `store:product:${value}:${route}`;
             }
         },
-        submitUpdate() {
+        async submitUpdate() {
             this.loadingState = true;
 
-            this.updateProfile({
+            await this.updateProfile({
                 id: this.priceId,
                 productId: this.productId
-            })
-                .then(() => this.$refs.observer.setErrors(this.formErrors));
+            });
+
+            if (!this.formSuccess) {
+                this.$refs.observer.setErrors(this.formErrors);
+            }
 
             scroll(0, 0);
+
+            this.loadingState = false;
         }
     }
-}
+};
 </script>

@@ -37,8 +37,8 @@ export default {
             'formObj'
         ])
     },
-    created() {
-        this.getProfile({
+    async created() {
+        await this.getProfile({
             id: this.fraudId
         });
     },
@@ -47,5 +47,5 @@ export default {
             'getProfile'
         ])
     }
-}
+};
 </script>

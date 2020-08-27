@@ -54,4 +54,4 @@ export const hardwareClientRoutes = (checkPermission) => {
             }
         ]
     }
-}
+};

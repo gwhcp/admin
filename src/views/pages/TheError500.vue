@@ -13,12 +13,7 @@
 </template>
 
 <script>
-import Loading from "@/mixins/Loading";
-
 export default {
-    name: 'TheError500',
-    mixins: [
-        Loading
-    ]
-}
+    name: 'TheError500'
+};
 </script>

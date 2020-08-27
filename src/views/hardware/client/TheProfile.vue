@@ -1,9 +1,9 @@
 <template>
     <div>
-        <CAlert :show="5"
+        <CAlert v-if="formSuccess"
+                :show="5"
                 closeButton
-                color="success"
-                v-if="formSuccess">
+                color="success">
             Hardware profile has been updated.
         </CAlert>
 
@@ -42,22 +42,22 @@
                     <static-data :value="formObj.ipaddress"
                                  name="IP Address"/>
 
-                    <ValidationObserver ref="observer"
-                                        v-if="formObj.is_installed && !formObj.in_queue"
+                    <ValidationObserver v-if="formObj.is_installed && !formObj.in_queue"
+                                        ref="observer"
                                         v-slot="{ handleSubmit, invalid }">
                         <CForm>
-                            <input-switch :checked="formObj.is_active"
+                            <input-switch v-model="formObj.is_active"
+                                          :checked="formObj.is_active"
                                           label="Status"
-                                          name="is_active"
-                                          v-model="formObj.is_active"/>
+                                          name="is_active"/>
 
                             <CRow>
                                 <CCol class="text-left"
                                       col="6">
                                     <CButton :disabled="invalid"
-                                             @click="handleSubmit(submitUpdate)"
                                              class="px-4"
-                                             color="primary">Update
+                                             color="primary"
+                                             @click="handleSubmit(submitUpdate)">Update
                                     </CButton>
                                 </CCol>
                             </CRow>
@@ -144,8 +144,8 @@ export default {
             'formObj'
         ])
     },
-    created() {
-        this.getProfile({
+    async created() {
+        await this.getProfile({
             id: this.serverId
         });
     },
@@ -166,15 +166,17 @@ export default {
                     return 'text-danger';
             }
         },
-        submitUpdate() {
+        async submitUpdate() {
             this.loadingState = true;
 
-            this.updateProfile({
+            await this.updateProfile({
                 id: this.serverId
             });
 
             scroll(0, 0);
+
+            this.loadingState = false;
         }
     }
-}
+};
 </script>

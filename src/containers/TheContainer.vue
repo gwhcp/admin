@@ -32,7 +32,7 @@ export default {
         TheHeader,
         TheFooter
     }
-}
+};
 </script>
 
 <style scoped>

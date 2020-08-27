@@ -5,9 +5,9 @@
         <CTab :to="{name: 'employee:manage:profile', params: {id: accountId}}"
               title="Profile"/>
 
-        <CTab :to="{name: 'employee:manage:permission', params: {id: accountId}}"
-              title="Permissions"
-              v-if="this.hasPerm('auth.view_permission')"/>
+        <CTab v-if="this.hasPerm('auth.view_permission')"
+              :to="{name: 'employee:manage:permission', params: {id: accountId}}"
+              title="Permissions"/>
 
         <CTab title="Access Logs">
             <CCard bodyWrapper>
@@ -61,8 +61,8 @@ export default {
             'formArr'
         ])
     },
-    created() {
-        this.getAccessLog({
+    async created() {
+        await this.getAccessLog({
             id: this.accountId
         });
     },
@@ -71,5 +71,5 @@ export default {
             'getAccessLog'
         ])
     }
-}
+};
 </script>

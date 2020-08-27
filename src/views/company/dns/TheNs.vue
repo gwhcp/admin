@@ -87,8 +87,8 @@ export default {
             }
         }
     },
-    created() {
-        this.getNameserver({
+    async created() {
+        await this.getNameserver({
             id: this.domainId
         });
     },
@@ -100,18 +100,20 @@ export default {
             'getNameserver',
             'updateNameserver'
         ]),
-        submitUpdate() {
+        async submitUpdate() {
             this.loadingState = true;
 
-            this.updateNameserver({
+            await this.updateNameserver({
                 id: this.domainId,
                 ns: this.selected
             });
 
             scroll(0, 0);
+
+            this.loadingState = false;
         }
     }
-}
+};
 </script>
 
 <style lang="scss">

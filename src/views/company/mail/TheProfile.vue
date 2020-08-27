@@ -102,10 +102,8 @@ export default {
             'formObj'
         ])
     },
-    created() {
-        this.getChoices();
-
-        this.getProfile({
+    async created() {
+        await this.getProfile({
             id: this.mailId
         });
     },
@@ -114,20 +112,24 @@ export default {
     },
     methods: {
         ...mapActions('companyMail', [
-            'getChoices',
             'getProfile',
             'updateProfile'
         ]),
-        submitUpdate() {
+        async submitUpdate() {
             this.loadingState = true;
 
-            this.updateProfile({
+            await this.updateProfile({
                 id: this.mailId
-            })
-                .then(() => this.$refs.observer.setErrors(this.formErrors));
+            });
+
+            if (!this.formSuccess) {
+                this.$refs.observer.setErrors(this.formErrors);
+            }
 
             scroll(0, 0);
+
+            this.loadingState = false;
         }
     }
-}
+};
 </script>

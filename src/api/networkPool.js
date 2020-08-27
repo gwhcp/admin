@@ -12,10 +12,10 @@ import {
 } from "@/api/types";
 
 const state = {
-    choices: {},
-    formArr: [],
-    formErrors: {},
-    formObj: {},
+    choices: Object,
+    formArr: Array,
+    formErrors: Object,
+    formObj: Object,
     formSuccess: false
 };
 
@@ -27,51 +27,74 @@ const getters = {
 };
 
 const actions = {
-    createPool({commit, state}) {
+    async createPool({commit, state}) {
         commit(FORM_VALIDATION);
 
-        return client.post('network/pool/create', state.formObj)
-            .then(response => {
-                if (response.error) {
-                    commit(FORM_ERRORS, response.errors);
-                } else {
-                    commit(FORM_SUCCESS);
-                }
-            });
+        const response = await client.post(
+            'network/pool/create',
+            state.formObj
+        );
+
+        if (response.error) {
+            commit(FORM_ERRORS, response.errors);
+        } else {
+            commit(FORM_SUCCESS);
+        }
     },
-    deletePool({commit}, data) {
+    async deletePool({commit}, data) {
         commit(FORM_DELETE, data);
 
-        return client.delete(`network/pool/delete/${data.id}`);
+        await client.delete(
+            `network/pool/delete/${data.id}`
+        );
     },
     formClean({commit}) {
         commit(FORM_CLEAN);
     },
-    getChoices({commit}) {
-        client.get('network/pool/choices')
-            .then(data => commit(FORM_CHOICES, data));
+    async getChoices({commit}) {
+        const response = await client.get(
+            'network/pool/choices'
+        );
+
+        commit(FORM_CHOICES, response);
     },
-    getProfile({commit}, data) {
+    async getProfile({commit}, data) {
         commit(FORM_CLEAN);
 
-        client.get(`network/pool/profile/${data.id}`)
-            .then(data => commit(FORM_OBJECT, data));
+        const responseChoices = await client.get(
+            'network/pool/choices'
+        );
+
+        commit(FORM_CHOICES, responseChoices);
+
+        const responseProfile = await client.get(
+            `network/pool/profile/${data.id}`
+        );
+
+        commit(FORM_OBJECT, responseProfile);
     },
-    getSearch({commit}) {
-        client.get('network/pool/search')
-            .then(data => commit(FORM_ARRAY, data));
+    async getSearch({commit}) {
+        commit(FORM_CLEAN);
+
+        const response = await client.get(
+            'network/pool/search'
+        );
+
+        commit(FORM_ARRAY, response);
     },
-    updateProfile({commit, state}, data) {
+    async updateProfile({commit, state}, data) {
         commit(FORM_VALIDATION);
 
-        return client.patch(`network/pool/profile/${data.id}`, state.formObj)
-            .then(response => {
-                if (response.error) {
-                    commit(FORM_ERRORS, response.errors);
-                } else {
-                    commit(FORM_SUCCESS);
-                }
-            });
+        const response = await client.patch(
+            `network/pool/profile/${data.id}`,
+            state.formObj
+        );
+
+        if (response.error) {
+            commit(FORM_ERRORS, response.errors);
+        } else {
+            commit(FORM_SUCCESS);
+        }
     }
 };
 
@@ -113,4 +136,4 @@ export default {
     getters,
     actions,
     mutations
-}
+};

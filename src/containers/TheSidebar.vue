@@ -185,5 +185,5 @@ export default {
             return this.$store.state.sidebarShow;
         }
     }
-}
+};
 </script>

@@ -3,10 +3,10 @@ import client from "@/api/client";
 import {FORM_ARRAY, FORM_CLEAN, FORM_ERRORS, FORM_OBJECT, FORM_SUCCESS, FORM_VALIDATION} from "@/api/types";
 
 const state = {
-    formArr: [],
+    formArr: Array,
     formError: false,
-    formErrors: {},
-    formObj: {},
+    formErrors: Object,
+    formObj: Object,
     formSuccess: false
 };
 
@@ -22,30 +22,38 @@ const actions = {
     formClean({commit}) {
         commit(FORM_CLEAN);
     },
-    getProfile({commit}, data) {
+    async getProfile({commit}, data) {
         commit(FORM_CLEAN);
 
-        client.get(`network/queue/profile/${data.id}`)
-            .then(data => [
-                commit(FORM_OBJECT, data.queue_status),
-                commit(FORM_ARRAY, data.queue_items)
-            ])
+        const response = await client.get(
+            `network/queue/profile/${data.id}`
+        );
+
+        commit(FORM_OBJECT, response.queue_status);
+        commit(FORM_ARRAY, response.queue_items);
     },
-    getSearch({commit}) {
-        client.get('network/queue/search')
-            .then(data => commit(FORM_ARRAY, data));
+    async getSearch({commit}) {
+        commit(FORM_CLEAN);
+
+        const response = await client.get(
+            'network/queue/search'
+        );
+
+        commit(FORM_ARRAY, response);
     },
-    retryQueue({commit}, data) {
+    async retryQueue({commit}, data) {
         commit(FORM_VALIDATION);
 
-        return client.patch('network/queue/retry', data)
-            .then(response => {
-                if (response.error) {
-                    commit(FORM_ERRORS, response.errors);
-                } else {
-                    commit(FORM_SUCCESS);
-                }
-            });
+        const response = await client.patch(
+            'network/queue/retry',
+            data
+        );
+
+        if (response.error) {
+            commit(FORM_ERRORS, response.errors);
+        } else {
+            commit(FORM_SUCCESS);
+        }
     }
 };
 
@@ -85,4 +93,4 @@ export default {
     getters,
     actions,
     mutations
-}
+};

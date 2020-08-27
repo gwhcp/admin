@@ -54,4 +54,4 @@ export const storeFraudRoutes = (checkPermission) => {
             }
         ]
     }
-}
+};

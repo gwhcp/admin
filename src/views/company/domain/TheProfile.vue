@@ -41,8 +41,8 @@ export default {
             'formObj'
         ])
     },
-    created() {
-        this.getProfile({
+    async created() {
+        await this.getProfile({
             id: this.domainId
         });
     },
@@ -51,5 +51,5 @@ export default {
             'getProfile'
         ])
     }
-}
+};
 </script>

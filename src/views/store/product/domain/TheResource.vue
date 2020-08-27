@@ -161,8 +161,8 @@ export default {
             'formObj'
         ])
     },
-    created() {
-        this.getResource({
+    async created() {
+        await this.getResource({
             id: this.productId
         });
     },
@@ -174,16 +174,21 @@ export default {
             'getResource',
             'updateResource'
         ]),
-        submitUpdate() {
+        async submitUpdate() {
             this.loadingState = true;
 
-            this.updateResource({
+            await this.updateResource({
                 id: this.productId
-            })
-                .then(() => this.$refs.observer.setErrors(this.formErrors));
+            });
+
+            if (!this.formSuccess) {
+                this.$refs.observer.setErrors(this.formErrors);
+            }
 
             scroll(0, 0);
+
+            this.loadingState = false;
         }
     }
-}
+};
 </script>

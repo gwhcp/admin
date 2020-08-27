@@ -18,13 +18,13 @@
                                 table-filter>
                         <template #is_active="{ item }">
                             <td>
-                                <CBadge :color="getBadge(item.is_active)"
-                                        v-if="!item.in_queue">
+                                <CBadge v-if="!item.in_queue"
+                                        :color="getBadge(item.is_active)">
                                     {{ item.is_active ? 'Enabled' : 'Disabled' }}
                                 </CBadge>
 
-                                <CBadge color="info"
-                                        v-else>
+                                <CBadge v-else
+                                        color="info">
                                     Pending Queue
                                 </CBadge>
                             </td>
@@ -44,11 +44,11 @@
                         </template>
 
                         <template #delete="{ item }">
-                            <td class="py-2"
-                                v-if="!item.in_queue">
+                            <td v-if="!item.in_queue"
+                                class="py-2">
                                 <modal-open-delete :delete="deleteHardware"
-                                                   :params="{id: item.id}"
                                                    :formArr="formArr"
+                                                   :params="{id: item.id}"
                                                    msg="Continuing will remove this hardware."/>
                             </td>
                         </template>
@@ -56,9 +56,9 @@
                 </CCard>
             </CTab>
 
-            <CTab :to="{name: 'hardware:company:create'}"
-                  title="Create"
-                  v-if="this.hasPerm('hardware.company.add_server')"/>
+            <CTab v-if="this.hasPerm('hardware.company.add_server')"
+                  :to="{name: 'hardware:company:create'}"
+                  title="Create"/>
         </CTabs>
     </div>
 </template>
@@ -95,8 +95,8 @@ export default {
             'formArr'
         ])
     },
-    created() {
-        this.getSearch();
+    async created() {
+        await this.getSearch();
     },
     mounted() {
         if (this.hasPerm('hardware.company.delete_server')) {
@@ -117,5 +117,5 @@ export default {
             }
         }
     }
-}
+};
 </script>

@@ -79,8 +79,8 @@ export default {
             'formArr'
         ])
     },
-    created() {
-        this.getSearch();
+    async created() {
+        await this.getSearch();
     },
     mounted() {
         if (this.hasPerm('billing.reason.delete_reason')) {
@@ -93,5 +93,5 @@ export default {
             'getSearch'
         ])
     }
-}
+};
 </script>

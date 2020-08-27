@@ -15,12 +15,7 @@
 </template>
 
 <script>
-import Loading from "@/mixins/Loading";
-
 export default {
-    name: 'TheError404',
-    mixins: [
-        Loading
-    ]
-}
+    name: 'TheError404'
+};
 </script>

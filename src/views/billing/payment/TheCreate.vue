@@ -79,8 +79,8 @@ export default {
             'formObj'
         ])
     },
-    created() {
-        this.getChoices();
+    async created() {
+        await this.getChoices();
     },
     beforeMount() {
         this.formClean();
@@ -93,21 +93,34 @@ export default {
         ]),
         setMethod(value) {
             switch (value) {
-                case 'authorize':
-                    this.choices.method = this.choices.method.authorize;
-
+                case 'authorize': // TODO Fix, after changing dropdown it loses it's Object
                     this.method = true;
+
+                    return this.choices.method.authorize;
+
+                default:
+                    this.method = false;
+                    break;
+
             }
         },
-        submitCreate() {
+        async submitCreate() {
             this.loadingState = true;
 
-            this.createPaymentGateway()
-                .then(() => this.$refs.observer.setErrors(this.formErrors))
-                .then(() => this.formSuccess ? this.$router.push({
+            await this.createPaymentGateway();
+
+            if (this.formSuccess) {
+                await this.$router.push({
                     name: 'billing:payment:search'
-                }) : false);
+                })
+            } else {
+                this.$refs.observer.setErrors(this.formErrors);
+
+                scroll(0, 0);
+
+                this.loadingState = false;
+            }
         }
     }
-}
+};
 </script>

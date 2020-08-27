@@ -1,39 +1,35 @@
 import client from "@/api/client";
 import session from "@/api/session";
 import {
-    AUTH_BEGIN_LOGIN,
-    AUTH_LOGIN_FAILURE,
-    AUTH_LOGIN_SUCCESS,
-    AUTH_LOGOUT,
     AUTH_PERMISSIONS,
     AUTH_PROFILE,
     AUTH_REMOVE_TOKEN,
     AUTH_SET_TOKEN,
     FORM_CLEAN,
     FORM_ERRORS,
-    FORM_NON_FIELD_ERROR
+    FORM_NON_FIELD_ERROR,
+    FORM_SUCCESS,
+    FORM_VALIDATION
 } from "@/api/types";
 
 const isProduction = process.env.NODE_ENV === 'production';
 const TOKEN_STORAGE_KEY = 'TOKEN_STORAGE_KEY';
 
 const state = {
-    authenticating: false,
-    email: String,
-    error: false,
-    formErrors: {},
-    formObj: {},
+    formErrors: Object,
+    formObj: Object,
+    formSuccess: false,
     nonFieldFormError: false,
-    nonFieldFormMessage: '',
-    password: String,
-    permit: [],
-    profile: {},
+    nonFieldFormMessage: null,
+    permit: Array,
+    profile: Object,
     token: null
 };
 
 const getters = {
     isAuthenticated: state => !!state.token,
     formErrors: state => state.formErrors,
+    formSuccess: state => state.formSuccess,
     nonFieldFormError: state => state.nonFieldFormError,
     nonFieldFormMessage: state => state.nonFieldFormMessage
 };
@@ -53,55 +49,51 @@ const actions = {
             commit(AUTH_SET_TOKEN, token);
         }
     },
-    login({commit, state}) {
-        commit(AUTH_BEGIN_LOGIN);
+    async login({commit, state}) {
+        commit(FORM_VALIDATION);
 
-        return client.post('rest-auth/login/', state.formObj)
-            .then(response => {
-                if (response.error) {
-                    commit(AUTH_LOGIN_FAILURE);
+        const response = await client.post(
+            'rest-auth/login/',
+            state.formObj
+        );
 
-                    if ('non_field_errors' in response.errors) {
-                        commit(FORM_NON_FIELD_ERROR, response.errors['non_field_errors'][0]);
-                    } else {
-                        commit(FORM_ERRORS, response.errors);
-                    }
-                } else {
-                    commit(AUTH_SET_TOKEN, response.key);
-                    commit(AUTH_LOGIN_SUCCESS);
+        if (response.error) {
+            if ('non_field_errors' in response.errors) {
+                commit(FORM_NON_FIELD_ERROR, response.errors['non_field_errors'][0]);
+            } else {
+                commit(FORM_ERRORS, response.errors);
+            }
+        } else {
+            commit(AUTH_SET_TOKEN, response.key);
 
-                    client.get('employee/account/profile')
-                        .then(response => commit(AUTH_PROFILE, response));
+            const responseProfile = await client.get(
+                'employee/account/profile'
+            );
 
-                    client.get('employee/manage/permission/user')
-                        .then(response => commit(AUTH_PERMISSIONS, response));
-                }
-            });
+            commit(AUTH_PROFILE, responseProfile);
+
+            const responsePerm = await client.get(
+                'employee/manage/permission/user'
+            );
+
+            commit(AUTH_PERMISSIONS, responsePerm);
+
+            commit(FORM_SUCCESS);
+        }
     },
-    logout({commit}) {
-        return client.post('rest-auth/logout/', {})
-            .then(() => commit(AUTH_LOGOUT))
-            .finally(() => commit(AUTH_REMOVE_TOKEN));
+    async logout({commit}) {
+        await client.post(
+            'rest-auth/logout/',
+            {}
+        );
+
+        commit(AUTH_REMOVE_TOKEN);
+
+        commit(FORM_CLEAN);
     }
 };
 
 const mutations = {
-    [AUTH_BEGIN_LOGIN](state) {
-        state.authenticating = true;
-        state.error = false;
-    },
-    [AUTH_LOGIN_FAILURE](state) {
-        state.authenticating = false;
-        state.error = true;
-    },
-    [AUTH_LOGIN_SUCCESS](state) {
-        state.authenticating = false;
-        state.error = false;
-    },
-    [AUTH_LOGOUT](state) {
-        state.authenticating = false;
-        state.error = false;
-    },
     [AUTH_PERMISSIONS](state, data) {
         const permissions = [];
 
@@ -116,20 +108,23 @@ const mutations = {
     },
     [AUTH_REMOVE_TOKEN](state) {
         localStorage.removeItem(TOKEN_STORAGE_KEY);
+
         delete session.defaults.headers.Authorization;
+
         state.token = null;
     },
     [AUTH_SET_TOKEN](state, token) {
         if (!isProduction) localStorage.setItem(TOKEN_STORAGE_KEY, token);
+
         session.defaults.headers.Authorization = `Token ${token}`;
+
         state.token = token;
     },
     [FORM_CLEAN](state) {
-        state.authenticating = false;
-        state.error = false;
-        state.formObj = {};
         state.formErrors = {};
+        state.formObj = {};
         state.nonFieldFormError = false;
+        state.nonFieldFormMessage = null;
         state.permit = [];
         state.profile = {};
         state.token = null;
@@ -141,6 +136,18 @@ const mutations = {
         state.nonFieldFormError = true;
         state.nonFieldFormMessage = data;
     },
+    [FORM_SUCCESS](state) {
+        state.formErrors = {};
+        state.formSuccess = true;
+        state.nonFieldFormError = false;
+        state.nonFieldFormMessage = null;
+    },
+    [FORM_VALIDATION](state) {
+        state.formErrors = {};
+        state.formSuccess = false;
+        state.nonFieldFormError = false;
+        state.nonFieldFormMessage = null;
+    }
 };
 
 export default {
@@ -149,4 +156,4 @@ export default {
     getters,
     actions,
     mutations
-}
+};

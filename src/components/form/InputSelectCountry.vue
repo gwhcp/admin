@@ -25,7 +25,7 @@ import {ValidationProvider} from "vee-validate/dist/vee-validate.full.esm";
 import Vue from "vue";
 import vueCountryRegionSelect from "vue-country-region-select";
 
-Vue.use(vueCountryRegionSelect)
+Vue.use(vueCountryRegionSelect);
 
 export default {
     name: 'InputSelectCountry',

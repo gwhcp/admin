@@ -151,28 +151,30 @@ export default {
             'formObj'
         ])
     },
-    created() {
-        this.getChoices();
-
-        this.getProfile();
+    async created() {
+        await this.getProfile();
     },
     mounted() {
         this.hasPermForm('employee.account.change_account');
     },
     methods: {
         ...mapActions('employeeAccount', [
-            'getChoices',
             'getProfile',
             'updateProfile'
         ]),
-        submitUpdate() {
+        async submitUpdate() {
             this.loadingState = true;
 
-            this.updateProfile()
-                .then(() => this.$refs.observer.setErrors(this.formErrors));
+            await this.updateProfile();
+
+            if (!this.formSuccess) {
+                this.$refs.observer.setErrors(this.formErrors);
+            }
 
             scroll(0, 0);
+
+            this.loadingState = false;
         }
     }
-}
+};
 </script>

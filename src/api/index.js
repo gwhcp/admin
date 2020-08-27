@@ -38,4 +38,4 @@ export {
     storeProduct,
     storeProductDomain,
     storeProductPrice
-}
+};

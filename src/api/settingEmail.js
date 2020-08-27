@@ -12,10 +12,10 @@ import {
 } from "@/api/types";
 
 const state = {
-    choices: {},
-    formArr: [],
-    formErrors: {},
-    formObj: {},
+    choices: Object,
+    formArr: Array,
+    formErrors: Object,
+    formObj: Object,
     formSuccess: false
 };
 
@@ -27,51 +27,68 @@ const getters = {
 };
 
 const actions = {
-    createEmailTemplate({commit, state}) {
+    async createEmailTemplate({commit, state}) {
         commit(FORM_VALIDATION);
 
-        return client.post('setting/email/create', state.formObj)
-            .then(response => {
-                if (response.error) {
-                    commit(FORM_ERRORS, response.errors);
-                } else {
-                    commit(FORM_SUCCESS);
-                }
-            });
+        const response = await client.post(
+            'setting/email/create',
+            state.formObj
+        );
+
+        if (response.error) {
+            commit(FORM_ERRORS, response.errors);
+        } else {
+            commit(FORM_SUCCESS);
+        }
     },
-    deleteEmailTemplate({commit}, data) {
+    async deleteEmailTemplate({commit}, data) {
         commit(FORM_DELETE, data);
 
-        return client.delete(`setting/email/delete/${data.id}`);
+        await client.delete(
+            `setting/email/delete/${data.id}`
+        );
     },
     formClean({commit}) {
         commit(FORM_CLEAN);
     },
-    getChoices({commit}) {
-        client.get('setting/email/choices')
-            .then(data => commit(FORM_CHOICES, data));
+    async getChoices({commit}) {
+        const response = await client.get(
+            'setting/email/choices'
+        );
+
+        commit(FORM_CHOICES, response);
     },
-    getProfile({commit}, data) {
+    async getProfile({commit}, data) {
         commit(FORM_CLEAN);
 
-        client.get(`setting/email/profile/${data.id}`)
-            .then(data => commit(FORM_OBJECT, data));
+        const response = await client.get(
+            `setting/email/profile/${data.id}`
+        );
+
+        commit(FORM_OBJECT, response);
     },
-    getSearch({commit}) {
-        client.get('setting/email/search')
-            .then(data => commit(FORM_ARRAY, data));
+    async getSearch({commit}) {
+        commit(FORM_CLEAN);
+
+        const response = await client.get(
+            'setting/email/search'
+        );
+
+        commit(FORM_ARRAY, response);
     },
-    updateProfile({commit, state}, data) {
+    async updateProfile({commit, state}, data) {
         commit(FORM_VALIDATION);
 
-        return client.patch(`setting/email/profile/${data.id}`, state.formObj)
-            .then(response => {
-                if (response.error) {
-                    commit(FORM_ERRORS, response.errors);
-                } else {
-                    commit(FORM_SUCCESS);
-                }
-            });
+        const response = await client.patch(
+            `setting/email/profile/${data.id}`,
+            state.formObj
+        );
+
+        if (response.error) {
+            commit(FORM_ERRORS, response.errors);
+        } else {
+            commit(FORM_SUCCESS);
+        }
     }
 };
 
@@ -113,4 +130,4 @@ export default {
     getters,
     actions,
     mutations
-}
+};

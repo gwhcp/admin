@@ -14,4 +14,4 @@ export {
     InputSwitch,
     InputText,
     InputWysiwyg
-}
+};

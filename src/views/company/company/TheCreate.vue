@@ -108,15 +108,23 @@ export default {
             'createCompany',
             'formClean'
         ]),
-        submitCreate() {
+        async submitCreate() {
             this.loadingState = true;
 
-            this.createCompany()
-                .then(() => this.$refs.observer.setErrors(this.formErrors))
-                .then(() => this.formSuccess ? this.$router.push({
+            await this.createCompany();
+
+            if (this.formSuccess) {
+                await this.$router.push({
                     name: 'company:company:search'
-                }) : false);
+                })
+            } else {
+                this.$refs.observer.setErrors(this.formErrors);
+
+                scroll(0, 0);
+
+                this.loadingState = false;
+            }
         }
     }
-}
+};
 </script>

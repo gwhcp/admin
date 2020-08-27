@@ -54,4 +54,4 @@ export const settingEmailRoutes = (checkPermission) => {
             }
         ]
     }
-}
+};

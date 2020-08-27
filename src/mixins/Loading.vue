@@ -26,7 +26,7 @@ export default {
             else
                 this.$loading(false);
         },
-        formErrors(value) {
+        /*formErrors(value) {
             if (value)
                 this.$nextTick(() => {
                     this.loadingState = false;
@@ -37,7 +37,7 @@ export default {
                 this.$nextTick(() => {
                     this.loadingState = false;
                 });
-        }
+        }*/
     },
     created() {
         this.loadingState = true;
@@ -50,5 +50,5 @@ export default {
     destroyed() {
         this.$loading(false);
     }
-}
+};
 </script>

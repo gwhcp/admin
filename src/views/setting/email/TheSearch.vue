@@ -41,9 +41,9 @@
                 </CCard>
             </CTab>
 
-            <CTab :to="{name: 'setting:email:create'}"
-                  title="Create"
-                  v-if="this.hasPerm('setting.email.add_emailtemplate')"/>
+            <CTab v-if="this.hasPerm('setting.email.add_emailtemplate')"
+                  :to="{name: 'setting:email:create'}"
+                  title="Create"/>
         </CTabs>
     </div>
 </template>
@@ -79,8 +79,8 @@ export default {
             'formArr'
         ])
     },
-    created() {
-        this.getSearch();
+    async created() {
+        await this.getSearch();
     },
     mounted() {
         if (this.hasPerm('setting.email.delete_emailtemplate')) {
@@ -93,5 +93,5 @@ export default {
             'getSearch'
         ])
     }
-}
+};
 </script>

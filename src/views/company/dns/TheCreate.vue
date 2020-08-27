@@ -13,36 +13,36 @@
                                 v-slot="{ handleSubmit, invalid }">
                 <CForm>
                     <CCard bodyWrapper>
-                        <input-text label="Host"
-                                    name="host"
-                                    v-model="formObj.host"/>
+                        <input-text v-model="formObj.host"
+                                    label="Host"
+                                    name="host"/>
 
-                        <input-select :options="choices.zone"
+                        <input-select v-model="formObj.record_type"
+                                      :options="choices.zone"
                                       label="Type"
                                       name="record_type"
                                       required="true"
-                                      rules="required"
-                                      v-model="formObj.record_type"/>
+                                      rules="required"/>
 
-                        <input-text label="MX Priority"
+                        <input-text v-if="formObj.record_type === 'MX'"
+                                    v-model="formObj.mx_priority"
+                                    label="MX Priority"
                                     name="mx_priority"
                                     required="true"
-                                    rules="required"
-                                    v-if="formObj.record_type === 'MX'"
-                                    v-model="formObj.mx_priority"/>
+                                    rules="required"/>
 
-                        <input-text label="Data"
+                        <input-text v-model="formObj.data"
+                                    label="Data"
                                     name="data"
                                     required="true"
-                                    rules="required"
-                                    v-model="formObj.data"/>
+                                    rules="required"/>
                         <CRow>
                             <CCol class="text-left"
                                   col="6">
                                 <CButton :disabled="invalid"
-                                         @click="handleSubmit(submitCreate)"
                                          class="px-4"
-                                         color="primary">Create
+                                         color="primary"
+                                         @click="handleSubmit(submitCreate)">Create
                                 </CButton>
                             </CCol>
                         </CRow>
@@ -84,8 +84,8 @@ export default {
             'formObj'
         ])
     },
-    created() {
-        this.getChoices();
+    async created() {
+        await this.getChoices();
     },
     beforeMount() {
         this.formClean();
@@ -96,18 +96,28 @@ export default {
             'formClean',
             'getChoices'
         ]),
-        submitCreate() {
+        async submitCreate() {
             this.loadingState = true;
 
             this.formObj['domain'] = this.domainId;
 
-            this.createRecord()
-                .then(() => this.$refs.observer.setErrors(this.formErrors))
-                .then(() => this.formSuccess ? this.$router.push({
+            await this.createRecord();
+
+            if (this.formSuccess) {
+                await this.$router.push({
                     name: 'company:dns:records',
-                    params: {id: this.domainId}
-                }) : false);
+                    params: {
+                        id: this.domainId
+                    }
+                })
+            } else {
+                this.$refs.observer.setErrors(this.formErrors);
+
+                scroll(0, 0);
+
+                this.loadingState = false;
+            }
         }
     }
-}
+};
 </script>

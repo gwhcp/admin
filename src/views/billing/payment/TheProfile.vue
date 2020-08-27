@@ -52,8 +52,8 @@ export default {
             'formObj'
         ])
     },
-    created() {
-        this.getProfile({
+    async created() {
+        await this.getProfile({
             id: this.paymentId
         });
     },
@@ -74,5 +74,5 @@ export default {
             }
         }
     }
-}
+};
 </script>

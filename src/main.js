@@ -11,6 +11,9 @@ import store from "@/store";
 import Vue from "vue";
 import VueLoading from "vuejs-loading-plugin";
 
+// CoreUI
+Vue.use(CoreuiVue);
+
 // Font Awesome
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 library.add(far, fas);
@@ -19,9 +22,9 @@ dom.watch();
 // Loading Plugin
 Vue.use(VueLoading);
 
+// Vue Config
 Vue.config.performance = true;
 Vue.config.productionTip = false;
-Vue.use(CoreuiVue);
 
 new Vue({
     el: '#app',
@@ -32,4 +35,4 @@ new Vue({
     components: {
         App
     }
-})
+});

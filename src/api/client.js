@@ -7,7 +7,7 @@ const catchError = (error) => {
         errors: error.response.data,
         response: error.response,
         status: error.response.status
-    }
+    };
 };
 
 const catchMe = (error) => {
@@ -32,46 +32,56 @@ const catchMe = (error) => {
 };
 
 export default {
-    delete(url, conf = {}) {
-        return session.delete(url, conf)
-            .then(response => Promise.resolve(response))
-            .catch(function (error) {
-                catchMe(error);
-            });
-    },
-    get(url, conf = {}) {
-        return session.get(url, conf)
-            .then(response => response.data)
-            .catch(function (error) {
-                catchMe(error);
-            });
-    },
-    options(url, conf = {}) {
-        return session.options(url, conf)
-            .then(response => response.data)
-            .catch(function (error) {
-                catchMe(error);
-            });
-    },
-    patch(url, data = {}, conf = {}) {
-        return session.patch(url, data, conf)
-            .then(response => response.data)
-            .catch(function (error) {
-                catchMe(error);
+    async delete(url, conf = {}) {
+        try {
+            const response = await session.delete(url, conf);
 
-                return catchError(error);
-            });
+            return response.data;
+        } catch (error) {
+            catchMe(error);
+        }
     },
-    post(url, data = {}, conf = {}) {
-        return session.post(url, data, conf)
-            .then(response => response.data)
-            .catch(function (error) {
-                catchMe(error);
+    async get(url, conf = {}) {
+        try {
+            const response = await session.get(url, conf);
 
-                return catchError(error);
-            });
+            return response.data;
+        } catch (error) {
+            catchMe(error);
+        }
     },
-    put(url, data = {}, conf = {}) {
-        this.patch(url, data, conf);
+    async options(url, conf = {}) {
+        try {
+            const response = await session.options(url, conf);
+
+            return response.data;
+        } catch (error) {
+            catchMe(error);
+        }
+    },
+    async patch(url, data = {}, conf = {}) {
+        try {
+            const response = await session.patch(url, data, conf);
+
+            return response.data;
+        } catch (error) {
+            catchMe(error);
+
+            return catchError(error);
+        }
+    },
+    async post(url, data = {}, conf = {}) {
+        try {
+            const response = await session.post(url, data, conf);
+
+            return response.data;
+        } catch (error) {
+            catchMe(error);
+
+            return catchError(error);
+        }
+    },
+    async put(url, data = {}, conf = {}) {
+        await this.patch(url, data, conf);
     }
-}
+};

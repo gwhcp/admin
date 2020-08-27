@@ -13,13 +13,13 @@ import {
 } from "@/api/types";
 
 const state = {
-    choices: {},
-    formArr: [],
-    formErrors: {},
-    formObj: {},
+    choices: Object,
+    formArr: Array,
+    formErrors: Object,
+    formObj: Object,
     formSuccess: false,
     nonFieldFormError: false,
-    nonFieldFormMessage: ''
+    nonFieldFormMessage: null
 };
 
 const getters = {
@@ -32,79 +32,104 @@ const getters = {
 };
 
 const actions = {
-    createPaymentGateway({commit, state}) {
+    async createPaymentGateway({commit, state}) {
         commit(FORM_VALIDATION);
 
-        return client.post('billing/payment/create', state.formObj)
-            .then(response => {
-                if (response.error) {
-                    commit(FORM_ERRORS, response.errors);
-                } else {
-                    commit(FORM_SUCCESS);
-                }
-            });
+        const response = await client.post(
+            'billing/payment/create',
+            state.formObj
+        );
+
+        if (response.error) {
+            commit(FORM_ERRORS, response.errors);
+        } else {
+            commit(FORM_SUCCESS);
+        }
     },
-    deletePaymentGateway({commit}, data) {
+    async deletePaymentGateway({commit}, data) {
         commit(FORM_DELETE, data);
 
-        return client.delete(`billing/payment/delete/${data.id}`);
+        await client.delete(
+            `billing/payment/delete/${data.id}`
+        );
     },
     formClean({commit}) {
         commit(FORM_CLEAN);
     },
-    getAuthentication({commit}, data) {
+    async getAuthentication({commit}, data) {
         commit(FORM_CLEAN);
 
-        client.get(`billing/payment/${data.merchant}/${data.id}/authentication`)
-            .then(data => commit(FORM_OBJECT, data));
+        const response = await client.get(
+            `billing/payment/${data.merchant}/${data.id}/authentication`
+        );
+
+        commit(FORM_OBJECT, response);
     },
-    getChoices({commit}) {
-        client.get('billing/payment/choices')
-            .then(data => commit(FORM_CHOICES, data));
+    async getChoices({commit}) {
+        const response = await client.get(
+            'billing/payment/choices'
+        );
+
+        commit(FORM_CHOICES, response);
     },
-    getMethod({commit}, data) {
+    async getMethod({commit}, data) {
         commit(FORM_CLEAN);
 
-        client.get(`billing/payment/${data.merchant}/${data.id}/method`)
-            .then(data => commit(FORM_OBJECT, data));
+        const response = await client.get(
+            `billing/payment/${data.merchant}/${data.id}/method`
+        );
+
+        commit(FORM_OBJECT, response);
     },
-    getProfile({commit}, data) {
+    async getProfile({commit}, data) {
         commit(FORM_CLEAN);
 
-        client.get(`billing/payment/profile/${data.id}`)
-            .then(data => commit(FORM_OBJECT, data));
+        const response = await client.get(
+            `billing/payment/profile/${data.id}`
+        );
+
+        commit(FORM_OBJECT, response);
     },
-    getSearch({commit}) {
-        client.get('billing/payment/search')
-            .then(data => commit(FORM_ARRAY, data));
+    async getSearch({commit}) {
+        commit(FORM_CLEAN);
+
+        const response = await client.get(
+            'billing/payment/search'
+        );
+
+        commit(FORM_ARRAY, response);
     },
-    updateAuthentication({commit, state}, data) {
+    async updateAuthentication({commit, state}, data) {
         commit(FORM_VALIDATION);
 
-        return client.patch(`billing/payment/${data.merchant}/${data.id}/authentication`, state.formObj)
-            .then(response => {
-                if (response.error) {
-                    commit(FORM_ERRORS, response.errors);
-                } else {
-                    commit(FORM_SUCCESS);
-                }
-            });
+        const response = await client.patch(
+            `billing/payment/${data.merchant}/${data.id}/authentication`,
+            state.formObj
+        );
+
+        if (response.error) {
+            commit(FORM_ERRORS, response.errors);
+        } else {
+            commit(FORM_SUCCESS);
+        }
     },
-    updateMethod({commit, state}, data) {
+    async updateMethod({commit, state}, data) {
         commit(FORM_VALIDATION);
 
-        return client.patch(`billing/payment/${data.merchant}/${data.id}/method`, state.formObj)
-            .then(response => {
-                if (response.error) {
-                    if ('non_field_errors' in response.errors) {
-                        commit(FORM_NON_FIELD_ERROR, response.errors['non_field_errors'][0]);
-                    } else {
-                        commit(FORM_ERRORS, response.errors);
-                    }
-                } else {
-                    commit(FORM_SUCCESS);
-                }
-            });
+        const response = await client.patch(
+            `billing/payment/${data.merchant}/${data.id}/method`,
+            state.formObj
+        );
+
+        if (response.error) {
+            if ('non_field_errors' in response.errors) {
+                commit(FORM_NON_FIELD_ERROR, response.errors['non_field_errors'][0]);
+            } else {
+                commit(FORM_ERRORS, response.errors);
+            }
+        } else {
+            commit(FORM_SUCCESS);
+        }
     }
 };
 
@@ -121,7 +146,7 @@ const mutations = {
         state.formObj = {};
         state.formSuccess = false;
         state.nonFieldFormError = false;
-        state.nonFieldFormMessage = '';
+        state.nonFieldFormMessage = null;
     },
     [FORM_DELETE](state, data) {
         state.formArr = state.formArr.filter(item => item.id !== data.id);
@@ -140,13 +165,13 @@ const mutations = {
         state.formErrors = {};
         state.formSuccess = true;
         state.nonFieldFormError = false;
-        state.nonFieldFormMessage = '';
+        state.nonFieldFormMessage = null;
     },
     [FORM_VALIDATION](state) {
         state.formErrors = {};
         state.formSuccess = false;
         state.nonFieldFormError = false;
-        state.nonFieldFormMessage = '';
+        state.nonFieldFormMessage = null;
     }
 };
 
@@ -156,4 +181,4 @@ export default {
     getters,
     actions,
     mutations
-}
+};

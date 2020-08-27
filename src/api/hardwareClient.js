@@ -15,10 +15,10 @@ import {
 } from "@/api/types";
 
 const state = {
-    choices: {},
-    formArr: [],
-    formErrors: {},
-    formObj: {},
+    choices: Object,
+    formArr: Array,
+    formErrors: Object,
+    formObj: Object,
     formSuccess: false,
     installSuccess: false,
     installWarning: false
@@ -34,66 +34,85 @@ const getters = {
 };
 
 const actions = {
-    createHardware({commit, state}) {
+    async createHardware({commit, state}) {
         commit(FORM_VALIDATION);
 
-        return client.post('hardware/client/create', state.formObj)
-            .then(response => {
-                if (response.error) {
-                    commit(FORM_ERRORS, response.errors);
-                } else {
-                    commit(FORM_SUCCESS);
-                }
-            });
+        const response = await client.post(
+            'hardware/client/create',
+            state.formObj
+        );
+
+        if (response.error) {
+            commit(FORM_ERRORS, response.errors);
+        } else {
+            commit(FORM_SUCCESS);
+        }
     },
-    deleteHardware({commit}, data) {
+    async deleteHardware({commit}, data) {
         commit(FORM_DELETE, data);
 
-        return client.delete(`hardware/client/delete/${data.id}`);
+        await client.delete(
+            `hardware/client/delete/${data.id}`
+        );
     },
     formClean({commit}) {
         commit(FORM_CLEAN);
     },
-    getChoices({commit}) {
-        client.get('hardware/client/choices')
-            .then(data => commit(FORM_CHOICES, data));
+    async getChoices({commit}) {
+        const response = await client.get(
+            'hardware/client/choices'
+        );
+
+        commit(FORM_CHOICES, response);
     },
-    getProfile({commit}, data) {
+    async getProfile({commit}, data) {
         commit(FORM_CLEAN);
 
-        client.get(`hardware/client/profile/${data.id}`)
-            .then(data => commit(FORM_OBJECT, data));
+        const response = await client.get(
+            `hardware/client/profile/${data.id}`
+        );
+
+        commit(FORM_OBJECT, response);
     },
-    getSearch({commit}) {
-        client.get('hardware/client/search')
-            .then(data => commit(FORM_ARRAY, data));
+    async getSearch({commit}) {
+        commit(FORM_CLEAN);
+
+        const response = await client.get(
+            'hardware/client/search'
+        );
+
+        commit(FORM_ARRAY, response);
     },
-    installHardware({commit}, data) {
+    async installHardware({commit}, data) {
         commit(INSTALL_VALIDATION);
 
-        return client.patch(`hardware/client/install/${data.id}`, {
-            'in_queue': true,
-            'is_installed': true
-        })
-            .then(response => {
-                if (response.error) {
-                    commit(INSTALL_WARNING);
-                } else {
-                    commit(INSTALL_SUCCESS);
-                }
-            });
+        const response = await client.patch(
+            `hardware/client/install/${data.id}`,
+            {
+                'in_queue': true, // TODO move this to a model
+                'is_installed': true
+            }
+        );
+
+        if (response.error) {
+            commit(INSTALL_WARNING);
+        } else {
+            commit(INSTALL_SUCCESS);
+        }
     },
-    updateProfile({commit, state}, data) {
+    async updateProfile({commit, state}, data) {
         commit(FORM_VALIDATION);
 
-        return client.patch(`hardware/client/profile/${data.id}`, state.formObj)
-            .then(response => {
-                if (response.error) {
-                    commit(FORM_ERRORS, response.errors);
-                } else {
-                    commit(FORM_SUCCESS);
-                }
-            });
+        const response = await client.patch(
+            `hardware/client/profile/${data.id}`,
+            state.formObj
+        );
+
+        if (response.error) {
+            commit(FORM_ERRORS, response.errors);
+        } else {
+            commit(FORM_SUCCESS);
+        }
     }
 };
 
@@ -149,4 +168,4 @@ export default {
     getters,
     actions,
     mutations
-}
+};

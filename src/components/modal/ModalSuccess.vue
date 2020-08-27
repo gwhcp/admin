@@ -26,5 +26,5 @@ export default {
             this.modalSuccess = 5;
         })
     }
-}
+};
 </script>

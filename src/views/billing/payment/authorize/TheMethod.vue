@@ -109,8 +109,8 @@ export default {
             'formObj'
         ])
     },
-    created() {
-        this.getMethod({
+    async created() {
+        await this.getMethod({
             id: this.paymentId,
             merchant: 'authorize'
         });
@@ -123,17 +123,22 @@ export default {
             'getMethod',
             'updateMethod'
         ]),
-        submitUpdate() {
+        async submitUpdate() {
             this.loadingState = true;
 
-            this.updateMethod({
+            await this.updateMethod({
                 id: this.paymentId,
                 merchant: 'authorize'
-            })
-                .then(() => this.$refs.observer.setErrors(this.formErrors));
+            });
+
+            if (!this.formSuccess) {
+                this.$refs.observer.setErrors(this.formErrors);
+            }
 
             scroll(0, 0);
+
+            this.loadingState = false;
         }
     }
-}
+};
 </script>

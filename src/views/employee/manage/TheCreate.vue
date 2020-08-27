@@ -135,15 +135,23 @@ export default {
             'createAccount',
             'formClean'
         ]),
-        submitCreate() {
+        async submitCreate() {
             this.loadingState = true;
 
-            this.createAccount()
-                .then(() => this.$refs.observer.setErrors(this.formErrors))
-                .then(() => this.formSuccess ? this.$router.push({
+            await this.createAccount();
+
+            if (this.formSuccess) {
+                await this.$router.push({
                     name: 'employee:manage:search'
-                }) : false);
+                })
+            } else {
+                this.$refs.observer.setErrors(this.formErrors);
+
+                scroll(0, 0);
+
+                this.loadingState = false;
+            }
         }
     }
-}
+};
 </script>

@@ -45,13 +45,13 @@ export default {
             'formArr'
         ])
     },
-    created() {
-        this.getAccessLog();
+    async created() {
+        await this.getAccessLog();
     },
     methods: {
         ...mapActions('employeeAccount', [
             'getAccessLog'
         ])
     }
-}
+};
 </script>

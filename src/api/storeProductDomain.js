@@ -11,9 +11,9 @@ import {
 } from "@/api/types";
 
 const state = {
-    formArr: [],
-    formErrors: {},
-    formObj: {},
+    formArr: Array,
+    formErrors: Object,
+    formObj: Object,
     formSuccess: false
 };
 
@@ -24,65 +24,84 @@ const getters = {
 };
 
 const actions = {
-    createProduct({commit, state}) {
+    async createProduct({commit, state}) {
         commit(FORM_VALIDATION);
 
-        return client.post('store/product/domain/create', state.formObj)
-            .then(response => {
-                if (response.error) {
-                    commit(FORM_ERRORS, response.errors);
-                } else {
-                    commit(FORM_SUCCESS);
-                }
-            });
+        const response = await client.post(
+            'store/product/domain/create',
+            state.formObj
+        );
+
+        if (response.error) {
+            commit(FORM_ERRORS, response.errors);
+        } else {
+            commit(FORM_SUCCESS);
+        }
     },
-    deleteProduct({commit}, data) {
+    async deleteProduct({commit}, data) {
         commit(FORM_DELETE, data);
 
-        return client.delete(`store/product/domain/delete/${data.id}`);
+        await client.delete(
+            `store/product/domain/delete/${data.id}`
+        );
     },
     formClean({commit}) {
         commit(FORM_CLEAN);
     },
-    getProfile({commit}, data) {
+    async getProfile({commit}, data) {
         commit(FORM_CLEAN);
 
-        client.get(`store/product/domain/profile/${data.id}`)
-            .then(data => commit(FORM_OBJECT, data));
+        const response = await client.get(
+            `store/product/domain/profile/${data.id}`
+        );
+
+        commit(FORM_OBJECT, response);
     },
-    getResource({commit}, data) {
+    async getResource({commit}, data) {
         commit(FORM_CLEAN);
 
-        client.get(`store/product/domain/resource/${data.id}`)
-            .then(data => commit(FORM_OBJECT, data));
+        const response = await client.get(
+            `store/product/domain/resource/${data.id}`
+        );
+
+        commit(FORM_OBJECT, response);
     },
-    getSearch({commit}) {
-        client.get('store/product/domain/search')
-            .then(data => commit(FORM_ARRAY, data));
+    async getSearch({commit}) {
+        commit(FORM_CLEAN);
+
+        const response = await client.get(
+            'store/product/domain/search'
+        );
+
+        commit(FORM_ARRAY, response);
     },
-    updateProfile({commit, state}, data) {
+    async updateProfile({commit, state}, data) {
         commit(FORM_VALIDATION);
 
-        return client.patch(`store/product/domain/profile/${data.id}`, state.formObj)
-            .then(response => {
-                if (response.error) {
-                    commit(FORM_ERRORS, response.errors);
-                } else {
-                    commit(FORM_SUCCESS);
-                }
-            });
+        const response = await client.patch(
+            `setting/product/domain/profile/${data.id}`,
+            state.formObj
+        );
+
+        if (response.error) {
+            commit(FORM_ERRORS, response.errors);
+        } else {
+            commit(FORM_SUCCESS);
+        }
     },
-    updateResource({commit, state}, data) {
+    async updateResource({commit, state}, data) {
         commit(FORM_VALIDATION);
 
-        return client.patch(`store/product/domain/resource/${data.id}`, state.formObj)
-            .then(response => {
-                if (response.error) {
-                    commit(FORM_ERRORS, response.errors);
-                } else {
-                    commit(FORM_SUCCESS);
-                }
-            });
+        const response = await client.patch(
+            `setting/product/domain/resource/${data.id}`,
+            state.formObj
+        );
+
+        if (response.error) {
+            commit(FORM_ERRORS, response.errors);
+        } else {
+            commit(FORM_SUCCESS);
+        }
     }
 };
 
@@ -121,4 +140,4 @@ export default {
     getters,
     actions,
     mutations
-}
+};

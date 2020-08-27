@@ -97,7 +97,7 @@ export default {
             itemsCount: 42
         };
     }
-}
+};
 </script>
 
 <style scoped>

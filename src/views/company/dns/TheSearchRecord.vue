@@ -83,8 +83,8 @@ export default {
             'formArr'
         ])
     },
-    created() {
-        this.getSearchRecord({
+    async created() {
+        await this.getSearchRecord({
             id: this.domainId
         });
     },
@@ -99,5 +99,5 @@ export default {
             'getSearchRecord'
         ])
     }
-}
+};
 </script>

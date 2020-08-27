@@ -64,8 +64,8 @@ export default {
             'formObj'
         ])
     },
-    created() {
-        this.getChoices();
+    async created() {
+        await this.getChoices();
     },
     beforeMount() {
         this.formClean();
@@ -76,15 +76,23 @@ export default {
             'formClean',
             'getChoices'
         ]),
-        submitCreate() {
+        async submitCreate() {
             this.loadingState = true;
 
-            this.createReason()
-                .then(() => this.$refs.observer.setErrors(this.formErrors))
-                .then(() => this.formSuccess ? this.$router.push({
+            await this.createReason();
+
+            if (this.formSuccess) {
+                await this.$router.push({
                     name: 'billing:reason:search'
-                }) : false);
+                })
+            } else {
+                this.$refs.observer.setErrors(this.formErrors);
+
+                scroll(0, 0);
+
+                this.loadingState = false;
+            }
         }
     }
-}
+};
 </script>

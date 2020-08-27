@@ -23,12 +23,8 @@
 </template>
 
 <script>
-import Loading from "@/mixins/Loading";
 
 export default {
-    name: 'Dashboard',
-    mixins: [
-        Loading
-    ]
-}
+    name: 'Dashboard'
+};
 </script>

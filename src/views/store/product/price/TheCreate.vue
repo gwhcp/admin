@@ -107,20 +107,28 @@ export default {
                     return `store:product:${value}:${route}`;
             }
         },
-        submitCreate() {
+        async submitCreate() {
             this.loadingState = true;
 
             this.formObj['store_product'] = this.productId;
 
-            this.createPrice()
-                .then(() => this.$refs.observer.setErrors(this.formErrors))
-                .then(() => this.formSuccess ? this.$router.push({
+            await this.createPrice();
+
+            if (this.formSuccess) {
+                await this.$router.push({
                     name: 'store:product:price:search',
                     params: {
                         productId: this.productId
                     }
-                }) : false);
+                })
+            } else {
+                this.$refs.observer.setErrors(this.formErrors);
+
+                scroll(0, 0);
+
+                this.loadingState = false;
+            }
         }
     }
-}
+};
 </script>

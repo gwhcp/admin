@@ -10,25 +10,25 @@
                                 v-slot="{ handleSubmit, invalid }">
                 <CForm>
                     <CCard bodyWrapper>
-                        <input-text label="Name"
+                        <input-text v-model="formObj.name"
+                                    label="Name"
                                     name="name"
                                     required="true"
-                                    rules="required"
-                                    v-model="formObj.name"/>
+                                    rules="required"/>
 
-                        <input-select :options="choices"
+                        <input-select v-model="formObj.banned_type"
+                                      :options="choices"
                                       label="Type"
                                       name="banned_type"
                                       required="true"
-                                      rules="required"
-                                      v-model="formObj.banned_type"/>
+                                      rules="required"/>
                         <CRow>
                             <CCol class="text-left"
                                   col="6">
                                 <CButton :disabled="invalid"
-                                         @click="handleSubmit(submitCreate)"
                                          class="px-4"
-                                         color="primary">Create
+                                         color="primary"
+                                         @click="handleSubmit(submitCreate)">Create
                                 </CButton>
                             </CCol>
                         </CRow>
@@ -65,8 +65,8 @@ export default {
             'formObj'
         ])
     },
-    created() {
-        this.getChoices();
+    async created() {
+        await this.getChoices();
     },
     beforeMount() {
         this.formClean();
@@ -77,15 +77,23 @@ export default {
             'formClean',
             'getChoices'
         ]),
-        submitCreate() {
+        async submitCreate() {
             this.loadingState = true;
 
-            this.createBanned()
-                .then(() => this.$refs.observer.setErrors(this.formErrors))
-                .then(() => this.formSuccess ? this.$router.push({
+            await this.createBanned();
+
+            if (this.formSuccess) {
+                await this.$router.push({
                     name: 'setting:banned:search'
-                }) : false);
+                })
+            } else {
+                this.$refs.observer.setErrors(this.formErrors);
+
+                scroll(0, 0);
+
+                this.loadingState = false;
+            }
         }
     }
-}
+};
 </script>

@@ -136,5 +136,5 @@ export default {
             this.formData.password = null;
         }
     }
-}
+};
 </script>

@@ -14,13 +14,13 @@ import {
 } from "@/api/types";
 
 const state = {
-    choices: {},
-    formArr: [],
-    formErrors: {},
-    formObj: {},
+    choices: Object,
+    formArr: Array,
+    formErrors: Object,
+    formObj: Object,
     formSuccess: false,
-    nameserverBase: [],
-    nameserverDomain: []
+    nameserverBase: Array,
+    nameserverDomain: Array
 };
 
 const getters = {
@@ -33,76 +33,108 @@ const getters = {
 };
 
 const actions = {
-    createRecord({commit, state}) {
+    async createRecord({commit, state}) {
         commit(FORM_VALIDATION);
 
-        return client.post('company/dns/create', state.formObj)
-            .then(response => {
-                if (response.error) {
-                    commit(FORM_ERRORS, response.errors);
-                } else {
-                    commit(FORM_SUCCESS);
-                }
-            });
+        const response = await client.post(
+            'company/dns/create',
+            state.formObj
+        );
+
+        if (response.error) {
+            commit(FORM_ERRORS, response.errors);
+        } else {
+            commit(FORM_SUCCESS);
+        }
     },
-    deleteRecord({commit}, data) {
+    async deleteRecord({commit}, data) {
         commit(FORM_DELETE, data);
 
-        return client.delete(`company/dns/delete/${data.domain}/${data.id}`);
+        await client.delete(
+            `company/dns/delete/${data.domain}/${data.id}`
+        );
     },
     formClean({commit}) {
         commit(FORM_CLEAN);
     },
-    getChoices({commit}) {
-        client.get('company/dns/choices')
-            .then(data => commit(FORM_CHOICES, data));
+    async getChoices({commit}) {
+        const response = await client.get(
+            'company/dns/choices'
+        );
+
+        commit(FORM_CHOICES, response);
     },
-    getNameserver({commit}, data) {
+    async getNameserver({commit}, data) {
         commit(FORM_CLEAN);
 
-        client.get('company/dns/choices')
-            .then(data => commit(COMPANY_DNS_NAMESERVER_BASE, data));
+        const responseBase = await client.get(
+            'company/dns/choices'
+        );
 
-        client.get(`company/dns/ns/${data.id}`)
-            .then(data => commit(COMPANY_DNS_NAMESERVER_DOMAIN, data));
+        commit(COMPANY_DNS_NAMESERVER_BASE, responseBase);
+
+        const responseDomain = await client.get(
+            `company/dns/ns/${data.id}`
+        );
+
+        commit(COMPANY_DNS_NAMESERVER_DOMAIN, responseDomain);
     },
-    getProfile({commit}, data) {
+    async getProfile({commit}, data) {
         commit(FORM_CLEAN);
 
-        client.get(`company/dns/profile/${data.id}`)
-            .then(data => commit(FORM_OBJECT, data));
+        const response = await client.get(
+            `company/dns/profile/${data.id}`
+        );
+
+        commit(FORM_OBJECT, response);
     },
-    getSearchRecord({commit}, data) {
-        client.get(`company/dns/search/${data.id}`)
-            .then(data => commit(FORM_ARRAY, data));
+    async getSearchRecord({commit}, data) {
+        commit(FORM_CLEAN);
+
+        const response = await client.get(
+            `company/dns/search/${data.id}`
+        );
+
+        commit(FORM_ARRAY, response);
     },
-    getSearch({commit}) {
-        client.get('company/dns/search')
-            .then(data => commit(FORM_ARRAY, data));
+    async getSearch({commit}) {
+        commit(FORM_CLEAN);
+
+        const response = await client.get(
+            'company/dns/search'
+        );
+
+        commit(FORM_ARRAY, response);
     },
-    updateNameserver({commit}, data) {
+    async updateNameserver({commit}, data) {
         commit(FORM_VALIDATION);
 
-        return client.patch(`company/dns/ns/${data.id}`, {'ns': data.ns})
-            .then(response => {
-                if (response.error) {
-                    commit(FORM_ERRORS, response.errors);
-                } else {
-                    commit(FORM_SUCCESS);
-                }
-            })
+        const response = await client.patch(
+            `company/dns/ns/${data.id}`,
+            {
+                'ns': data.ns
+            }
+        );
+
+        if (response.error) {
+            commit(FORM_ERRORS, response.errors);
+        } else {
+            commit(FORM_SUCCESS);
+        }
     },
-    updateProfile({commit, state}, data) {
+    async updateProfile({commit, state}, data) {
         commit(FORM_VALIDATION);
 
-        return client.patch(`company/dns/profile/${data.id}`, state.formObj)
-            .then(response => {
-                if (response.error) {
-                    commit(FORM_ERRORS, response.errors);
-                } else {
-                    commit(FORM_SUCCESS);
-                }
-            })
+        const response = await client.patch(
+            `company/dns/profile/${data.id}`,
+            state.formObj
+        );
+
+        if (response.error) {
+            commit(FORM_ERRORS, response.errors);
+        } else {
+            commit(FORM_SUCCESS);
+        }
     }
 };
 
@@ -161,4 +193,4 @@ export default {
     getters,
     actions,
     mutations
-}
+};

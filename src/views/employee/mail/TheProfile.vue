@@ -128,5 +128,5 @@ export default {
             scroll(0, 0);
         }
     }
-}
+};
 </script>

@@ -41,9 +41,9 @@
                 </CCard>
             </CTab>
 
-            <CTab :to="{name: 'store:fraud:create'}"
-                  title="Create"
-                  v-if="this.hasPerm('store.fraud.add_fraudstring')"/>
+            <CTab v-if="this.hasPerm('store.fraud.add_fraudstring')"
+                  :to="{name: 'store:fraud:create'}"
+                  title="Create"/>
         </CTabs>
     </div>
 </template>
@@ -79,8 +79,8 @@ export default {
             'formArr'
         ])
     },
-    created() {
-        this.getSearch();
+    async created() {
+        await this.getSearch();
     },
     mounted() {
         if (this.hasPerm('store.fraud.delete_fraudstring')) {
@@ -93,5 +93,5 @@ export default {
             'getSearch'
         ])
     }
-}
+};
 </script>
