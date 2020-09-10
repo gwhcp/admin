@@ -27,6 +27,19 @@ export const companyMailRoutes = (checkPermission) => {
                 }
             },
             {
+                path: 'password/:id',
+                name: 'company:mail:password',
+                meta: {
+                    label: 'Password'
+                },
+                component: () => import('@/views/company/mail/ThePassword'),
+                beforeEnter: (to, from, next) => {
+                    checkPermission(to, from, next)([
+                        'company.mail.view_mail'
+                    ])
+                }
+            },
+            {
                 path: 'profile/:id',
                 name: 'company:mail:profile',
                 meta: {

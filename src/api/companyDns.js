@@ -175,7 +175,7 @@ const mutations = {
 
         for (const [key, value] of Object.entries(data.ns)) {
             ns.push({
-                value: key,
+                value: parseInt(key, 10),
                 label: value
             })
         }

@@ -6,6 +6,7 @@ import companyDns from "@/api/companyDns";
 import companyDomain from "@/api/companyDomain";
 import companyMail from "@/api/companyMail";
 import employeeAccount from "@/api/employeeAccount";
+import employeeMail from "@/api/employeeMail";
 import employeeManage from "@/api/employeeManage";
 import hardwareClient from "@/api/hardwareClient";
 import hardwareCompany from "@/api/hardwareCompany";
@@ -27,6 +28,7 @@ export {
     companyDomain,
     companyMail,
     employeeAccount,
+    employeeMail,
     employeeManage,
     hardwareClient,
     hardwareCompany,

@@ -10,7 +10,7 @@
         <CTabs :active-tab="1"
                addNavClasses="border-bottom-0"
                variant="tabs">
-            <CTab :to="{name: 'employee:mail:profile', params: {'id': mailId}}"
+            <CTab :to="{name: 'company:mail:profile', params: {'id': mailId}}"
                   title="Profile"/>
 
             <CTab title="Password">
@@ -69,11 +69,11 @@ export default {
         };
     },
     computed: {
-        ...mapGetters('employeeMail', [
+        ...mapGetters('companyMail', [
             'formErrors',
             'formSuccess'
         ]),
-        ...mapState('employeeMail', [
+        ...mapState('companyMail', [
             'formObj'
         ])
     },
@@ -81,7 +81,7 @@ export default {
         this.formClean();
     },
     methods: {
-        ...mapActions('employeeMail', [
+        ...mapActions('companyMail', [
             'formClean',
             'updatePassword'
         ]),

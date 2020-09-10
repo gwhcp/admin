@@ -27,6 +27,19 @@ export const hardwareCompanyRoutes = (checkPermission) => {
                 }
             },
             {
+                path: 'domain/:id',
+                name: 'hardware:company:domain',
+                meta: {
+                    label: 'Authorized Domains'
+                },
+                component: () => import('@/views/hardware/company/TheDomain'),
+                beforeEnter: (to, from, next) => {
+                    checkPermission(to, from, next)([
+                        'hardware.company.view_server'
+                    ])
+                }
+            },
+            {
                 path: 'profile/:id',
                 name: 'hardware:company:profile',
                 meta: {

@@ -5,6 +5,7 @@ import {companyDnsRoutes} from "@/router/companyDns";
 import {companyDomainRoutes} from "@/router/companyDomain";
 import {companyMailRoutes} from "@/router/companyMail";
 import {employeeAccountRoutes} from "@/router/employeeAccount";
+import {employeeMailRoutes} from "@/router/employeeMail";
 import {employeeManageRoutes} from "@/router/employeeManage";
 import {hardwareClientRoutes} from "@/router/hardwareClient";
 import {hardwareCompanyRoutes} from "@/router/hardwareCompany";
@@ -26,6 +27,7 @@ export {
     companyDomainRoutes,
     companyMailRoutes,
     employeeAccountRoutes,
+    employeeMailRoutes,
     employeeManageRoutes,
     hardwareClientRoutes,
     hardwareCompanyRoutes,

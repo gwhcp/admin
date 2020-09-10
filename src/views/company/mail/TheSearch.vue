@@ -16,6 +16,12 @@
                                 pagination
                                 sorter
                                 table-filter>
+                        <template #name="{ item }">
+                            <td class="py-2">
+                                {{ item.name }}@{{ item.domain_name }}
+                            </td>
+                        </template>
+
                         <template #show_details="{ item }">
                             <td class="py-2">
                                 <CLink :to="{ name: 'company:mail:profile', params: { id: item.id }}">
@@ -69,6 +75,7 @@ export default {
             fields: [
                 {key: 'id', label: 'ID', _style: 'min-width:100px;'},
                 {key: 'name', _style: 'min-width:100px'},
+                {key: 'mail_type_name', label: 'Type', _style: 'min-width:100px'},
                 {key: 'show_details', label: '', _style: 'width:1%', sorter: false, filter: false}
             ]
         };

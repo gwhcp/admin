@@ -1,69 +1,79 @@
 <template>
     <div>
-        <CAlert :show="5"
+        <CAlert v-if="formSuccess"
+                :show="5"
                 closeButton
-                color="success"
-                v-if="formSuccess">
+                color="success">
             Mail account has been updated.
         </CAlert>
 
-        <CCard bodyWrapper>
-            <static-data :value="formObj.id"
-                         name="Mail ID"/>
+        <CTabs :active-tab="0"
+               addNavClasses="border-bottom-0"
+               variant="tabs">
+            <CTab title="Profile">
+                <CCard bodyWrapper>
+                    <static-data :value="formObj.id"
+                                 name="Mail ID"/>
 
-            <static-data :datetime="formObj.date_from"
-                         name="Created Date"/>
+                    <static-data :datetime="formObj.date_from"
+                                 name="Created Date"/>
 
-            <static-data :ahref="{name: 'company:company:profile', params:{id: formObj.company}}"
-                         :value="formObj.company_name"
-                         name="Company"
-                         permission="company.company.view_company"/>
+                    <static-data :ahref="{name: 'company:company:profile', params:{id: formObj.company}}"
+                                 :value="formObj.company_name"
+                                 name="Company"
+                                 permission="company.company.view_company"/>
 
-            <static-data :value="formObj.domain_name"
-                         name="Domain"/>
+                    <static-data :value="formObj.domain_name"
+                                 name="Domain"/>
 
-            <static-data :value="formObj.mail_type_name"
-                         name="Type"/>
+                    <static-data :value="formObj.mail_type_name"
+                                 name="Type"/>
 
-            <static-data :value="formObj.name"
-                         name="Name"/>
+                    <static-data :value="formObj.name"
+                                 name="Name"/>
 
-            <ValidationObserver ref="observer"
-                                v-slot="{ handleSubmit, invalid }">
-                <CForm>
-                    <input-select :options="choices.account"
-                                  :selected="formObj.account"
-                                  label="Account"
-                                  name="account"
-                                  required="true"
-                                  rules="required"
-                                  v-model="formObj.account"/>
+                    <ValidationObserver ref="observer"
+                                        v-slot="{ handleSubmit, invalid }">
+                        <CForm>
+                            <input-select v-model="formObj.account"
+                                          :options="choices.account"
+                                          :selected="formObj.account"
+                                          label="Account"
+                                          name="account"
+                                          required="true"
+                                          rules="required"/>
 
-                    <input-text label="Forward To"
-                                name="forward_to"
-                                required="true"
-                                rules="required"
-                                v-if="formObj.mail_type === 'forward'"
-                                v-model="formObj.forward_to"/>
+                            <input-text v-if="formObj.mail_type === 'forward'"
+                                        v-model="formObj.forward_to"
+                                        label="Forward To"
+                                        name="forward_to"
+                                        required="true"
+                                        rules="required"/>
 
-                    <input-text label="Quota"
-                                name="quota"
-                                v-if="formObj.mail_type === 'mailbox'"
-                                v-model="formObj.quota"/>
+                            <input-text v-if="formObj.mail_type === 'mailbox'"
+                                        v-model="formObj.quota"
+                                        label="Quota"
+                                        name="quota"/>
 
-                    <CRow>
-                        <CCol class="text-left"
-                              col="6">
-                            <CButton :disabled="invalid"
-                                     @click="handleSubmit(submitUpdate)"
-                                     class="px-4"
-                                     color="primary">Update
-                            </CButton>
-                        </CCol>
-                    </CRow>
-                </CForm>
-            </ValidationObserver>
-        </CCard>
+                            <CRow>
+                                <CCol class="text-left"
+                                      col="6">
+                                    <CButton :disabled="invalid"
+                                             class="px-4"
+                                             color="primary"
+                                             @click="handleSubmit(submitUpdate)">Update
+                                    </CButton>
+                                </CCol>
+                            </CRow>
+                        </CForm>
+                    </ValidationObserver>
+                </CCard>
+            </CTab>
+
+            <CTab v-if="formObj.mail_type === 'mailbox'"
+                  :to="{name: 'company:mail:password', params: {'id': mailId}}"
+                  title="Password"/>
+        </CTabs>
     </div>
 </template>
 

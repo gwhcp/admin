@@ -11,57 +11,68 @@
 
         <modal-warning msg="Hardware installation failed."/>
 
-        <CWidgetSimple v-if="!formObj.is_installed && !formObj.in_queue && installSuccess === 0">
-            <div class="mb-3">Hardware is not installed.</div>
+        <CTabs :active-tab="0"
+               addNavClasses="border-bottom-0"
+               variant="tabs">
 
-            <modal-open-install :install="installHardware"
-                                :params="{id: formObj.id}"
-                                msg="Continuing will install this hardware."/>
-        </CWidgetSimple>
+            <CTab title="Profile">
+                <CWidgetSimple v-if="!formObj.is_installed && !formObj.in_queue && installSuccess === 0">
+                    <div class="mb-3">Hardware is not installed.</div>
 
-        <CCard bodyWrapper>
-            <static-data :value="formObj.id"
-                         name="Server ID"/>
+                    <modal-open-install :install="installHardware"
+                                        :params="{'id': formObj.id}"
+                                        msg="Continuing will install this hardware."/>
+                </CWidgetSimple>
 
-            <static-data :datetime="formObj.date_from"
-                         name="Created Date"/>
+                <CCard bodyWrapper>
+                    <static-data :value="formObj.id"
+                                 name="Server ID"/>
 
-            <static-data :ahref="{name: 'company:company:profile', params:{id: formObj.company}}"
-                         :value="formObj.company_name"
-                         name="Company"
-                         permission="company.company.view_company"/>
+                    <static-data :datetime="formObj.date_from"
+                                 name="Created Date"/>
 
-            <static-data :value="formObj.hardware_type_name"
-                         name="Hardware"/>
+                    <static-data :ahref="{name: 'company:company:profile', params:{'id': formObj.company}}"
+                                 :value="formObj.company_name"
+                                 name="Company"
+                                 permission="company.company.view_company"/>
 
-            <static-data :value="formObj.domain_name"
-                         name="Domain"/>
+                    <static-data :value="formObj.hardware_type_name"
+                                 name="Hardware"/>
 
-            <static-data :value="formObj.ipaddress"
-                         name="IP Address"/>
+                    <static-data :value="formObj.domain_name"
+                                 name="Domain"/>
 
-            <ValidationObserver v-if="formObj.is_installed && !formObj.in_queue"
-                                ref="observer"
-                                v-slot="{ handleSubmit, invalid }">
-                <CForm>
-                    <input-switch v-model="formObj.is_active"
-                                  :checked="formObj.is_active"
-                                  label="Status"
-                                  name="is_active"/>
+                    <static-data :value="formObj.ipaddress"
+                                 name="IP Address"/>
 
-                    <CRow>
-                        <CCol class="text-left"
-                              col="6">
-                            <CButton :disabled="invalid"
-                                     class="px-4"
-                                     color="primary"
-                                     @click="handleSubmit(submitUpdate)">Update
-                            </CButton>
-                        </CCol>
-                    </CRow>
-                </CForm>
-            </ValidationObserver>
-        </CCard>
+                    <ValidationObserver v-if="formObj.is_installed && !formObj.in_queue"
+                                        ref="observer"
+                                        v-slot="{ handleSubmit, invalid }">
+                        <CForm>
+                            <input-switch v-model="formObj.is_active"
+                                          :checked="formObj.is_active"
+                                          label="Status"
+                                          name="is_active"/>
+
+                            <CRow>
+                                <CCol class="text-left"
+                                      col="6">
+                                    <CButton :disabled="invalid"
+                                             class="px-4"
+                                             color="primary"
+                                             @click="handleSubmit(submitUpdate)">Update
+                                    </CButton>
+                                </CCol>
+                            </CRow>
+                        </CForm>
+                    </ValidationObserver>
+                </CCard>
+            </CTab>
+
+            <CTab v-if="formObj.is_mail"
+                  :to="{name: 'hardware:company:domain', params: {'id': serverId}}"
+                  title="Domains"/>
+        </CTabs>
     </div>
 </template>
 

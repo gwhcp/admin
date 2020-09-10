@@ -5,10 +5,12 @@ import {
     FORM_CHOICES,
     FORM_CLEAN,
     FORM_DELETE,
-    FORM_ERRORS,
+    FORM_ERRORS, FORM_NON_FIELD_ERROR,
     FORM_OBJECT,
     FORM_SUCCESS,
     FORM_VALIDATION,
+    HARDWARE_COMPANY_DOMAIN_ALLOWED,
+    HARDWARE_COMPANY_DOMAIN_BASE,
     INSTALL_SUCCESS,
     INSTALL_VALIDATION,
     INSTALL_WARNING
@@ -16,21 +18,29 @@ import {
 
 const state = {
     choices: Object,
+    domainAllowed: Array,
+    domainBase: Array,
     formArr: Array,
     formErrors: Object,
     formObj: Object,
     formSuccess: false,
     installSuccess: false,
-    installWarning: false
+    installWarning: false,
+    nonFieldFormError: false,
+    nonFieldFormMessage: null
 };
 
 const getters = {
     choices: state => state.choices,
+    domainAllowed: state => state.domainAllowed,
+    domainBase: state => state.domainBase,
     formArr: state => state.formArr,
     formErrors: state => state.formErrors,
     formSuccess: state => state.formSuccess,
     installSuccess: state => state.installSuccess,
-    installWarning: state => state.installWarning
+    installWarning: state => state.installWarning,
+    nonFieldFormError: state => state.nonFieldFormError,
+    nonFieldFormMessage: state => state.nonFieldFormMessage
 };
 
 const actions = {
@@ -64,6 +74,21 @@ const actions = {
         );
 
         commit(FORM_CHOICES, response);
+    },
+    async getDomain({commit}, data) {
+        commit(FORM_CLEAN);
+
+        const responseBase = await client.get(
+            'hardware/company/choices'
+        );
+
+        commit(HARDWARE_COMPANY_DOMAIN_BASE, responseBase);
+
+        const responseDomain = await client.get(
+            `hardware/company/domain/${data.id}`
+        );
+
+        commit(HARDWARE_COMPANY_DOMAIN_ALLOWED, responseDomain);
     },
     async getProfile({commit}, data) {
         commit(FORM_CLEAN);
@@ -100,6 +125,26 @@ const actions = {
             commit(INSTALL_SUCCESS);
         }
     },
+    async updateDomain({commit}, data) {
+        commit(FORM_VALIDATION);
+
+        const response = await client.patch(
+            `hardware/company/domain/${data.id}`,
+            {
+                'allowed': data.allowed
+            }
+        );
+
+        if (response.error) {
+            if ('allowed' in response.errors) {
+                commit(FORM_NON_FIELD_ERROR, response.errors['allowed'][0]);
+            } else {
+                commit(FORM_NON_FIELD_ERROR, response.errors);
+            }
+        } else {
+            commit(FORM_SUCCESS);
+        }
+    },
     async updateProfile({commit, state}, data) {
         commit(FORM_VALIDATION);
 
@@ -124,12 +169,16 @@ const mutations = {
         state.choices = data;
     },
     [FORM_CLEAN](state) {
+        state.domainAllowed = [];
+        state.domainBase = [];
         state.formArr = [];
         state.formErrors = {};
         state.formObj = {};
         state.formSuccess = false;
         state.installSuccess = false;
         state.installWarning = false;
+        state.nonFieldFormError = false;
+        state.nonFieldFormMessage = null;
     },
     [FORM_DELETE](state, data) {
         state.formArr = state.formArr.filter(item => item.id !== data.id);
@@ -137,16 +186,39 @@ const mutations = {
     [FORM_ERRORS](state, data) {
         state.formErrors = Object.assign({}, state.formErrors, data);
     },
+    [FORM_NON_FIELD_ERROR](state, data) {
+        state.nonFieldFormError = true;
+        state.nonFieldFormMessage = data;
+    },
     [FORM_OBJECT](state, data) {
         state.formObj = Object.assign({}, state.formObj, data);
     },
     [FORM_SUCCESS](state) {
         state.formErrors = {};
         state.formSuccess = true;
+        state.nonFieldFormError = false;
+        state.nonFieldFormMessage = null;
     },
     [FORM_VALIDATION](state) {
         state.formErrors = {};
         state.formSuccess = false;
+        state.nonFieldFormError = false;
+        state.nonFieldFormMessage = null;
+    },
+    [HARDWARE_COMPANY_DOMAIN_ALLOWED](state, data) {
+        state.domainAllowed = data.allowed;
+    },
+    [HARDWARE_COMPANY_DOMAIN_BASE](state, data) {
+        const domains = [];
+
+        for (const [key, value] of Object.entries(data.domain)) {
+            domains.push({
+                value: parseInt(key, 10),
+                label: value
+            })
+        }
+
+        state.domainBase = domains;
     },
     [INSTALL_SUCCESS](state) {
         state.installSuccess = true;

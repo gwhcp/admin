@@ -1,12 +1,13 @@
 <template>
     <CSidebar :minimize="minimize"
               :show="show"
-              @update:show="(value) => $store.commit('set', ['sidebarShow', value])"
               dropdownMode="noAction"
-              fixed>
+              fixed
+              @update:show="(value) => $store.commit('set', ['sidebarShow', value])">
 
         <CSidebarBrand :to="{name: 'dashboard'}"
                        class="d-md-down-none">
+
             <CIcon :height="35"
                    class="c-sidebar-brand-full"
                    name="logo"
@@ -14,7 +15,8 @@
                    viewBox="0 0 556 134"/>
 
             <CIcon :height="35"
-                   class="c-sidebar-brand-minimized" name="logo"
+                   class="c-sidebar-brand-minimized"
+                   name="logo"
                    size="custom-size"
                    viewBox="0 0 110 134"/>
         </CSidebarBrand>
@@ -22,8 +24,8 @@
         <CRenderFunction :content-to-render="computedSidebar"
                          flat/>
 
-        <CSidebarMinimizer @click.native="$store.commit('set', ['sidebarMinimize', !minimize])"
-                           class="d-md-down-none"/>
+        <CSidebarMinimizer class="d-md-down-none"
+                           @click.native="$store.commit('set', ['sidebarMinimize', !minimize])"/>
     </CSidebar>
 </template>
 
@@ -101,6 +103,10 @@ export default {
 
                     if (this.hasPerm('employee.manage.view_account')) {
                         item.items.push({name: 'Account', to: {name: 'employee:manage:search'}});
+                    }
+
+                    if (this.hasPerm('employee.mail.view_mail')) {
+                        item.items.push({name: 'Mail', to: {name: 'employee:mail:search'}});
                     }
                 }
 

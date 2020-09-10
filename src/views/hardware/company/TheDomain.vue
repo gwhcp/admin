@@ -4,26 +4,30 @@
                 :show="5"
                 closeButton
                 color="success">
-            Nameservers have been updated.
+            Authorized domains has been updated.
         </CAlert>
 
-        <CTabs :active-tab="2"
+        <CAlert v-if="nonFieldFormError"
+                :show="5"
+                closeButton
+                color="warning">
+            {{ nonFieldFormMessage }}
+        </CAlert>
+
+        <CTabs :active-tab="1"
                addNavClasses="border-bottom-0"
                variant="tabs">
-            <CTab :to="{name: 'company:dns:profile', params:{id: domainId}}"
+            <CTab :to="{name: 'hardware:company:profile', params:{'id': serverId}}"
                   title="Profile"/>
 
-            <CTab :to="{name: 'company:dns:records', params:{id: domainId}}"
-                  title="Records"/>
-
-            <CTab title="Nameservers">
+            <CTab title="Domains">
                 <CCard bodyWrapper>
                     <CForm>
                         <vue-select-sides
-                            id="ns"
-                            v-model="selectedNameserver"
-                            :list="nameserverBase"
-                            name="ns"
+                            id="allowed"
+                            v-model="selectedDomain"
+                            :list="domainBase"
+                            name="allowed"
                             type="mirror"/>
 
                         <CRow class="mt-3">
@@ -55,7 +59,7 @@ Vue.use(vueSelectSides, {
 });
 
 export default {
-    name: 'TheNs',
+    name: 'TheDomain',
     components: {
         vueSelectSides
     },
@@ -65,22 +69,25 @@ export default {
     ],
     data() {
         return {
-            domainId: this.$route.params.id
+            selected: [],
+            serverId: this.$route.params.id
         };
     },
     computed: {
-        ...mapGetters('companyDns', [
+        ...mapGetters('hardwareCompany', [
+            'domainAllowed',
+            'domainBase',
             'formErrors',
             'formSuccess',
-            'nameserverBase',
-            'nameserverDomain'
+            'nonFieldFormError',
+            'nonFieldFormMessage'
         ]),
-        ...mapState('companyDns', [
+        ...mapState('hardwareCompany', [
             'formObj'
         ]),
-        selectedNameserver: {
+        selectedDomain: {
             get: function () {
-                return this.nameserverDomain;
+                return this.domainAllowed;
             },
             set: function (newValue) {
                 this.selected = newValue;
@@ -88,24 +95,24 @@ export default {
         }
     },
     async created() {
-        await this.getNameserver({
-            id: this.domainId
+        await this.getDomain({
+            id: this.serverId
         });
     },
     mounted() {
-        this.hasPermForm('company.dns.change_dnszone');
+        this.hasPermForm('hardware.company.change_server');
     },
     methods: {
-        ...mapActions('companyDns', [
-            'getNameserver',
-            'updateNameserver'
+        ...mapActions('hardwareCompany', [
+            'getDomain',
+            'updateDomain'
         ]),
         async submitUpdate() {
             this.loadingState = true;
 
-            await this.updateNameserver({
-                id: this.domainId,
-                ns: this.selected
+            await this.updateDomain({
+                id: this.serverId,
+                allowed: this.selected
             });
 
             scroll(0, 0);
