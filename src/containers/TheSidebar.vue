@@ -73,8 +73,8 @@ export default {
                         item.items.push({name: 'Mail', to: {name: 'company:mail:search'}});
                     }
 
-                    if (this.hasPerm('company.xmpp.view_xmpp')) {
-                        item.items.push({name: 'XMPP', to: '/company/xmpp'});
+                    if (this.hasPerm('company.xmpp.view_prosodyaccount')) {
+                        item.items.push({name: 'XMPP', to: {name: 'company:xmpp:search'}});
                     }
                 }
 
@@ -107,6 +107,10 @@ export default {
 
                     if (this.hasPerm('employee.mail.view_mail')) {
                         item.items.push({name: 'Mail', to: {name: 'employee:mail:search'}});
+                    }
+
+                    if (this.hasPerm('employee.xmpp.view_prosodyaccount')) {
+                        item.items.push({name: 'XMPP', to: {name: 'employee:xmpp:profile'}});
                     }
                 }
 

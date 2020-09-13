@@ -5,9 +5,11 @@ import companyCompany from "@/api/companyCompany";
 import companyDns from "@/api/companyDns";
 import companyDomain from "@/api/companyDomain";
 import companyMail from "@/api/companyMail";
+import companyXmpp from "@/api/companyXmpp";
 import employeeAccount from "@/api/employeeAccount";
 import employeeMail from "@/api/employeeMail";
 import employeeManage from "@/api/employeeManage";
+import employeeXmpp from "@/api/employeeXmpp";
 import hardwareClient from "@/api/hardwareClient";
 import hardwareCompany from "@/api/hardwareCompany";
 import networkPool from "@/api/networkPool";
@@ -27,9 +29,11 @@ export {
     companyDns,
     companyDomain,
     companyMail,
+    companyXmpp,
     employeeAccount,
     employeeMail,
     employeeManage,
+    employeeXmpp,
     hardwareClient,
     hardwareCompany,
     networkPool,

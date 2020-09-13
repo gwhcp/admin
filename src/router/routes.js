@@ -4,9 +4,11 @@ import {companyCompanyRoutes} from "@/router/companyCompany";
 import {companyDnsRoutes} from "@/router/companyDns";
 import {companyDomainRoutes} from "@/router/companyDomain";
 import {companyMailRoutes} from "@/router/companyMail";
+import {companyXmppRoutes} from "@/router/companyXmpp";
 import {employeeAccountRoutes} from "@/router/employeeAccount";
 import {employeeMailRoutes} from "@/router/employeeMail";
 import {employeeManageRoutes} from "@/router/employeeManage";
+import {employeeXmppRoutes} from "@/router/employeeXmpp";
 import {hardwareClientRoutes} from "@/router/hardwareClient";
 import {hardwareCompanyRoutes} from "@/router/hardwareCompany";
 import {networkPoolRoutes} from "@/router/networkPool";
@@ -26,9 +28,11 @@ export {
     companyDnsRoutes,
     companyDomainRoutes,
     companyMailRoutes,
+    companyXmppRoutes,
     employeeAccountRoutes,
     employeeMailRoutes,
     employeeManageRoutes,
+    employeeXmppRoutes,
     hardwareClientRoutes,
     hardwareCompanyRoutes,
     networkPoolRoutes,

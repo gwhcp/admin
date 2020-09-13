@@ -39,6 +39,8 @@ export default {
             return response.data;
         } catch (error) {
             catchMe(error);
+
+            return catchError(error);
         }
     },
     async get(url, conf = {}) {
