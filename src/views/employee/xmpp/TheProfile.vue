@@ -23,6 +23,9 @@
             <static-data :value="formObj.group_name"
                          name="Group"/>
 
+            <static-data :value="formObj.server_name"
+                         name="Server"/>
+
             <ValidationObserver ref="observer"
                                 v-slot="{ handleSubmit, invalid }">
                 <CForm>

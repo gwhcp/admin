@@ -30,6 +30,13 @@
                                         required="true"
                                         rules="required"/>
 
+                        <input-select v-model="formObj.server_id"
+                                      :options="choices.server"
+                                      label="Server"
+                                      name="server_id"
+                                      required="true"
+                                      rules="required"/>
+
                         <CRow>
                             <CCol class="text-left"
                                   col="6">

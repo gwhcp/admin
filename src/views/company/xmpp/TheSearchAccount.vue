@@ -79,6 +79,7 @@ export default {
                 {key: 'id', label: 'ID', _style: 'min-width:100px;'},
                 {key: 'name', _style: 'min-width:100px'},
                 {key: 'group_name', label: 'Group', _style: 'min-width:100px'},
+                {key: 'server_name', label: 'Group', _style: 'min-width:100px'},
                 {key: 'show_details', label: '', _style: 'width:1%', sorter: false, filter: false}
             ]
         };

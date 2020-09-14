@@ -20,6 +20,9 @@
             <static-data :value="`${formObj.account_id}@localhost`"
                          name="Username"/>
 
+            <static-data :value="formObj.server_name"
+                         name="Server"/>
+
             <ValidationObserver ref="observer"
                                 v-slot="{ handleSubmit, invalid }">
                 <CForm>
