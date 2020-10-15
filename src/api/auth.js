@@ -12,7 +12,6 @@ import {
     FORM_VALIDATION
 } from "@/api/types";
 
-const isProduction = process.env.NODE_ENV === 'production';
 const TOKEN_STORAGE_KEY = 'TOKEN_STORAGE_KEY';
 
 const state = {
@@ -41,11 +40,7 @@ const actions = {
     initialize({commit}) {
         const token = localStorage.getItem(TOKEN_STORAGE_KEY);
 
-        if (isProduction && token) {
-            commit(AUTH_REMOVE_TOKEN);
-        }
-
-        if (!isProduction && token) {
+        if (token) {
             commit(AUTH_SET_TOKEN, token);
         }
     },
@@ -114,7 +109,7 @@ const mutations = {
         state.token = null;
     },
     [AUTH_SET_TOKEN](state, token) {
-        if (!isProduction) localStorage.setItem(TOKEN_STORAGE_KEY, token);
+        localStorage.setItem(TOKEN_STORAGE_KEY, token);
 
         session.defaults.headers.Authorization = `Token ${token}`;
 
