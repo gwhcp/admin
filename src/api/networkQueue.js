@@ -4,10 +4,10 @@ import {FORM_ARRAY, FORM_CLEAN, FORM_ERRORS, FORM_OBJECT, FORM_SUCCESS, FORM_VAL
 
 const state = {
     formArr: Array,
-    formError: false,
+    formError: Boolean,
     formErrors: Object,
     formObj: Object,
-    formSuccess: false
+    formSuccess: Boolean
 };
 
 const getters = {

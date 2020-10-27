@@ -18,8 +18,8 @@ const state = {
     formArr: Array,
     formErrors: Object,
     formObj: Object,
-    formSuccess: false,
-    nonFieldFormError: false,
+    formSuccess: Boolean,
+    nonFieldFormError: Boolean,
     nonFieldFormMessage: null
 };
 

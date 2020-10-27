@@ -5,7 +5,7 @@ import {FORM_CLEAN, FORM_ERRORS, FORM_OBJECT, FORM_SUCCESS, FORM_VALIDATION} fro
 const state = {
     formErrors: Object,
     formObj: Object,
-    formSuccess: false
+    formSuccess: Boolean
 };
 
 const getters = {

@@ -17,8 +17,8 @@ const TOKEN_STORAGE_KEY = 'TOKEN_STORAGE_KEY';
 const state = {
     formErrors: Object,
     formObj: Object,
-    formSuccess: false,
-    nonFieldFormError: false,
+    formSuccess: Boolean,
+    nonFieldFormError: Boolean,
     nonFieldFormMessage: null,
     permit: Array,
     profile: Object,

@@ -24,10 +24,10 @@ const state = {
     formArr: Array,
     formErrors: Object,
     formObj: Object,
-    formSuccess: false,
-    installSuccess: false,
-    installWarning: false,
-    nonFieldFormError: false,
+    formSuccess: Boolean,
+    installSuccess: Boolean,
+    installWarning: Boolean,
+    nonFieldFormError: Boolean,
     nonFieldFormMessage: null
 };
 

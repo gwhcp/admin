@@ -19,9 +19,9 @@ const state = {
     formArr: Array,
     formErrors: Object,
     formObj: Object,
-    formSuccess: false,
-    installSuccess: false,
-    installWarning: false
+    formSuccess: Boolean,
+    installSuccess: Boolean,
+    installWarning: Boolean
 };
 
 const getters = {

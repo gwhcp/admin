@@ -16,7 +16,7 @@ const state = {
     formArr: Array,
     formErrors: Object,
     formObj: Object,
-    formSuccess: false,
+    formSuccess: Boolean,
     permissionBase: Array,
     permissionUser: Array
 };
