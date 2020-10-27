@@ -8,7 +8,9 @@ import moment from "moment-timezone";
 
 export default {
     name: 'ConvertDate',
-    mixins: [AccountProfile],
+    mixins: [
+        AccountProfile
+    ],
     props: {
         datetime: {
             type: String
