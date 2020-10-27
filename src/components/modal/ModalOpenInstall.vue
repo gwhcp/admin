@@ -62,12 +62,12 @@ export default {
         modalInstall() {
             this.install(this.params)
                 .then(() => {
-                    if (this.installSuccess > 0) {
+                    if (this.installSuccess === true) {
                         EventBus.$emit('modal-success');
                     }
                 },)
                 .then(() => {
-                    if (this.installWarning > 0) {
+                    if (this.installWarning === true) {
                         EventBus.$emit('modal-warning');
                     }
                 });

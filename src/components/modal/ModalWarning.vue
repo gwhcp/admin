@@ -22,7 +22,7 @@ export default {
         }
     },
     mounted() {
-        EventBus.$on('modalWarning', () => {
+        EventBus.$on('modal-warning', () => {
             this.modalWarning = 5;
         })
     }

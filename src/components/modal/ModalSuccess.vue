@@ -22,7 +22,7 @@ export default {
         }
     },
     mounted() {
-        EventBus.$on('modalSuccess', () => {
+        EventBus.$on('modal-success', () => {
             this.modalSuccess = 5;
         })
     }
