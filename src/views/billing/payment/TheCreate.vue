@@ -18,7 +18,7 @@
                                       rules="required"
                                       v-model="formObj.merchant"/>
 
-                        <input-select :options="choices.method"
+                        <input-select :options="methods"
                                       label="Method"
                                       name="payment_method"
                                       required="true"
@@ -66,7 +66,8 @@ export default {
     ],
     data() {
         return {
-            method: false
+            method: false,
+            methods: {}
         };
     },
     computed: {
@@ -96,7 +97,8 @@ export default {
                 case 'authorize': // TODO Fix, after changing dropdown it loses it's Object
                     this.method = true;
 
-                    return this.choices.method.authorize;
+                    this.methods = this.choices.method.authorize;
+                    break;
 
                 default:
                     this.method = false;
