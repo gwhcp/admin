@@ -1,7 +1,9 @@
 export const networkQueueRoutes = (checkPermission) => {
     return {
         path: '/network/queue',
-        redirect: {name: 'network:queue:search'},
+        redirect: {
+            name: 'network:queue:search'
+        },
         name: 'network:queue',
         meta: {
             label: 'Network Queue'

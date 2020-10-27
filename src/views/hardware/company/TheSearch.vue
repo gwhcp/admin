@@ -32,7 +32,7 @@
 
                         <template #show_details="{ item }">
                             <td class="py-2">
-                                <CLink :to="{ name: 'hardware:company:profile', params: { id: item.id }}">
+                                <CLink :to="{ name: 'hardware:company:profile', params: { id: item.id } }">
                                     <CButton color="info"
                                              size="sm"
                                              square
@@ -48,7 +48,7 @@
                                 class="py-2">
                                 <modal-open-delete :delete="deleteHardware"
                                                    :formArr="formArr"
-                                                   :params="{id: item.id}"
+                                                   :params="{ id: item.id }"
                                                    msg="Continuing will remove this hardware."/>
                             </td>
                         </template>
@@ -57,17 +57,17 @@
             </CTab>
 
             <CTab v-if="this.hasPerm('hardware.company.add_server')"
-                  :to="{name: 'hardware:company:create'}"
+                  :to="{ name: 'hardware:company:create' }"
                   title="Create"/>
         </CTabs>
     </div>
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex";
+import Loading from "@/mixins/Loading";
 import {ModalOpenDelete, ModalSuccess} from "@/components/modal";
 import Permission from "@/mixins/Permission";
-import Loading from "@/mixins/Loading";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
     name: 'TheSearch',

@@ -1,7 +1,9 @@
 export const settingBannedRoutes = (checkPermission) => {
     return {
         path: '/setting/banned',
-        redirect: {name: 'setting:banned:search'},
+        redirect: {
+            name: 'setting:banned:search'
+        },
         name: 'setting:banned',
         meta: {
             label: 'Banned Items'

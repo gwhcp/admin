@@ -121,19 +121,19 @@
 
 <script>
 import {InputSelect, InputSelectCountry, InputSelectState, InputText} from "@/components/form";
+import Loading from "@/mixins/Loading";
 import Permission from "@/mixins/Permission";
 import StaticData from "@/components/StaticData";
-import {mapActions, mapGetters, mapState} from "vuex";
 import {ValidationObserver} from "vee-validate";
-import Loading from "@/mixins/Loading";
+import {mapActions, mapGetters, mapState} from "vuex";
 
 export default {
     name: 'TheProfile',
     components: {
-        InputText,
         InputSelect,
         InputSelectCountry,
         InputSelectState,
+        InputText,
         StaticData,
         ValidationObserver
     },

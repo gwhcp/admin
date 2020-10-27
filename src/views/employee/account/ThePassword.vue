@@ -47,9 +47,9 @@
 
 <script>
 import InputPassword from "@/components/form/InputPassword";
-import {mapActions, mapGetters, mapState} from "vuex";
-import {ValidationObserver} from "vee-validate";
 import Loading from "@/mixins/Loading";
+import {ValidationObserver} from "vee-validate";
+import {mapActions, mapGetters, mapState} from "vuex";
 
 export default {
     name: 'ThePassword',

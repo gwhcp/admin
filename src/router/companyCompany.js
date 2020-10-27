@@ -1,7 +1,9 @@
 export const companyCompanyRoutes = (checkPermission) => {
     return {
         path: '/company/company',
-        redirect: {name: 'company:company:search'},
+        redirect: {
+            name: 'company:company:search'
+        },
         name: 'company:company',
         meta: {
             label: 'Company'

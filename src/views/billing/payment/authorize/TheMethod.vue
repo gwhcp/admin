@@ -17,10 +17,10 @@
         <CTabs :active-tab="2"
                addNavClasses="border-bottom-0"
                variant="tabs">
-            <CTab :to="{name: 'billing:payment:profile', params: {id: paymentId}}"
+            <CTab :to="{ name: 'billing:payment:profile', params: { id: paymentId } }"
                   title="Profile"/>
 
-            <CTab :to="{name: 'billing:payment:authorize:authentication', params: {id: paymentId}}"
+            <CTab :to="{ name: 'billing:payment:authorize:authentication', params: { id: paymentId } }"
                   title="Authentication"/>
 
             <CTab title="Payment Methods">
@@ -78,10 +78,10 @@
 
 <script>
 import InputSwitch from "@/components/form/InputSwitch";
-import Permission from "@/mixins/Permission";
-import {mapActions, mapGetters, mapState} from "vuex";
-import {ValidationObserver} from "vee-validate";
 import Loading from "@/mixins/Loading";
+import Permission from "@/mixins/Permission";
+import {ValidationObserver} from "vee-validate";
+import {mapActions, mapGetters, mapState} from "vuex";
 
 export default {
     name: 'TheMethod',

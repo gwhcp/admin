@@ -1,7 +1,9 @@
 export const employeeMailRoutes = (checkPermission) => {
     return {
         path: '/employee/mail',
-        redirect: {name: 'employee:mail:search'},
+        redirect: {
+            name: 'employee:mail:search'
+        },
         name: 'employee:mail',
         meta: {
             label: 'Employee Mail'

@@ -1,7 +1,9 @@
 export const storeFraudRoutes = (checkPermission) => {
     return {
         path: '/store/fraud',
-        redirect: {name: 'store:fraud:search'},
+        redirect: {
+            name: 'store:fraud:search'
+        },
         name: 'store:fraud',
         meta: {
             label: 'Fraud Strings'

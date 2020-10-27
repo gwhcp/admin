@@ -25,7 +25,7 @@
 
             <template #show_details="{ item }">
                 <td class="py-2">
-                    <CLink :to="{ name: 'network:queue:profile', params: { id: item.queue_status.id }}">
+                    <CLink :to="{ name: 'network:queue:profile', params: { id: item.queue_status.id } }">
                         <CButton color="info"
                                  size="sm"
                                  square
@@ -40,8 +40,8 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex";
 import Loading from "@/mixins/Loading";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
     name: 'TheSearch',

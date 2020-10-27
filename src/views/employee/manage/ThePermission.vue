@@ -10,7 +10,7 @@
         <CTabs :active-tab="1"
                addNavClasses="border-bottom-0"
                variant="tabs">
-            <CTab :to="{name: 'employee:manage:profile', params: {id: accountId}}"
+            <CTab :to="{ name: 'employee:manage:profile', params: { id: accountId } }"
                   title="Profile"/>
 
             <CTab title="Permissions">
@@ -37,18 +37,18 @@
                 </CCard>
             </CTab>
 
-            <CTab :to="{name: 'employee:manage:accesslog', params: {id: accountId}}"
+            <CTab :to="{ name: 'employee:manage:accesslog', params: { id: accountId } }"
                   title="Access Logs"/>
         </CTabs>
     </div>
 </template>
 
 <script>
-import vueSelectSides from "vue-select-sides";
-import Vue from "vue";
-import {mapActions, mapGetters} from "vuex";
-import Permission from "@/mixins/Permission";
 import Loading from "@/mixins/Loading";
+import Permission from "@/mixins/Permission";
+import Vue from "vue";
+import vueSelectSides from "vue-select-sides";
+import {mapActions, mapGetters} from "vuex";
 
 Vue.use(vueSelectSides, {
     locale: "en_US"

@@ -17,7 +17,7 @@
 
             <template #show_details="{ item }">
                 <td class="py-2">
-                    <CLink :to="{ name: 'employee:mail:profile', params: { id: item.id }}">
+                    <CLink :to="{ name: 'employee:mail:profile', params: { id: item.id } }">
                         <CButton color="info"
                                  size="sm"
                                  square
@@ -32,8 +32,8 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex";
 import Loading from "@/mixins/Loading";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
     name: 'TheSearch',

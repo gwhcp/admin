@@ -63,12 +63,12 @@ export default {
             this.install(this.params)
                 .then(() => {
                     if (this.installSuccess > 0) {
-                        EventBus.$emit('modalSuccess');
+                        EventBus.$emit('modal-success');
                     }
                 },)
                 .then(() => {
                     if (this.installWarning > 0) {
-                        EventBus.$emit('modalWarning');
+                        EventBus.$emit('modal-warning');
                     }
                 });
         },

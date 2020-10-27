@@ -1,7 +1,9 @@
 export const employeeAccountRoutes = (checkPermission) => {
     return {
         path: '/employee/account',
-        redirect: {name: 'employee:account:profile'},
+        redirect: {
+            name: 'employee:account:profile'
+        },
         name: 'employee:account',
         meta: {
             label: 'Employee'

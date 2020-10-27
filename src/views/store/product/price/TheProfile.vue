@@ -10,13 +10,13 @@
         <CTabs :active-tab="3"
                addNavClasses="border-bottom-0"
                variant="tabs">
-            <CTab :to="{name: getProductUrl(productType, 'profile'), params: {id: productId}}"
+            <CTab :to="{ name: getProductUrl(productType, 'profile'), params: { id: productId } }"
                   title="Profile"/>
 
-            <CTab :to="{name: getProductUrl(productType, 'resource'), params: {id: productId}}"
+            <CTab :to="{ name: getProductUrl(productType, 'resource'), params: { id: productId } }"
                   title="Resource"/>
 
-            <CTab :to="{name: 'store:product:price:search', params: {productId: productId, type: productType}}"
+            <CTab :to="{ name: 'store:product:price:search', params: { productId: productId, type: productType } }"
                   title="Prices"/>
 
             <CTab title="Profile">
@@ -82,14 +82,14 @@
 </template>
 
 <script>
-import StaticData from "@/components/StaticData";
 import {InputSwitch, InputText} from "@/components/form";
+import Loading from "@/mixins/Loading";
 import Permission from "@/mixins/Permission";
-import {mapActions, mapGetters, mapState} from "vuex";
+import StaticData from "@/components/StaticData";
 import {ValidationObserver} from "vee-validate";
 import Vue from "vue";
 import VuePluralize from "vue-pluralize";
-import Loading from "@/mixins/Loading";
+import {mapActions, mapGetters, mapState} from "vuex";
 
 Vue.use(VuePluralize);
 

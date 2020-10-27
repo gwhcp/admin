@@ -18,7 +18,7 @@
                                 table-filter>
                         <template #show_details="{ item }">
                             <td class="py-2">
-                                <CLink :to="{ name: 'billing:payment:profile', params: { id: item.id }}">
+                                <CLink :to="{ name: 'billing:payment:profile', params: { id: item.id } }">
                                     <CButton color="info"
                                              size="sm"
                                              square
@@ -32,16 +32,16 @@
                         <template #delete="{ item }">
                             <td class="py-2">
                                 <modal-open-delete :delete="deletePaymentGateway"
-                                            :params="{id: item.id}"
-                                            :formArr="formArr"
-                                            msg="Continuing will remove this payment gateway."/>
+                                                   :params="{ id: item.id }"
+                                                   :formArr="formArr"
+                                                   msg="Continuing will remove this payment gateway."/>
                             </td>
                         </template>
                     </CDataTable>
                 </CCard>
             </CTab>
 
-            <CTab :to="{name: 'billing:payment:create'}"
+            <CTab :to="{ name: 'billing:payment:create' }"
                   title="Create"
                   v-if="this.hasPerm('billing.payment.add_paymentgateway')"/>
         </CTabs>
@@ -49,10 +49,10 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex";
+import Loading from "@/mixins/Loading";
 import {ModalOpenDelete, ModalSuccess} from "@/components/modal";
 import Permission from "@/mixins/Permission";
-import Loading from "@/mixins/Loading";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
     name: 'TheSearch',

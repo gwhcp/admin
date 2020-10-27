@@ -1,7 +1,9 @@
 export const hardwareCompanyRoutes = (checkPermission) => {
     return {
         path: '/hardware/company',
-        redirect: {name: 'hardware:company:search'},
+        redirect: {
+            name: 'hardware:company:search'
+        },
         name: 'hardware:company',
         meta: {
             label: 'Hardware Company'

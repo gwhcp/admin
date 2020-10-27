@@ -6,7 +6,7 @@
         <static-data :datetime="formObj.date_from"
                      name="Created Date"/>
 
-        <static-data :ahref="{name: 'company:company:profile', params:{id: formObj.company}}"
+        <static-data :ahref="{ name: 'company:company:profile', params: { id: formObj.company } }"
                      :value="formObj.company_name"
                      name="Company"
                      permission="company.company.view_company"/>
@@ -17,10 +17,10 @@
 </template>
 
 <script>
+import Loading from "@/mixins/Loading";
+import Permission from "@/mixins/Permission";
 import StaticData from "@/components/StaticData";
 import {mapActions, mapGetters} from "vuex";
-import Permission from "@/mixins/Permission";
-import Loading from "@/mixins/Loading";
 
 export default {
     name: 'TheProfile',

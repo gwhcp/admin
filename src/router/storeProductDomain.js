@@ -1,7 +1,9 @@
 export const storeProductDomainRoutes = (checkPermission) => {
     return {
         path: '/store/product/domain',
-        redirect: {name: 'store:product:domain:search'},
+        redirect: {
+            name: 'store:product:domain:search'
+        },
         name: 'store:product:domain',
         meta: {
             label: 'Store Domain Product'

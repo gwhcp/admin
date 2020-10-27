@@ -11,7 +11,7 @@
                     table-filter>
             <template #show_details="{ item }">
                 <td class="py-2">
-                    <CLink :to="{ name: 'company:dns:profile', params: { id: item.id }}">
+                    <CLink :to="{ name: 'company:dns:profile', params: { id: item.id } }">
                         <CButton color="info"
                                  size="sm"
                                  square
@@ -26,9 +26,9 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex";
-import Permission from "@/mixins/Permission";
 import Loading from "@/mixins/Loading";
+import Permission from "@/mixins/Permission";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
     name: 'TheSearch',

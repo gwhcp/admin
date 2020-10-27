@@ -15,7 +15,7 @@
                     <static-data :value="formObj.id"
                                  name="Domain ID"/>
 
-                    <static-data :ahref="{name: 'company:company:profile', params:{id: formObj.company}}"
+                    <static-data :ahref="{ name: 'company:company:profile', params: { id: formObj.company } }"
                                  :value="formObj.company_name"
                                  name="Company"
                                  permission="company.company.view_company"/>
@@ -46,22 +46,22 @@
                 </CCard>
             </CTab>
 
-            <CTab :to="{name: 'company:dns:records', params:{id: domainId}}"
+            <CTab :to="{ name: 'company:dns:records', params: { id: domainId } }"
                   title="Records"/>
 
-            <CTab :to="{name: 'company:dns:ns', params:{id: domainId}}"
+            <CTab :to="{ name: 'company:dns:ns', params: { id: domainId } }"
                   title="Nameserver"/>
         </CTabs>
     </div>
 </template>
 
 <script>
-import StaticData from "@/components/StaticData";
 import InputSwitch from "@/components/form/InputSwitch";
+import Loading from "@/mixins/Loading";
 import Permission from "@/mixins/Permission";
+import StaticData from "@/components/StaticData";
 import {ValidationObserver} from "vee-validate";
 import {mapActions, mapGetters, mapState} from "vuex";
-import Loading from "@/mixins/Loading";
 
 export default {
     name: 'TheProfile',

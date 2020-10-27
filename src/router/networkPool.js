@@ -1,7 +1,9 @@
 export const networkPoolRoutes = (checkPermission) => {
     return {
         path: '/network/pool',
-        redirect: {name: 'network:pool:search'},
+        redirect: {
+            name: 'network:pool:search'
+        },
         name: 'network:pool',
         meta: {
             label: 'Network Pool'

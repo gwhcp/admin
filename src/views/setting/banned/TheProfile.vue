@@ -15,9 +15,9 @@
 </template>
 
 <script>
+import Loading from "@/mixins/Loading";
 import StaticData from "@/components/StaticData";
 import {mapActions, mapGetters} from "vuex";
-import Loading from "@/mixins/Loading";
 
 export default {
     name: 'TheProfile',

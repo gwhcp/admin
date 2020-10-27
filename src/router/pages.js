@@ -1,7 +1,9 @@
 export const pagesRoutes = (requireUnauthenticated) => {
     return {
         path: '/pages',
-        redirect: {name: 'pages:login'},
+        redirect: {
+            name: 'pages:login'
+        },
         name: 'pages',
         component: {
             render(c) {

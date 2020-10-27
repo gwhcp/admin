@@ -65,24 +65,24 @@
             <strong>Settings</strong>
         </CDropdownHeader>
 
-        <CDropdownItem :to="{name: 'employee:account:profile'}">
+        <CDropdownItem :to="{ name: 'employee:account:profile' }">
             <CIcon name="cil-user"/>
             Profile
         </CDropdownItem>
 
-        <CDropdownItem :to="{name: 'employee:account:accesslog'}">
+        <CDropdownItem :to="{ name: 'employee:account:accesslog' }">
             <CIcon name="cil-user"/>
             Access Logs
         </CDropdownItem>
 
-        <CDropdownItem :to="{name: 'employee:account:password'}">
+        <CDropdownItem :to="{ name: 'employee:account:password' }">
             <CIcon name="cil-lock-locked"/>
             Change Password
         </CDropdownItem>
 
         <CDropdownDivider/>
 
-        <CDropdownItem :to="{name: 'logout'}">
+        <CDropdownItem :to="{ name: 'logout' }">
             <CIcon name="cil-account-logout"/>
             Logout
         </CDropdownItem>
@@ -99,9 +99,3 @@ export default {
     }
 };
 </script>
-
-<style scoped>
-.c-icon {
-    margin-right: 0.3rem;
-}
-</style>

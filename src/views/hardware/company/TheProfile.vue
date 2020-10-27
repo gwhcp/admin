@@ -20,7 +20,7 @@
                     <div class="mb-3">Hardware is not installed.</div>
 
                     <modal-open-install :install="installHardware"
-                                        :params="{'id': formObj.id}"
+                                        :params="{ id: formObj.id }"
                                         msg="Continuing will install this hardware."/>
                 </CWidgetSimple>
 
@@ -31,7 +31,7 @@
                     <static-data :datetime="formObj.date_from"
                                  name="Created Date"/>
 
-                    <static-data :ahref="{name: 'company:company:profile', params:{'id': formObj.company}}"
+                    <static-data :ahref="{ name: 'company:company:profile', params: { id: formObj.company } }"
                                  :value="formObj.company_name"
                                  name="Company"
                                  permission="company.company.view_company"/>
@@ -70,20 +70,20 @@
             </CTab>
 
             <CTab v-if="formObj.is_mail"
-                  :to="{name: 'hardware:company:domain', params: {'id': serverId}}"
+                  :to="{ name: 'hardware:company:domain', params: { id: serverId } }"
                   title="Domains"/>
         </CTabs>
     </div>
 </template>
 
 <script>
-import StaticData from "@/components/StaticData";
 import InputSwitch from "@/components/form/InputSwitch";
+import Loading from "@/mixins/Loading";
 import {ModalOpenInstall, ModalSuccess, ModalWarning} from "@/components/modal";
 import Permission from "@/mixins/Permission";
+import StaticData from "@/components/StaticData";
 import {ValidationObserver} from "vee-validate";
 import {mapActions, mapGetters, mapState} from "vuex";
-import Loading from "@/mixins/Loading";
 
 export default {
     name: 'TheProfile',

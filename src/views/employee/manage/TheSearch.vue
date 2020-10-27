@@ -26,7 +26,7 @@
 
                         <template #show_details="{ item }">
                             <td class="py-2">
-                                <CLink :to="{ name: 'employee:manage:profile', params: { id: item.id }}">
+                                <CLink :to="{ name: 'employee:manage:profile', params: { id: item.id } }">
                                     <CButton color="info"
                                              size="sm"
                                              square
@@ -41,7 +41,7 @@
                             <td class="py-2">
                                 <modal-open-delete :delete="deleteAccount"
                                                    :formArr="formArr"
-                                                   :params="{id: item.id}"
+                                                   :params="{ id: item.id }"
                                                    msg="Continuing will remove this employee account."/>
                             </td>
                         </template>
@@ -49,7 +49,7 @@
                 </CCard>
             </CTab>
 
-            <CTab :to="{name: 'employee:manage:create'}"
+            <CTab :to="{ name: 'employee:manage:create' }"
                   title="Create"
                   v-if="this.hasPerm('employee.manage.add_account')"/>
         </CTabs>
@@ -57,10 +57,10 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex";
+import Loading from "@/mixins/Loading";
 import {ModalOpenDelete, ModalSuccess} from "@/components/modal";
 import Permission from "@/mixins/Permission";
-import Loading from "@/mixins/Loading";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
     name: 'TheSearch',

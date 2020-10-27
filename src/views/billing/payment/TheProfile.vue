@@ -21,18 +21,18 @@
             </CCard>
         </CTab>
 
-        <CTab :to="{name: getAuthenticationUrl(formObj.merchant), params: {id: paymentId}}"
+        <CTab :to="{ name: getAuthenticationUrl(formObj.merchant), params: { id: paymentId } }"
               title="Authentication"/>
 
-        <CTab :to="{name: getPaymentMethodUrl(formObj.merchant), params: {id: paymentId}}"
+        <CTab :to="{ name: getPaymentMethodUrl(formObj.merchant), params: {  id: paymentId } }"
               title="Payment Method"/>
     </CTabs>
 </template>
 
 <script>
+import Loading from "@/mixins/Loading";
 import StaticData from "@/components/StaticData";
 import {mapActions, mapState} from "vuex";
-import Loading from "@/mixins/Loading";
 
 export default {
     name: 'TheProfile',

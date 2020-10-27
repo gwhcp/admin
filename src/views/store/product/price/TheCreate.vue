@@ -2,13 +2,13 @@
     <CTabs :active-tab="3"
            addNavClasses="border-bottom-0"
            variant="tabs">
-        <CTab :to="{name: getProductUrl(productType, 'profile'), params: {id: productId}}"
+        <CTab :to="{ name: getProductUrl(productType, 'profile'), params: { id: productId } }"
               title="Profile"/>
 
-        <CTab :to="{name: getProductUrl(productType, 'resource'), params: {id: productId}}"
+        <CTab :to="{ name: getProductUrl(productType, 'resource'), params: { id: productId } }"
               title="Resource"/>
 
-        <CTab :to="{name: 'store:product:price:search', params: {productId: productId, type: productType}}"
+        <CTab :to="{ name: 'store:product:price:search', params: { productId: productId, type: productType } }"
               title="Prices"/>
 
         <CTab title="Create">
@@ -55,11 +55,11 @@
 </template>
 
 <script>
-import StaticData from "@/components/StaticData";
 import {InputText} from "@/components/form";
-import {mapActions, mapGetters, mapState} from "vuex";
-import {ValidationObserver} from "vee-validate";
 import Loading from "@/mixins/Loading";
+import StaticData from "@/components/StaticData";
+import {ValidationObserver} from "vee-validate";
+import {mapActions, mapGetters, mapState} from "vuex";
 
 export default {
     name: 'TheCreate',

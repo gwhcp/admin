@@ -23,10 +23,10 @@ import {
     storeProductPrice
 } from "@/api";
 
-import createLogger from "vuex/dist/logger";
-import createPersistedState from "vuex-persistedstate";
 import Vue from "vue";
 import Vuex from "vuex";
+import createPersistedState from "vuex-persistedstate";
+import createLogger from "vuex/dist/logger";
 
 Vue.use(Vuex);
 
@@ -52,7 +52,9 @@ const mutations = {
 };
 
 const persist = createPersistedState({
-    paths: ['auth']
+    paths: [
+        'auth'
+    ]
 });
 
 export default new Vuex.Store({

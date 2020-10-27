@@ -10,7 +10,7 @@
         <CTabs :active-tab="1"
                addNavClasses="border-bottom-0"
                variant="tabs">
-            <CTab :to="{name: 'company:mail:profile', params: {'id': mailId}}"
+            <CTab :to="{ name: 'company:mail:profile', params: { id: mailId } }"
                   title="Profile"/>
 
             <CTab title="Password">
@@ -50,9 +50,9 @@
 
 <script>
 import InputPassword from "@/components/form/InputPassword";
-import {mapActions, mapGetters, mapState} from "vuex";
-import {ValidationObserver} from "vee-validate";
 import Loading from "@/mixins/Loading";
+import {ValidationObserver} from "vee-validate";
+import {mapActions, mapGetters, mapState} from "vuex";
 
 export default {
     name: 'ThePassword',

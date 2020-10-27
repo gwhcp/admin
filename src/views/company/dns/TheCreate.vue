@@ -2,10 +2,10 @@
     <CTabs :active-tab="2"
            addNavClasses="border-bottom-0"
            variant="tabs">
-        <CTab :to="{name: 'company:dns:profile', params:{id: domainId}}"
+        <CTab :to="{ name: 'company:dns:profile', params: { id: domainId } }"
               title="Profile"/>
 
-        <CTab :to="{name: 'company:dns:records', params:{id: domainId}}"
+        <CTab :to="{ name: 'company:dns:records', params: { id: domainId } }"
               title="Records"/>
 
         <CTab title="Create">
@@ -55,9 +55,9 @@
 
 <script>
 import {InputSelect, InputText} from "@/components/form";
-import {mapActions, mapGetters, mapState} from "vuex";
-import {ValidationObserver} from "vee-validate";
 import Loading from "@/mixins/Loading";
+import {ValidationObserver} from "vee-validate";
+import {mapActions, mapGetters, mapState} from "vuex";
 
 export default {
     name: 'TheCreate',

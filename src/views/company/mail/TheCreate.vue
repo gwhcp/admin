@@ -2,7 +2,7 @@
     <CTabs :active-tab="1"
            addNavClasses="border-bottom-0"
            variant="tabs">
-        <CTab :to="{name: 'company:mail:search'}"
+        <CTab :to="{ name: 'company:mail:search' }"
               title="Search"/>
 
         <CTab title="Create">
@@ -86,9 +86,9 @@
 
 <script>
 import {InputPassword, InputSelect, InputText} from "@/components/form";
-import {mapActions, mapGetters, mapState} from "vuex";
-import {ValidationObserver} from "vee-validate";
 import Loading from "@/mixins/Loading";
+import {ValidationObserver} from "vee-validate";
+import {mapActions, mapGetters, mapState} from "vuex";
 
 export default {
     name: 'TheCreate',

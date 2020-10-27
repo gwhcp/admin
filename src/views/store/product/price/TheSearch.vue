@@ -5,10 +5,10 @@
         <CTabs :active-tab="2"
                addNavClasses="border-bottom-0"
                variant="tabs">
-            <CTab :to="{name: getProductUrl(productType, 'profile'), params: {id: productId}}"
+            <CTab :to="{ name: getProductUrl(productType, 'profile'), params: { id: productId } }"
                   title="Profile"/>
 
-            <CTab :to="{name: getProductUrl(productType, 'resource'), params: {id: productId}}"
+            <CTab :to="{ name: getProductUrl(productType, 'resource'), params: { id: productId } }"
                   title="Resource"/>
 
             <CTab title="Prices">
@@ -33,7 +33,7 @@
                         <template #show_details="{ item }">
                             <td class="py-2">
                                 <CLink
-                                    :to="{ name: 'store:product:price:profile', params: { id: item.id, productId: item.store_product }}">
+                                    :to="{ name: 'store:product:price:profile', params: { id: item.id, productId: item.store_product } }">
                                     <CButton color="info"
                                              size="sm"
                                              square
@@ -56,7 +56,7 @@
                 </CCard>
             </CTab>
 
-            <CTab :to="{name: 'store:product:price:create', params: {productId: productId, type: productType}}"
+            <CTab :to="{ name: 'store:product:price:create', params: { productId: productId, type: productType } }"
                   title="Create"
                   v-if="this.hasPerm('store.product.price.add_storeproductprice')"/>
         </CTabs>
@@ -64,10 +64,10 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex";
+import Loading from "@/mixins/Loading";
 import {ModalOpenDelete, ModalSuccess} from "@/components/modal";
 import Permission from "@/mixins/Permission";
-import Loading from "@/mixins/Loading";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
     name: 'TheSearch',

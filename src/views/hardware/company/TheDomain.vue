@@ -17,7 +17,7 @@
         <CTabs :active-tab="1"
                addNavClasses="border-bottom-0"
                variant="tabs">
-            <CTab :to="{name: 'hardware:company:profile', params:{'id': serverId}}"
+            <CTab :to="{ name: 'hardware:company:profile', params: { id: serverId } }"
                   title="Profile"/>
 
             <CTab title="Domains">
@@ -48,11 +48,11 @@
 </template>
 
 <script>
-import Permission from "@/mixins/Permission";
-import {mapActions, mapGetters, mapState} from "vuex";
-import vueSelectSides from "vue-select-sides";
-import Vue from "vue";
 import Loading from "@/mixins/Loading";
+import Permission from "@/mixins/Permission";
+import Vue from "vue";
+import vueSelectSides from "vue-select-sides";
+import {mapActions, mapGetters, mapState} from "vuex";
 
 Vue.use(vueSelectSides, {
     locale: "en_US"

@@ -1,7 +1,9 @@
 export const hardwareClientRoutes = (checkPermission) => {
     return {
         path: '/hardware/client',
-        redirect: {name: 'hardware:client:search'},
+        redirect: {
+            name: 'hardware:client:search'
+        },
         name: 'hardware:client',
         meta: {
             label: 'Hardware Client'

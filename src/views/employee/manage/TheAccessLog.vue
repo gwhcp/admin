@@ -2,11 +2,11 @@
     <CTabs :active-tab="2"
            addNavClasses="border-bottom-0"
            variant="tabs">
-        <CTab :to="{name: 'employee:manage:profile', params: {id: accountId}}"
+        <CTab :to="{ name: 'employee:manage:profile', params: { id: accountId } }"
               title="Profile"/>
 
         <CTab v-if="this.hasPerm('auth.view_permission')"
-              :to="{name: 'employee:manage:permission', params: {id: accountId}}"
+              :to="{ name: 'employee:manage:permission', params: { id: accountId } }"
               title="Permissions"/>
 
         <CTab title="Access Logs">
@@ -33,9 +33,9 @@
 
 <script>
 import ConvertDate from "@/components/ConvertDate";
-import {mapActions, mapGetters} from "vuex";
-import Permission from "@/mixins/Permission";
 import Loading from "@/mixins/Loading";
+import Permission from "@/mixins/Permission";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
     name: 'TheAccessLog',

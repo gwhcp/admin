@@ -18,7 +18,7 @@
                     <static-data :datetime="formObj.date_from"
                                  name="Created Date"/>
 
-                    <static-data :ahref="{name: 'company:company:profile', params:{id: formObj.company}}"
+                    <static-data :ahref="{ name: 'company:company:profile', params: { id: formObj.company } }"
                                  :value="formObj.company_name"
                                  name="Company"
                                  permission="company.company.view_company"/>
@@ -71,19 +71,19 @@
             </CTab>
 
             <CTab v-if="formObj.mail_type === 'mailbox'"
-                  :to="{name: 'company:mail:password', params: {'id': mailId}}"
+                  :to="{ name: 'company:mail:password', params: { id: mailId } }"
                   title="Password"/>
         </CTabs>
     </div>
 </template>
 
 <script>
-import StaticData from "@/components/StaticData";
 import {InputSelect, InputText} from "@/components/form";
-import Permission from "@/mixins/Permission";
-import {mapActions, mapGetters, mapState} from "vuex";
-import {ValidationObserver} from "vee-validate";
 import Loading from "@/mixins/Loading";
+import Permission from "@/mixins/Permission";
+import StaticData from "@/components/StaticData";
+import {ValidationObserver} from "vee-validate";
+import {mapActions, mapGetters, mapState} from "vuex";
 
 export default {
     name: 'TheProfile',

@@ -1,7 +1,9 @@
 export const companyXmppRoutes = (checkPermission) => {
     return {
         path: '/company/xmpp',
-        redirect: {name: 'company:xmpp:search'},
+        redirect: {
+            name: 'company:xmpp:search'
+        },
         name: 'company:xmpp',
         meta: {
             label: 'Company XMPP'

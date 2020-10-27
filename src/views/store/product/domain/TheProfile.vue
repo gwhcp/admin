@@ -18,7 +18,7 @@
                     <static-data :datetime="formObj.date_from"
                                  name="Created Date"/>
 
-                    <static-data :ahref="{name: 'company:company:profile', params:{id: formObj.company}}"
+                    <static-data :ahref="{ name: 'company:company:profile', params: { id: formObj.company } }"
                                  :value="formObj.company_name"
                                  name="Company"
                                  permission="company.company.view_company"/>
@@ -55,10 +55,10 @@
                 </CCard>
             </CTab>
 
-            <CTab :to="{name: 'store:product:domain:resource', params: {id: productId}}"
+            <CTab :to="{ name: 'store:product:domain:resource', params: { id: productId } }"
                   title="Resources"/>
 
-            <CTab :to="{name: 'store:product:price:search', params: {productId: productId, type: 'domain'}}"
+            <CTab :to="{ name: 'store:product:price:search', params: { productId: productId, type: 'domain' } }"
                   title="Prices"
                   v-if="this.hasPerm('store.product.price.view_storeproductprice')"/>
         </CTabs>
@@ -66,12 +66,12 @@
 </template>
 
 <script>
-import StaticData from "@/components/StaticData";
 import {InputSwitch} from "@/components/form";
-import Permission from "@/mixins/Permission";
-import {mapActions, mapGetters, mapState} from "vuex";
-import {ValidationObserver} from "vee-validate";
 import Loading from "@/mixins/Loading";
+import Permission from "@/mixins/Permission";
+import StaticData from "@/components/StaticData";
+import {ValidationObserver} from "vee-validate";
+import {mapActions, mapGetters, mapState} from "vuex";
 
 export default {
     name: 'TheProfile',

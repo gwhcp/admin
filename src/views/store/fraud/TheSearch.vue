@@ -18,7 +18,7 @@
                                 table-filter>
                         <template #show_details="{ item }">
                             <td class="py-2">
-                                <CLink :to="{ name: 'store:fraud:profile', params: { id: item.id }}">
+                                <CLink :to="{ name: 'store:fraud:profile', params: { id: item.id } }">
                                     <CButton color="info"
                                              size="sm"
                                              square
@@ -33,7 +33,7 @@
                             <td class="py-2">
                                 <modal-open-delete :delete="deleteFraudString"
                                                    :formArr="formArr"
-                                                   :params="{id: item.id}"
+                                                   :params="{ id: item.id }"
                                                    msg="Continuing will remove this fraud string."/>
                             </td>
                         </template>
@@ -42,17 +42,17 @@
             </CTab>
 
             <CTab v-if="this.hasPerm('store.fraud.add_fraudstring')"
-                  :to="{name: 'store:fraud:create'}"
+                  :to="{ name: 'store:fraud:create' }"
                   title="Create"/>
         </CTabs>
     </div>
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex";
+import Loading from "@/mixins/Loading";
 import {ModalOpenDelete, ModalSuccess} from "@/components/modal";
 import Permission from "@/mixins/Permission";
-import Loading from "@/mixins/Loading";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
     name: 'TheSearch',

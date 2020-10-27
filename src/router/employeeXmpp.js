@@ -1,7 +1,9 @@
 export const employeeXmppRoutes = (checkPermission) => {
     return {
         path: '/employee/xmpp',
-        redirect: {name: 'employee:xmpp:profile'},
+        redirect: {
+            name: 'employee:xmpp:profile'
+        },
         name: 'employee:xmpp',
         meta: {
             label: 'Employee XMPP'
@@ -24,7 +26,7 @@ export const employeeXmppRoutes = (checkPermission) => {
                         'employee.xmpp.view_prosodyaccount'
                     ])
                 }
-            },
+            }
         ]
     }
 };

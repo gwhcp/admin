@@ -18,9 +18,8 @@
                     <static-data :datetime="formObj.date_from"
                                  name="Created Date"/>
 
-                    <ValidationObserver
-                        ref="observer"
-                        v-slot="{ handleSubmit, invalid }">
+                    <ValidationObserver ref="observer"
+                                        v-slot="{ handleSubmit, invalid }">
                         <CForm>
                             <input-text label="First Name"
                                         name="first_name"
@@ -96,11 +95,11 @@
                 </CCard>
             </CTab>
 
-            <CTab :to="{name: 'employee:manage:permission', params: {id: accountId}}"
+            <CTab :to="{ name: 'employee:manage:permission', params: { id: accountId } }"
                   title="Permissions"
                   v-if="this.hasPerm('auth.view_permission')"/>
 
-            <CTab :to="{name: 'employee:manage:accesslog', params: {id: accountId}}"
+            <CTab :to="{ name: 'employee:manage:accesslog', params: { id: accountId } }"
                   title="Access Logs"/>
         </CTabs>
     </div>
@@ -108,11 +107,11 @@
 
 <script>
 import {InputSelectCountry, InputSelectState, InputText} from "@/components/form";
+import Loading from "@/mixins/Loading";
 import Permission from "@/mixins/Permission";
 import StaticData from "@/components/StaticData";
-import {mapActions, mapGetters, mapState} from "vuex";
 import {ValidationObserver} from "vee-validate";
-import Loading from "@/mixins/Loading";
+import {mapActions, mapGetters, mapState} from "vuex";
 
 export default {
     name: 'TheProfile',

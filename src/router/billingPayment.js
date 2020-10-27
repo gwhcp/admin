@@ -1,7 +1,9 @@
 export const billingPaymentRoutes = (checkPermission) => {
     return {
         path: '/billing/payment',
-        redirect: {name: 'billing:payment:search'},
+        redirect: {
+            name: 'billing:payment:search'
+        },
         name: 'billing:payment',
         meta: {
             label: 'Payment Gateway'

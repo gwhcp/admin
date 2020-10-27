@@ -14,17 +14,25 @@ const catchMe = (error) => {
     if (error.response) {
         if (error.response.status === 403) {
             // Permission Denied
-            router.push({name: 'pages:error:403'});
+            return router.push({
+                name: 'pages:error:403'
+            });
         } else if (error.response.status === 404) {
             // Page Not Found
-            router.push({name: 'pages:error:404'});
+            return router.push({
+                name: 'pages:error:404'
+            });
         } else if (error.response.status === 500) {
             // Internal Server Error
-            router.push({name: 'pages:error:500'});
+            return router.push({
+                name: 'pages:error:500'
+            });
         }
     } else if (error.request) {
         // Timeout
-        router.push({name: 'pages:error:408'});
+        return router.push({
+            name: 'pages:error:408'
+        });
     } else {
         // Something happened in setting up the request that triggered an Error
         console.log(error);

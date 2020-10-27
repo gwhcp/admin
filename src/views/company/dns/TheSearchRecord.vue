@@ -5,7 +5,7 @@
         <CTabs :active-tab="1"
                addNavClasses="border-bottom-0"
                variant="tabs">
-            <CTab :to="{name: 'company:dns:profile', params:{id: domainId}}"
+            <CTab :to="{ name: 'company:dns:profile', params: { id: domainId } }"
                   title="Profile"/>
 
             <CTab title="Records">
@@ -34,29 +34,29 @@
                         <template #delete="{ item }">
                             <td class="py-2" v-if="item.is_custom">
                                 <modal-open-delete :delete="deleteRecord"
-                                            :params="{id: item.id, domain: domainId}"
-                                            :formArr="formArr"
-                                            msg="Continuing will remove this record."/>
+                                                   :formArr="formArr"
+                                                   :params="{ id: item.id, domain: domainId }"
+                                                   msg="Continuing will remove this record."/>
                             </td>
                         </template>
                     </CDataTable>
                 </CCard>
             </CTab>
 
-            <CTab :to="{name: 'company:dns:create', params:{id: domainId}}"
+            <CTab :to="{ name: 'company:dns:create', params: { id: domainId } }"
                   title="Create"/>
 
-            <CTab :to="{name: 'company:dns:ns', params:{id: domainId}}"
+            <CTab :to="{ name: 'company:dns:ns', params: { id: domainId } }"
                   title="Nameserver"/>
         </CTabs>
     </div>
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex";
+import Loading from "@/mixins/Loading";
 import {ModalOpenDelete, ModalSuccess} from "@/components/modal";
 import Permission from "@/mixins/Permission";
-import Loading from "@/mixins/Loading";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
     name: 'TheSearchRecord',

@@ -1,7 +1,9 @@
 export const employeeManageRoutes = (checkPermission) => {
     return {
         path: '/employee/manage',
-        redirect: {name: 'employee:manage:search'},
+        redirect: {
+            name: 'employee:manage:search'
+        },
         name: 'employee:manage',
         meta: {
             label: 'Manage Employee'

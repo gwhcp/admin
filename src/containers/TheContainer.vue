@@ -21,28 +21,16 @@
 </template>
 
 <script>
-import TheSidebar from "@/containers/TheSidebar";
-import TheHeader from "@/containers/TheHeader";
 import TheFooter from "@/containers/TheFooter";
+import TheHeader from "@/containers/TheHeader";
+import TheSidebar from "@/containers/TheSidebar";
 
 export default {
     name: 'TheContainer',
     components: {
-        TheSidebar,
+        TheFooter,
         TheHeader,
-        TheFooter
+        TheSidebar
     }
 };
 </script>
-
-<style scoped>
-.fade-enter-active,
-.fade-leave-active {
-    transition: opacity 0.3s;
-}
-
-.fade-enter,
-.fade-leave-to {
-    opacity: 0;
-}
-</style>

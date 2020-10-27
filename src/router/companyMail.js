@@ -1,7 +1,9 @@
 export const companyMailRoutes = (checkPermission) => {
     return {
         path: '/company/mail',
-        redirect: {name: 'company:mail:search'},
+        redirect: {
+            name: 'company:mail:search'
+        },
         name: 'company:mail',
         meta: {
             label: 'Mail'

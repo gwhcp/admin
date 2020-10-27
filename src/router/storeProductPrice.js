@@ -1,7 +1,9 @@
 export const storeProductPriceRoutes = (checkPermission) => {
     return {
         path: '/store/product/price',
-        redirect: {name: 'store:product:index'},
+        redirect: {
+            name: 'store:product:index'
+        },
         name: 'store:product:price', // TODO Try to get ID
         meta: {
             label: 'Store Product Price'

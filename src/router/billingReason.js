@@ -1,7 +1,9 @@
 export const billingReasonRoutes = (checkPermission) => {
     return {
         path: '/billing/reason',
-        redirect: {name: 'billing:reason:search'},
+        redirect: {
+            name: 'billing:reason:search'
+        },
         name: 'billing:reason',
         meta: {
             label: 'Billing Reason'

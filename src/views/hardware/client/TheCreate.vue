@@ -2,11 +2,12 @@
     <CTabs :active-tab="1"
            addNavClasses="border-bottom-0"
            variant="tabs">
-        <CTab :to="{name: 'hardware:client:search'}"
+        <CTab :to="{ name: 'hardware:client:search' }"
               title="Search"/>
 
         <CTab title="Create">
-            <ValidationObserver ref="observer" v-slot="{ handleSubmit, invalid }">
+            <ValidationObserver ref="observer"
+                                v-slot="{ handleSubmit, invalid }">
                 <CForm>
                     <CCard bodyWrapper>
                         <input-select :options="choices.domain"
@@ -87,9 +88,9 @@
 
 <script>
 import {InputSelect, InputSwitch, InputText} from "@/components/form";
-import {mapActions, mapGetters, mapState} from "vuex";
-import {ValidationObserver} from "vee-validate";
 import Loading from "@/mixins/Loading";
+import {ValidationObserver} from "vee-validate";
+import {mapActions, mapGetters, mapState} from "vuex";
 
 export default {
     name: 'TheCreate',

@@ -26,7 +26,7 @@
 
                         <template #show_details="{ item }">
                             <td class="py-2">
-                                <CLink :to="{ name: 'store:product:domain:profile', params: { id: item.id }}">
+                                <CLink :to="{ name: 'store:product:domain:profile', params: { id: item.id } }">
                                     <CButton color="info"
                                              size="sm"
                                              square
@@ -41,7 +41,7 @@
                             <td class="py-2">
                                 <modal-open-delete :delete="deleteProduct"
                                                    :formArr="formArr"
-                                                   :params="{id: item.id}"
+                                                   :params="{ id: item.id }"
                                                    msg="Continuing will remove this domain product."/>
                             </td>
                         </template>
@@ -49,7 +49,7 @@
                 </CCard>
             </CTab>
 
-            <CTab :to="{name: 'store:product:domain:create'}"
+            <CTab :to="{ name: 'store:product:domain:create' }"
                   title="Create"
                   v-if="this.hasPerm('store.product.add_storeproduct')"/>
         </CTabs>
@@ -57,10 +57,10 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex";
+import Loading from "@/mixins/Loading";
 import {ModalOpenDelete, ModalSuccess} from "@/components/modal";
 import Permission from "@/mixins/Permission";
-import Loading from "@/mixins/Loading";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
     name: 'TheSearch',

@@ -81,12 +81,12 @@
 </template>
 
 <script>
-import StaticData from "@/components/StaticData";
 import {InputSelectCountry, InputSelectState, InputText} from "@/components/form";
-import Permission from "@/mixins/Permission";
-import {mapActions, mapGetters, mapState} from "vuex";
-import {ValidationObserver} from "vee-validate";
 import Loading from "@/mixins/Loading";
+import Permission from "@/mixins/Permission";
+import StaticData from "@/components/StaticData";
+import {ValidationObserver} from "vee-validate";
+import {mapActions, mapGetters, mapState} from "vuex";
 
 export default {
     name: 'TheProfile',
@@ -128,20 +128,20 @@ export default {
             'getProfile',
             'updateProfile'
         ]),
-       async submitUpdate() {
-           this.loadingState = true;
+        async submitUpdate() {
+            this.loadingState = true;
 
-           await this.updateProfile({
-               id: this.companyId
-           });
+            await this.updateProfile({
+                id: this.companyId
+            });
 
-           if (!this.formSuccess) {
-               this.$refs.observer.setErrors(this.formErrors);
-           }
+            if (!this.formSuccess) {
+                this.$refs.observer.setErrors(this.formErrors);
+            }
 
-           scroll(0, 0);
+            scroll(0, 0);
 
-           this.loadingState = false;
+            this.loadingState = false;
         }
     }
 };

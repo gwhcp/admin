@@ -10,10 +10,10 @@
         <CTabs :active-tab="2"
                addNavClasses="border-bottom-0"
                variant="tabs">
-            <CTab :to="{name: 'company:dns:profile', params:{id: domainId}}"
+            <CTab :to="{ name: 'company:dns:profile', params: { id: domainId } }"
                   title="Profile"/>
 
-            <CTab :to="{name: 'company:dns:records', params:{id: domainId}}"
+            <CTab :to="{ name: 'company:dns:records', params: { id: domainId } }"
                   title="Records"/>
 
             <CTab title="Nameservers">
@@ -44,11 +44,11 @@
 </template>
 
 <script>
-import Permission from "@/mixins/Permission";
-import {mapActions, mapGetters, mapState} from "vuex";
-import vueSelectSides from "vue-select-sides";
-import Vue from "vue";
 import Loading from "@/mixins/Loading";
+import Permission from "@/mixins/Permission";
+import Vue from "vue";
+import vueSelectSides from "vue-select-sides";
+import {mapActions, mapGetters, mapState} from "vuex";
 
 Vue.use(vueSelectSides, {
     locale: "en_US"

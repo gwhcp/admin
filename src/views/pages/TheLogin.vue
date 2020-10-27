@@ -60,9 +60,9 @@
 
 <script>
 import {InputPassword, InputText} from "@/components/form";
-import {mapActions, mapGetters, mapState} from "vuex";
-import {ValidationObserver} from "vee-validate/dist/vee-validate.full.esm";
 import Loading from "@/mixins/Loading";
+import {ValidationObserver} from "vee-validate/dist/vee-validate.full.esm";
+import {mapActions, mapGetters, mapState} from "vuex";
 
 export default {
     name: 'TheLogin',

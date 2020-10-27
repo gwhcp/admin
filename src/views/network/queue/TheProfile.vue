@@ -93,11 +93,11 @@
 </template>
 
 <script>
-import StaticData from "@/components/StaticData";
-import Permission from "@/mixins/Permission";
-import {mapActions, mapGetters} from "vuex";
-import {ModalOpenQueue} from "@/components/modal";
 import Loading from "@/mixins/Loading";
+import {ModalOpenQueue} from "@/components/modal";
+import Permission from "@/mixins/Permission";
+import StaticData from "@/components/StaticData";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
     name: 'TheProfile',

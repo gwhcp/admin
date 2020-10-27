@@ -18,7 +18,7 @@
                                 table-filter>
                         <template #show_details="{ item }">
                             <td class="py-2">
-                                <CLink :to="{ name: 'company:domain:profile', params: { id: item.id }}">
+                                <CLink :to="{ name: 'company:domain:profile', params: { id: item.id } }">
                                     <CButton color="info"
                                              size="sm"
                                              square
@@ -32,8 +32,8 @@
                         <template #delete="{ item }">
                             <td class="py-2">
                                 <modal-open-delete :delete="deleteDomain"
-                                                   :params="{id: item.id}"
                                                    :formArr="formArr"
+                                                   :params="{ id: item.id }"
                                                    msg="Continuing will remove this domain."/>
                             </td>
                         </template>
@@ -41,7 +41,7 @@
                 </CCard>
             </CTab>
 
-            <CTab :to="{name: 'company:domain:create'}"
+            <CTab :to="{ name: 'company:domain:create' }"
                   title="Create"
                   v-if="this.hasPerm('company.domain.add_domain')"/>
         </CTabs>
@@ -49,10 +49,10 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex";
+import Loading from "@/mixins/Loading";
 import {ModalOpenDelete, ModalSuccess} from "@/components/modal";
 import Permission from "@/mixins/Permission";
-import Loading from "@/mixins/Loading";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
     name: 'TheSearch',

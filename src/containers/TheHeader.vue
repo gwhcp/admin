@@ -8,7 +8,7 @@
                   class="ml-3 d-md-down-none"
                   in-header/>
 
-        <CHeaderBrand :to="{name: 'dashboard'}"
+        <CHeaderBrand :to="{ name: 'dashboard'  }"
                       class="mx-auto d-lg-none">
             <CIcon alt="Logo"
                    height="48"
@@ -17,7 +17,7 @@
 
         <CHeaderNav class="d-md-down-none mr-auto">
             <CHeaderNavItem class="px-3">
-                <CHeaderNavLink :to="{name: 'dashboard'}">
+                <CHeaderNavLink :to="{ name: 'dashboard' }">
                     Dashboard
                 </CHeaderNavLink>
             </CHeaderNavItem>

@@ -51,12 +51,12 @@
 </template>
 
 <script>
-import StaticData from "@/components/StaticData";
 import {InputSelect} from "@/components/form";
-import Permission from "@/mixins/Permission";
-import {mapActions, mapGetters, mapState} from "vuex";
-import {ValidationObserver} from "vee-validate";
 import Loading from "@/mixins/Loading";
+import Permission from "@/mixins/Permission";
+import StaticData from "@/components/StaticData";
+import {ValidationObserver} from "vee-validate";
+import {mapActions, mapGetters, mapState} from "vuex";
 
 export default {
     name: 'TheProfile',

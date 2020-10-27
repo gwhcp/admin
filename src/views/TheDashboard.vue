@@ -1,21 +1,21 @@
 <template>
     <div>
-        Main Page
-
         <CRow>
             <CCol col="12"
                   sm="6">
                 <CCallout color="info">
-                    <small class="text-muted">New Clients</small><br>
-                    <strong class="h4">9,123</strong>
+                    <strong class="h4">
+                        Any fool can write code that a computer can understand. Good programmers write code that humans
+                        can understand.</strong>
                 </CCallout>
             </CCol>
 
             <CCol col="12"
                   sm="6">
                 <CCallout color="danger">
-                    <small class="text-muted">Recurring Clients</small><br>
-                    <strong class="h4">22,643</strong>
+                    <strong class="h4">
+                        Always code as if the guy who ends up maintaining your code will be a violent psychopath who
+                        knows where you live.</strong>
                 </CCallout>
             </CCol>
         </CRow>
@@ -23,7 +23,6 @@
 </template>
 
 <script>
-
 export default {
     name: 'Dashboard'
 };

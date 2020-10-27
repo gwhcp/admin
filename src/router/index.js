@@ -22,9 +22,9 @@ import {
     storeProductPriceRoutes,
     storeProductRoutes
 } from "@/router/routes";
-import Router from "vue-router";
 import store from "@/store";
 import Vue from "vue";
+import Router from "vue-router";
 
 Vue.use(Router);
 
@@ -32,7 +32,9 @@ const checkPermission = (to, from, next) => {
     const test = (permissions) => {
         permissions.forEach(val => {
             if (!store.state.auth.permit.includes(val)) {
-                next({name: 'pages:error:403'});
+                next({
+                    name: 'pages:error:403'
+                });
             }
         });
 
@@ -46,7 +48,9 @@ const requireAuthenticated = (to, from, next) => {
     store.dispatch('auth/initialize')
         .then(() => {
             if (!store.getters['auth/isAuthenticated']) {
-                next({name: 'pages:account:login'});
+                next({
+                    name: 'pages:account:login'
+                });
             } else {
                 next();
             }
@@ -66,7 +70,9 @@ const requireUnauthenticated = (to, from, next) => {
 
 const redirectLogout = (to, from, next) => {
     store.dispatch('auth/logout')
-        .then(() => next({name: 'pages:account:login'}));
+        .then(() => next({
+            name: 'pages:account:login'
+        }));
 };
 
 export default new Router({
@@ -80,7 +86,9 @@ function configRoutes() {
     return [
         {
             path: '/',
-            redirect: {name: 'dashboard'},
+            redirect: {
+                name: 'dashboard'
+            },
             name: 'home',
             meta: {
                 label: 'Home'
@@ -128,7 +136,9 @@ function configRoutes() {
         {
             // will match everything and if it's not found, redirect to 404
             path: '*',
-            redirect: {name: 'pages:error:404'}
+            redirect: {
+                name: 'pages:error:404'
+            }
         }
     ];
 }

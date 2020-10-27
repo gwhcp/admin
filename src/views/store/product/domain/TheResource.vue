@@ -10,7 +10,7 @@
         <CTabs :active-tab="1"
                addNavClasses="border-bottom-0"
                variant="tabs">
-            <CTab :to="{name: 'store:product:domain:profile', params: {id: productId}}"
+            <CTab :to="{ name: 'store:product:domain:profile', params: { id: productId } }"
                   title="Profile"/>
 
             <CTab title="Resources">
@@ -123,7 +123,7 @@
                 </CCard>
             </CTab>
 
-            <CTab :to="{name: 'store:product:price:search', params: {productId: productId, type: 'domain'}}"
+            <CTab :to="{ name: 'store:product:price:search', params: { productId: productId, type: 'domain' } }"
                   title="Prices"
                   v-if="this.hasPerm('store.product.price.view_storeproductprice')"/>
         </CTabs>
@@ -132,10 +132,10 @@
 
 <script>
 import {InputText} from "@/components/form";
-import Permission from "@/mixins/Permission";
-import {mapActions, mapGetters, mapState} from "vuex";
-import {ValidationObserver} from "vee-validate";
 import Loading from "@/mixins/Loading";
+import Permission from "@/mixins/Permission";
+import {ValidationObserver} from "vee-validate";
+import {mapActions, mapGetters, mapState} from "vuex";
 
 export default {
     name: 'TheResource',

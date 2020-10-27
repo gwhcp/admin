@@ -4,9 +4,11 @@ export default [
         _children: [
             {
                 _name: 'CSidebarNavItem',
-                name: 'Dashboard',
-                to: {name: 'dashboard'},
-                icon: 'cil-speedometer'
+                icon: 'cil-speedometer',
+                to: {
+                    name: 'dashboard'
+                },
+                name: 'Dashboard'
             },
             {
                 _name: 'CSidebarNavTitle',

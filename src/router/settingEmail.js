@@ -1,7 +1,9 @@
 export const settingEmailRoutes = (checkPermission) => {
     return {
         path: '/setting/email',
-        redirect: {name: 'setting:email:search'},
+        redirect: {
+            name: 'setting:email:search'
+        },
         name: 'setting:email',
         meta: {
             label: 'Email Templates'
