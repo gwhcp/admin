@@ -26,6 +26,7 @@ const getters = {
     choices: state => state.choices,
     formArr: state => state.formArr,
     formErrors: state => state.formErrors,
+    formObj: state => state.formObj,
     formSuccess: state => state.formSuccess,
     nonFieldFormError: state => state.nonFieldFormError,
     nonFieldFormMessage: state => state.nonFieldFormMessage
