@@ -16,7 +16,7 @@
                variant="tabs">
 
             <CTab title="Profile">
-                <CWidgetSimple v-if="!formObj.is_installed && !formObj.in_queue && installSuccess === 0">
+                <CWidgetSimple v-if="!formObj.is_installed && !formObj.in_queue && installSuccess === false">
                     <div class="mb-3">Hardware is not installed.</div>
 
                     <modal-open-install :install="installHardware"
