@@ -21,10 +21,10 @@
             </CCard>
         </CTab>
 
-        <CTab :to="{ name: getAuthenticationUrl(formObj.merchant), params: { id: paymentId } }"
+        <CTab :to="{ name: `billing:payment:${formObj.merchant}:authentication`, params: { id: paymentId } }"
               title="Authentication"/>
 
-        <CTab :to="{ name: getPaymentMethodUrl(formObj.merchant), params: {  id: paymentId } }"
+        <CTab :to="{ name: `billing:payment:${formObj.merchant}:method`, params: {  id: paymentId } }"
               title="Payment Method"/>
     </CTabs>
 </template>
@@ -32,7 +32,7 @@
 <script>
 import Loading from "@/mixins/Loading";
 import StaticData from "@/components/StaticData";
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
     name: 'TheProfile',
@@ -48,7 +48,7 @@ export default {
         };
     },
     computed: {
-        ...mapState('billingPayment', [
+        ...mapGetters('billingPayment', [
             'formObj'
         ])
     },
@@ -60,19 +60,7 @@ export default {
     methods: {
         ...mapActions('billingPayment', [
             'getProfile'
-        ]),
-        getAuthenticationUrl(value) {
-            switch (value) {
-                case 'authorize':
-                    return 'billing:payment:authorize:authentication';
-            }
-        },
-        getPaymentMethodUrl(value) {
-            switch (value) {
-                case 'authorize':
-                    return 'billing:payment:authorize:method';
-            }
-        }
+        ])
     }
 };
 </script>
