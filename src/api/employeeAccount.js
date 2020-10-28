@@ -30,6 +30,8 @@ const actions = {
         commit(FORM_CLEAN);
     },
     async getAccessLog({commit}) {
+        commit(FORM_CLEAN);
+
         const response = await client.get(
             'employee/account/accesslog'
         );
