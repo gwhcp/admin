@@ -8,7 +8,7 @@
                 <div class="c-avatar">
                     <img alt="Avatar"
                          class="c-avatar-img"
-                         src="img/6.jpg"/>
+                         src="img/owl_avatar.svg"/>
                 </div>
             </CHeaderNavLink>
         </template>
@@ -19,72 +19,22 @@
             <strong>Account</strong>
         </CDropdownHeader>
 
-        <CDropdownItem>
-            <CIcon name="cil-bell"/>
-            Updates
-
-            <CBadge class="ml-auto"
-                    color="info">
-                {{ itemsCount }}
-            </CBadge>
-        </CDropdownItem>
-
-        <CDropdownItem>
-            <CIcon name="cil-envelope-open"/>
-            Messages
-
-            <CBadge class="ml-auto"
-                    color="success">
-                {{ itemsCount }}
-            </CBadge>
-        </CDropdownItem>
-
-        <CDropdownItem>
-            <CIcon name="cil-task"/>
-            Tasks
-
-            <CBadge class="ml-auto"
-                    color="danger">
-                {{ itemsCount }}
-            </CBadge>
-        </CDropdownItem>
-
-        <CDropdownItem>
-            <CIcon name="cil-comment-square"/>
-            Comments
-
-            <CBadge class="ml-auto"
-                    color="warning">
-                {{ itemsCount }}
-            </CBadge>
-        </CDropdownItem>
-
-        <CDropdownHeader class="text-center"
-                         color="light"
-                         tag="div">
-            <strong>Settings</strong>
-        </CDropdownHeader>
-
         <CDropdownItem :to="{ name: 'employee:account:profile' }">
-            <CIcon name="cil-user"/>
-            Profile
+            <i class="fas fa-user-circle mr-1"/> Profile
         </CDropdownItem>
 
         <CDropdownItem :to="{ name: 'employee:account:accesslog' }">
-            <CIcon name="cil-user"/>
-            Access Logs
+            <i class="fas fa-dungeon mr-1"/> Access Logs
         </CDropdownItem>
 
         <CDropdownItem :to="{ name: 'employee:account:password' }">
-            <CIcon name="cil-lock-locked"/>
-            Change Password
+            <i class="fas fa-unlock-alt mr-1"/> Change Password
         </CDropdownItem>
 
         <CDropdownDivider/>
 
         <CDropdownItem :to="{ name: 'logout' }">
-            <CIcon name="cil-account-logout"/>
-            Logout
+            <i class="fas fa-sign-out-alt mr-1"/> Logout
         </CDropdownItem>
     </CDropdown>
 </template>
