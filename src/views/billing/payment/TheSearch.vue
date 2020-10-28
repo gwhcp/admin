@@ -2,6 +2,8 @@
     <div>
         <modal-success msg="Payment gateway has been removed."/>
 
+        <modal-warning :msg="formErrors[0]"/>
+
         <CTabs :active-tab="0"
                addNavClasses="border-bottom-0"
                variant="tabs">
@@ -32,8 +34,8 @@
                         <template #delete="{ item }">
                             <td class="py-2">
                                 <modal-open-delete :delete="deletePaymentGateway"
-                                                   :params="{ id: item.id }"
                                                    :formArr="formArr"
+                                                   :params="{ id: item.id }"
                                                    msg="Continuing will remove this payment gateway."/>
                             </td>
                         </template>
@@ -50,7 +52,7 @@
 
 <script>
 import Loading from "@/mixins/Loading";
-import {ModalOpenDelete, ModalSuccess} from "@/components/modal";
+import {ModalOpenDelete, ModalSuccess, ModalWarning} from "@/components/modal";
 import Permission from "@/mixins/Permission";
 import {mapActions, mapGetters} from "vuex";
 
@@ -58,7 +60,8 @@ export default {
     name: 'TheSearch',
     components: {
         ModalOpenDelete,
-        ModalSuccess
+        ModalSuccess,
+        ModalWarning
     },
     mixins: [
         Loading,
@@ -77,7 +80,8 @@ export default {
     },
     computed: {
         ...mapGetters('billingPayment', [
-            'formArr'
+            'formArr',
+            'formErrors'
         ])
     },
     async created() {

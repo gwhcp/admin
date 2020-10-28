@@ -60,11 +60,17 @@ const actions = {
         }
     },
     async deleteHardware({commit}, data) {
-        commit(FORM_DELETE, data);
-
-        await client.delete(
+        const response = await client.delete(
             `hardware/company/delete/${data.id}`
         );
+
+        if (!response.error) {
+            commit(FORM_DELETE, data);
+        } else {
+            commit(FORM_ERRORS, response.errors);
+        }
+
+        return response.error;
     },
     formClean({commit}) {
         commit(FORM_CLEAN);
