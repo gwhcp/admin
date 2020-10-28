@@ -56,15 +56,15 @@ export default {
     },
     methods: {
         modalDelete() {
-            if (this.formArr.some(item => item.id === this.params.id)) {
-                this.delete(this.params);
+            const can_delete = this.delete(this.params);
 
-                EventBus.$emit('modal-success');
-            } else {
-                this.$router.push({
-                    name: 'pages:error:404'
-                });
-            }
+            can_delete.then(function (result) {
+                if (result) {
+                    EventBus.$emit('modal-warning');
+                } else {
+                    EventBus.$emit('modal-success');
+                }
+            });
         },
         modalOpen() {
             this.modalToggle = true;
