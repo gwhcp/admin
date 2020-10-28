@@ -8,7 +8,7 @@
                 <div class="c-avatar">
                     <img alt="Avatar"
                          class="c-avatar-img"
-                         src="img/owl_avatar.svg"/>
+                         src="img/avatar_user.svg"/>
                 </div>
             </CHeaderNavLink>
         </template>

@@ -5,19 +5,11 @@
               fixed
               @update:show="(value) => $store.commit('set', ['sidebarShow', value])">
 
-        <CSidebarBrand :to="{name: 'dashboard'}"
+        <CSidebarBrand :to="{ name: 'dashboard' }"
                        class="d-md-down-none">
-            <CIcon :height="35"
-                   class="c-sidebar-brand-full"
-                   name="logo"
-                   size="custom-size"
-                   viewBox="0 0 556 134"/>
-
-            <CIcon :height="35"
-                   class="c-sidebar-brand-minimized"
-                   name="logo"
-                   size="custom-size"
-                   viewBox="0 0 110 134"/>
+            <img src="img/gwhcp_sidebar.svg"
+                 alt="GWHCP"
+                 height="35"/>
         </CSidebarBrand>
 
         <CRenderFunction :content-to-render="computedSidebar"

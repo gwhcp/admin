@@ -8,11 +8,11 @@
                   class="ml-3 d-md-down-none"
                   in-header/>
 
-        <CHeaderBrand :to="{ name: 'dashboard'  }"
+        <CHeaderBrand :to="{ name: 'dashboard' }"
                       class="mx-auto d-lg-none">
-            <CIcon alt="Logo"
-                   height="48"
-                   name="logo"/>
+            <img src="img/gwhcp_header.svg"
+                 alt="GWHCP"
+                 height="48"/>
         </CHeaderBrand>
 
         <CHeaderNav class="d-md-down-none mr-auto">
@@ -24,24 +24,6 @@
         </CHeaderNav>
 
         <CHeaderNav class="mr-4">
-            <CHeaderNavItem class="d-md-down-none mx-2">
-                <CHeaderNavLink>
-                    <CIcon name="cil-bell"/>
-                </CHeaderNavLink>
-            </CHeaderNavItem>
-
-            <CHeaderNavItem class="d-md-down-none mx-2">
-                <CHeaderNavLink>
-                    <CIcon name="cil-list"/>
-                </CHeaderNavLink>
-            </CHeaderNavItem>
-
-            <CHeaderNavItem class="d-md-down-none mx-2">
-                <CHeaderNavLink>
-                    <CIcon name="cil-envelope-open"/>
-                </CHeaderNavLink>
-            </CHeaderNavItem>
-
             <TheHeaderDropdownAccnt/>
         </CHeaderNav>
 
